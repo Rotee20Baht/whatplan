@@ -2,21 +2,17 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-
-import Button from "../Button";
-import Input from "../inputs/Input";
 import { IoMdClose } from "react-icons/io"
 
 export default function Modal({ 
-  isOpen
+  title,
+  body,
+  footer,
+  isOpen,
+  onClose,
+  disabled
 }) {
   const [showModal, setShowModal] = useState(isOpen);
-
-  const { 
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   useEffect(() => {
     setShowModal(isOpen);
@@ -25,8 +21,9 @@ export default function Modal({
   const handleClose = useCallback(() => {  
     setShowModal(false);
     setTimeout(() => {
+      onClose();
     }, 300)
-  }, []);
+  }, [onClose]);
 
   if (!isOpen) {
     return null;
@@ -64,7 +61,7 @@ export default function Modal({
             {/* Modal Header */}
             <div class="flex items-center justify-between p-4">
               <h3 class="text-xl font-semibold text-black">
-                Modal Title
+                {title}
               </h3>
               <button
                 onClick={handleClose}
@@ -85,12 +82,11 @@ export default function Modal({
             <hr />
             {/* Modal Body */}
             <div className="p-6 flex-auto relative">
-              <h1>Body</h1>
+              {body}
             </div>
             {/* Modal Footer */}
             <div className="flex flex-col gap-2 p-6 border-t border-gray-200">
-              <h1>Footer</h1>
-              <Button label="ยืนยัน" />
+              {footer}
             </div>
           </div>
         </div>

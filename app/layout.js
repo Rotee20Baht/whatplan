@@ -2,6 +2,7 @@ import './globals.css'
 import { Prompt } from 'next/font/google'
 import Navbar from './components/navbar/Navbar'
 import Modal from './components/modals/Modal'
+import LoginModal from './components/modals/LoginModal'
 
 const prompt = Prompt({
   subsets: ['latin'],
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={prompt.className}>
-        <Modal isOpen />
+        <LoginModal />
         <Navbar />
         {children}
       </body>

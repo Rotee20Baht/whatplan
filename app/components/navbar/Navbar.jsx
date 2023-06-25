@@ -1,17 +1,13 @@
 'use client'
 
 import { useState } from "react"
-import Image from "next/image";
 
 import Container from "../Container"
 import NavMenu from "./NavMenu";
-import { HiOutlineMenu } from "react-icons/hi"
-import { FaMapMarkedAlt } from "react-icons/fa"
-import Avatar from "../Avatar";
+import UserMenu from "./UserMenu";
 
 export default function Navbar() {
   const [selectedMenu, setSelectedMenu] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect =  (menu) => {
     setSelectedMenu(menu);
@@ -40,37 +36,7 @@ export default function Navbar() {
               />
             </div>
           </div>
-          <div className="relative flex flex-row items-center gap-1 sm:gap-4">
-            <div 
-              className="sm:hidden py-2 px-5 bg-emerald-500 hover:bg-emerald-400 transition text-white rounded-full 
-              cursor-pointer"
-              >
-              <FaMapMarkedAlt size={24}/>
-            </div>
-            <div 
-              className="py-2 px-4 hidden sm:block bg-emerald-500 hover:bg-emerald-400 transition text-white rounded-full 
-              cursor-pointer"
-            >
-              วางแผนการท่องเที่ยว
-            </div>
-            <div 
-              onClick={() => setIsOpen(!isOpen)}
-              className="flex flex-row items-center gap-2 py-1.5 px-2 border border-neutral-300 rounded-full cursor-pointer"
-            >
-              <HiOutlineMenu size={24} className="text-neutral-500"/>
-              <div className="rounded-full overflow-hidden">
-                <Avatar />
-              </div>
-            </div>
-            {isOpen && (
-              <div className="absolute top-12 right-0 z-10 w-40">
-                <div className="w-full flex flex-col bg-white border rounded-2xl shadow-md overflow-hidden">
-                  <div className="py-3 px-4 hover:bg-neutral-100 cursor-pointer border-b">เข้าสู่ระบบ</div>
-                  <div className="py-3 px-4 hover:bg-neutral-100 cursor-pointer border-b">สมัครสมาชิก</div>
-                </div>
-              </div>
-            )}
-          </div>
+          <UserMenu />
         </div>
       </Container>
     </div>
