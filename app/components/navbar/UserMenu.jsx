@@ -8,8 +8,9 @@ import { HiOutlineMenu } from "react-icons/hi";
 import MenuItem from "./MenuItem";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import Link from "next/link";
 
-export default function UserMenu() {
+export default function UserMenu({ links }) {
   const [isOpen, setIsOpen] = useState(false);
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
@@ -48,6 +49,16 @@ export default function UserMenu() {
               label="สมัครสมาชิก"
               onClick={() => registerModal.onOpen}
             />
+            {
+              links.map((link, index) => (
+                <Link
+                  key={index}
+                  className="py-3 px-4 hover:bg-neutral-100 cursor-pointer border-b block md:hidden"
+                  href={link.href} 
+                >
+                  {link.title}
+                </Link>
+            ))}
           </div>
         </div>
       )}

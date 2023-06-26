@@ -64,7 +64,7 @@ export default function Input({
           ${errors[id] ? 'translate-y-0' : 'translate-y-2'}
           ${errors[id] ? 'opacity-100' : 'opacity-0'}
           transition
-          duration-500
+          duration-300
         `}
       >
           กรุณากรอกข้อมูลให้ถูกต้อง
