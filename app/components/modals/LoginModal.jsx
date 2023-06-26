@@ -56,6 +56,7 @@ export default function LoginModal() {
         <Input 
           id="email"
           label="อีเมลล์"
+          type="email"
           autoComplete="email"
           disabled={isLoading}
           register={register}  
