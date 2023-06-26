@@ -85,9 +85,11 @@ export default function Modal({
               {body}
             </div>
             {/* Modal Footer */}
-            <div className="flex flex-col gap-2 p-6 border-t border-gray-200">
-              {footer}
-            </div>
+            {footer && (
+              <div className={`flex flex-col p-6 ${footer ? 'border-t border-gray-200' : '' } `}>
+                {footer}
+              </div>
+            )}
           </div>
         </div>
       </div>

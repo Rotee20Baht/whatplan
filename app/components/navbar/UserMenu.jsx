@@ -6,7 +6,7 @@ import Avatar from "../Avatar";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import MenuItem from "./MenuItem";
-import useLoginModal from "../../hooks/useLoginModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 export default function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
