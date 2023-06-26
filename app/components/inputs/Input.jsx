@@ -11,7 +11,7 @@ export default function Input({
   autoComplete
 }) {
   return (
-    <div className="w-full relative">
+    <div className={`w-full relative ${errors[id] ? 'mb-4' : 'my-0'}`}>
       <input
         id={id}
         disabled={disabled}
@@ -57,6 +57,18 @@ export default function Input({
       >
         {label}
       </label>
+      <h1 
+        className={`
+          absolute
+          text-emerald-500
+          ${errors[id] ? 'translate-y-0' : 'translate-y-2'}
+          ${errors[id] ? 'opacity-100' : 'opacity-0'}
+          transition
+          duration-500
+        `}
+      >
+          กรุณากรอกข้อมูลให้ถูกต้อง
+      </h1>
     </div>
    );
 };
