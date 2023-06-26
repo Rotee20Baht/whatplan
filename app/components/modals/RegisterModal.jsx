@@ -19,7 +19,8 @@ export default function RegisterModal() {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      name: ''
     },
   })
   const loginModal = useLoginModal();
@@ -48,10 +49,19 @@ export default function RegisterModal() {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading 
-        title="ยินดีต้อนรับกลับสู่ Whatplan"
-        subtitle="กรุณาเข้าสู่ระบบบัญชีของคุณ"
+        title="ยินดีต้อนรับเข้าสู่ Whatplan"
+        subtitle="กรุณากรอกข้อมูลให้ถูกต้องเพื่อสมัครสมาชิก"
       />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <Input 
+          id="name"
+          label="ชื่อผู้ใช้งาน"
+          disabled={isLoading}
+          register={register}  
+          errors={errors}
+          autoComplete="new-username"
+          required
+        />
         <Input 
           id="email"
           label="อีเมลล์"
@@ -72,7 +82,7 @@ export default function RegisterModal() {
           required
         />
         <Button 
-          label="เข้าสู่ระบบ"
+          label="สมัครสมาชิก"
         />
       </form>
     </div>
@@ -80,25 +90,26 @@ export default function RegisterModal() {
   
   const footerContent = (
     <div className="flex flex-col gap-4">
+      <h2 className="text-center">หรือดำเนินการด้วย</h2>
       <Button 
-        label="เข้าสู่ระบบด้วย Google"
+        label="Google"
         onClick={() => toast.success("Lorem ipsum dolor")}
         icon={FcGoogle}
         outline
       />
       <Button 
-        label="เข้าสู่ระบบด้วย Facebook"
+        label="Facebook"
         onClick={() => toast.success("Lorem ipsum dolor")}
         outline
         icon={FaFacebook}
         iColor="text-blue-500"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
-        <p>ยังไม่มีบัญชี?&nbsp;
+        <p>มีบัญชีอยู่แล้ว?&nbsp;
           <span
             onClick={onToggle}
             className="text-neutral-800 cursor-pointer hover:underline"
-            >สมัครสมาชิกที่นี่
+            >เข้าสู่ระบบที่่นี่
           </span>
         </p>
       </div>
