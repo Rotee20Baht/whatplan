@@ -1,8 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
-
-const Input = forwardRef(({
+export default function Input({
   id,
   label,
   type = "text", 
@@ -10,16 +8,17 @@ const Input = forwardRef(({
   register,
   required,
   errors,
-}, ref) => {
+  autoComplete
+}) {
   return (
     <div className="w-full relative">
       <input
         id={id}
         disabled={disabled}
         {...register(id, { required })}
-        ref={ref}
         placeholder=" "
         type={type}
+        autoComplete={autoComplete}
         className={`
           peer
           w-full
@@ -39,7 +38,6 @@ const Input = forwardRef(({
         `}
       />
       <label
-        htmlFor={id}
         className={`
           absolute 
           text-md
@@ -61,6 +59,4 @@ const Input = forwardRef(({
       </label>
     </div>
    );
-});
-
-export default Input;
+};

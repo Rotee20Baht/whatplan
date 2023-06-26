@@ -7,10 +7,12 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import MenuItem from "./MenuItem";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 export default function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   return (
     <div className="relative flex flex-row items-center gap-1 sm:gap-4">
@@ -41,6 +43,10 @@ export default function UserMenu() {
             <MenuItem
               label="เข้าสู่ระบบ"
               onClick={() => loginModal.onOpen}
+            />
+            <MenuItem
+              label="สมัครสมาชิก"
+              onClick={() => registerModal.onOpen}
             />
           </div>
         </div>
