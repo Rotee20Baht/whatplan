@@ -81,14 +81,15 @@ export default function LoginModal() {
   
   const footerContent = (
     <div className="flex flex-col gap-4">
+      <h1 className="text-center">หรือเข้าสู่ระบบด้วย</h1>
       <Button 
-        label="เข้าสู่ระบบด้วย Google"
+        label="Google"
         onClick={() => toast.success("Lorem ipsum dolor")}
         icon={FcGoogle}
         outline
       />
       <Button 
-        label="เข้าสู่ระบบด้วย Facebook"
+        label="Facebook"
         onClick={() => toast.success("Lorem ipsum dolor")}
         outline
         icon={FaFacebook}
