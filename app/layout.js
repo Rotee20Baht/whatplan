@@ -1,8 +1,9 @@
-import './globals.css'
-import { Prompt } from 'next/font/google'
-import Navbar from './components/navbar/Navbar'
-import Modal from './components/modals/Modal'
-import LoginModal from './components/modals/LoginModal'
+import './globals.css';
+import { Prompt } from 'next/font/google';
+import Navbar from '@/app/components/navbar/Navbar';
+import LoginModal from '@/app/components/modals/LoginModal';
+import ToasterProvider from '@/app/providers/ToasterProvider';
+import RegisterModal from './components/modals/RegisterModal';
 
 const prompt = Prompt({
   subsets: ['latin'],
@@ -18,7 +19,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={prompt.className}>
+        <ToasterProvider />
         <LoginModal />
+        <RegisterModal />
         <Navbar />
         {children}
       </body>

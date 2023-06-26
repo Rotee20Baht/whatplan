@@ -59,8 +59,8 @@ export default function Modal({
         >
           <div className="bg-white h-full sm:h-auto w-full rounded-lg shadow-lg flex flex-col">
             {/* Modal Header */}
-            <div class="flex items-center justify-between p-4">
-              <h3 class="text-xl font-semibold text-black">
+            <div className="flex items-center justify-between p-4">
+              <h3 className="text-xl font-semibold text-black">
                 {title}
               </h3>
               <button

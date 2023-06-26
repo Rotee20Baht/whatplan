@@ -5,6 +5,7 @@ export default function Button({
   outline,
   small,
   icon: Icon,
+  iColor
 }) {
   return (
     <button
@@ -20,6 +21,7 @@ export default function Button({
         w-full
         ${outline ? 'bg-white' : 'bg-emerald-500'}
         ${outline ? 'border-black' : 'border-emerald-500'}
+        ${outline ? 'hover:border-black/70' : ''}
         ${outline ? 'text-black' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'py-1' : 'py-2.5'}
@@ -30,11 +32,12 @@ export default function Button({
       {Icon && (
         <Icon
           size={24}
-          className="
+          className={`
             absolute
             left-4
             top-2.5
-          "
+            ${iColor ? iColor : ''}
+          `}
         />
       )}
       {label}

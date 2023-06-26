@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
-import useRegisterModal from "@/app/hooks/useRegisterModal";
 import { toast } from 'react-toastify';
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
@@ -13,8 +12,9 @@ import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
 import Button from "../Button";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
-export default function LoginModal() {
+export default function RegisterModal() {
   const [ isLoading, setIsLoading ] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -22,14 +22,13 @@ export default function LoginModal() {
       password: ''
     },
   })
-
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
   const onToggle = useCallback(() => {
-    loginModal.onClose();
-    registerModal.onOpen();
-  }, [loginModal, registerModal])
+    registerModal.onClose();;
+    loginModal.onOpen();
+  },[loginModal, registerModal])
 
   const onSubmit = (data) => {
     setIsLoading(true)
@@ -56,20 +55,20 @@ export default function LoginModal() {
         <Input 
           id="email"
           label="อีเมลล์"
-          autoComplete="email"
           disabled={isLoading}
           register={register}  
           errors={errors}
+          autoComplete="email"
           required
         />
         <Input
           id="password"
           label="รหัสผ่าน"
           type="password"
-          autoComplete="current-password"
           disabled={isLoading}
           register={register}
           errors={errors}
+          autoComplete="new-password"
           required
         />
         <Button 
@@ -108,9 +107,9 @@ export default function LoginModal() {
 
   return (
     <Modal
-      title="เข้าสู่ระบบ"
-      isOpen={loginModal.isOpen}
-      onClose={loginModal.onClose}
+      title="สมัครสมาชิก"
+      isOpen={registerModal.isOpen}
+      onClose={registerModal.onClose}
       body={bodyContent}
       footer={footerContent}
     />
