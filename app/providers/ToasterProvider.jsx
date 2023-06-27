@@ -1,22 +1,10 @@
 'use client';
 
-import { ToastContainer } from 'react-toastify';
-import './ReactToastify.css';
+import { Toaster } from "react-hot-toast";
 
 const ToasterProvider = () => {
   return ( 
-    <ToastContainer 
-      position="top-center"
-      autoClose={2000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
+    <Toaster />
    );
 }
  

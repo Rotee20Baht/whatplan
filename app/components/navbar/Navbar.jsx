@@ -17,7 +17,7 @@ const links = [
   },
 ];
 
-export default function Navbar() {
+export default function Navbar({ currentUser }) {
   const pathname = usePathname();
 
   return (
@@ -43,7 +43,7 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          <UserMenu links={links}/>
+          <UserMenu links={links} currentUser={currentUser}/>
         </div>
       </Container>
     </div>
