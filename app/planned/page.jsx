@@ -4,7 +4,7 @@ import Button from "../components/Button/Button"
 import Select from 'react-select'
 import Link from "next/link"
 import Container from "../components/Container"
-
+import Image from "next/image"
 export default function Planned() {
 
 
@@ -40,6 +40,19 @@ export default function Planned() {
         singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#333", }),
       };
 
+      const items = [
+        {
+            id:1,
+            title: "Palm tree",
+            img:"https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1980&q=80"
+        },
+        {
+            id:2,
+            title: "Palm tree with road",
+            img : "https://images.unsplash.com/photo-1565340076637-825894a74ca6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
+        }
+      ]
+
 
     return(
         <div className={styles.container}>
@@ -51,33 +64,18 @@ export default function Planned() {
             </div>
             <div className={styles.cardContainer}>
                     <div className={styles.cardLists}>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
+                        {items.map(item=>(
+                            <Link href={`/planned/${item.id}`} className={styles.card}>
+                            <div className={styles.cardImg}>
+                            <Image
+                                src={item.img}
+                                alt=''
+                                fill
+                                className={styles.image}
+                                />
+                            </div>
                         </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
-                        <Link href="#" className={styles.card}>
-                            <div className={styles.cardImg}></div>
-                        </Link>
+                        ))}
                     </div>
                 </div>
         </div>
