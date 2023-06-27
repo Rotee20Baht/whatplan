@@ -2,17 +2,18 @@
 
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { toast } from 'react-toastify';
-import { FcGoogle } from 'react-icons/fc'
-import { FaFacebook } from 'react-icons/fa'
+import { toast } from "react-hot-toast";
+import { FcGoogle } from 'react-icons/fc';
 
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
 import Button from "../Button";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
 
 export default function RegisterModal() {
   const [ isLoading, setIsLoading ] = useState(false);
@@ -33,16 +34,20 @@ export default function RegisterModal() {
 
   const onSubmit = (data) => {
     setIsLoading(true)
-    console.log(data)
-    const functionThatReturnPromise = () => new Promise(resolve => setTimeout(resolve, 3000));
-    toast.promise(
-        functionThatReturnPromise,
-        {
-          pending: 'Promise is pending',
-          success: 'Promise resolved 👌',
-          error: 'Promise rejected 🤯'
-        }
-    )
+
+    axios.post('/api/register', data)
+    .then(() => {
+      toast.success("สมัครสมาชิกสำเร็จ!");
+      registerModal.onClose();
+      loginModal.onOpen();
+    })
+    .catch(() => {
+      toast.success("เข้าสู่ระบบล้มเหลว!");
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+  
     setIsLoading(false)
   }
 
@@ -65,6 +70,7 @@ export default function RegisterModal() {
         <Input 
           id="email"
           label="อีเมลล์"
+          type="email"
           disabled={isLoading}
           register={register}  
           errors={errors}
@@ -93,18 +99,11 @@ export default function RegisterModal() {
       <h2 className="text-center">หรือดำเนินการด้วย</h2>
       <Button 
         label="Google"
-        onClick={() => toast.success("Lorem ipsum dolor")}
+        onClick={() => signIn('google')}
         icon={FcGoogle}
         outline
       />
-      <Button 
-        label="Facebook"
-        onClick={() => toast.success("Lorem ipsum dolor")}
-        outline
-        icon={FaFacebook}
-        iColor="text-blue-500"
-      />
-      <div className="text-neutral-500 text-center mt-4 font-light">
+      <div className="text-neutral-500 text-center font-light">
         <p>มีบัญชีอยู่แล้ว?&nbsp;
           <span
             onClick={onToggle}

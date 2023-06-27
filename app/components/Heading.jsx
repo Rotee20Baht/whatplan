@@ -1,3 +1,5 @@
+'use client';
+
 export default function Heading({ title, subtitle, center }) {
   return (
     <div className={center ? 'text-center' : 'text-start'}>

@@ -50,44 +50,48 @@ export default function Home() {
           <Button text="ค้านหาแผนการท่องเที่ยว" url="#" />
         </div>
       </div>
-      <Container>
-      {/* ----ท่องเที่ยวแนะนำ----- */}
-        <div className={styles.cardContainer}>
-          <div className={styles.title}>แผนการท่องเที่ยวแนะนำ</div>
-          <div className={styles.cardLists}>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.viewMore}>
-              <h1 className={styles.vText}>--View More--</h1>
-            </Link>
+      <div className="mt-5">
+        <Container>
+          <div className="flex flex-col gap-6">
+            {/* ----ท่องเที่ยวแนะนำ----- */}
+            <div className={styles.cardContainer}>
+              <div className={styles.title}>แผนการท่องเที่ยวแนะนำ</div>
+              <div className={styles.cardLists}>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.viewMore}>
+                  <h1 className={styles.vText}>--View More--</h1>
+                </Link>
+              </div>
+            </div>
+            {/* ----ท่องเที่ยวยอดนิยม----- */}
+            <div className={styles.cardContainer}>
+              <div className={styles.title}>แผนการท่องเที่ยวยอดนิยม</div>
+              <div className={styles.cardLists}>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.card}>
+                  <div className={styles.cardImg}></div>
+                </Link>
+                <Link href="#" className={styles.viewMore}>
+                  <h1 className={styles.vText}>--View More--</h1>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      {/* ----ท่องเที่ยวยอดนิยม----- */}
-        <div className={styles.cardContainer}>
-          <div className={styles.title}>แผนการท่องเที่ยวยอดนิยม</div>
-          <div className={styles.cardLists}>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.card}>
-              <div className={styles.cardImg}></div>
-            </Link>
-            <Link href="#" className={styles.viewMore}>
-              <h1 className={styles.vText}>--View More--</h1>
-            </Link>
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </div>
   )
 }

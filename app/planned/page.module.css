@@ -1,7 +1,8 @@
 .container{
     display: flex;
     align-items: flex-start;
-    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
     min-height: 100vh;
     justify-content: center;
 }
