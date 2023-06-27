@@ -2,12 +2,13 @@
 
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { signIn } from 'next-auth/react';
+import { useRouter } from "next/navigation";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import { toast } from 'react-toastify';
+import { toast } from "react-hot-toast";
 import { FcGoogle } from 'react-icons/fc'
-import { FaFacebook } from 'react-icons/fa'
 
 import Modal from "./Modal";
 import Input from "../inputs/Input";
@@ -16,12 +17,14 @@ import Button from "../Button";
 
 export default function LoginModal() {
   const [ isLoading, setIsLoading ] = useState(false);
+  const router = useRouter()
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
       password: ''
     },
   })
+
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
@@ -32,18 +35,25 @@ export default function LoginModal() {
   }, [loginModal, registerModal])
 
   const onSubmit = (data) => {
-    setIsLoading(true)
-    console.log(data)
-    const functionThatReturnPromise = () => new Promise(resolve => setTimeout(resolve, 3000));
-    toast.promise(
-        functionThatReturnPromise,
-        {
-          pending: 'Promise is pending',
-          success: 'Promise resolved 👌',
-          error: 'Promise rejected 🤯'
-        }
-    )
-    setIsLoading(false)
+    setIsLoading(true);
+
+    signIn('credentials', { 
+      ...data, 
+      redirect: false,
+    })
+    .then((callback) => {
+      setIsLoading(false);
+
+      if (callback?.ok) {
+        toast.success('เข้าสู่ระบบสำเร็จ!');
+        router.refresh();
+        loginModal.onClose();
+      }
+      
+      if (callback?.error) {
+        toast.error('เข้าสู่ระบบล้มเหลว!');
+      }
+    });
   }
 
   const bodyContent = (
@@ -85,18 +95,14 @@ export default function LoginModal() {
       <h1 className="text-center">หรือเข้าสู่ระบบด้วย</h1>
       <Button 
         label="Google"
-        onClick={() => toast.success("Lorem ipsum dolor")}
+        onClick={() => {
+          signIn('google')
+          .catch(() => toast.error("เข้าสู่ระบบล้มเหลว"))
+        }}
         icon={FcGoogle}
         outline
       />
-      <Button 
-        label="Facebook"
-        onClick={() => toast.success("Lorem ipsum dolor")}
-        outline
-        icon={FaFacebook}
-        iColor="text-blue-500"
-      />
-      <div className="text-neutral-500 text-center mt-4 font-light">
+      <div className="text-neutral-500 text-center font-light">
         <p>ยังไม่มีบัญชี?&nbsp;
           <span
             onClick={onToggle}
