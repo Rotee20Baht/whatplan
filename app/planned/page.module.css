@@ -1,18 +1,11 @@
 .container{
-    display: flex;
-    align-items: flex-start;
-    max-width: 100vw;
-    overflow-x: hidden;
-    min-height: 100vh;
-    justify-content: center;
+    padding-top: 6rem;
+    width: 100%;
 }
 .selectBar{
-    width:1196px;
-    height: 80px;
+    width: 100%;
     background-color: #fff;
-    position: absolute;
-    padding: 0 5rem;
-    margin: 100px;
+    padding: 0 1rem;
     border-radius: 10px;
     border: none;
     display: flex;

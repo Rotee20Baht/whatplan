@@ -1,18 +1,22 @@
 'use client'
 
+import { useCallback } from "react";
+
 export default function Button({
   label, 
-  onClick, 
+  onClick = () => {},
   disabled, 
   outline,
   small,
   icon: Icon,
   iColor
 }) {
+  const handleClick = useCallback(() => onClick(), [onClick])
+
   return (
     <button
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       className={`
         relative
         disabled:opacity-70
@@ -21,6 +25,7 @@ export default function Button({
         hover:opacity-80
         transition
         w-full
+        h-full
         ${outline ? 'bg-white' : 'bg-emerald-500'}
         ${outline ? 'border-black' : 'border-emerald-500'}
         ${outline ? 'hover:border-black/70' : ''}

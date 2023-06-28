@@ -6,9 +6,11 @@
     background-color: #fff;
     overflow-x: hidden;
  }
+
 .heroSection{
-    height: 600px;
-    background:url("/hero.jpg");
+    width: 100%;
+    max-height: 600px;
+    overflow-y: hidden;
     background-position: center;
     color: #fff;
     display: flex;
@@ -17,6 +19,7 @@
     align-items:center;
     position: relative;
 }
+
 .text{
     margin-top: -100px;
     border: 5px solid #fff;
@@ -28,6 +31,7 @@
     justify-content: center;
     padding: 5rem;
     background: #53c28b2d;
+    z-index: 10;
 }
 .heroText{
     font-size: 100px;

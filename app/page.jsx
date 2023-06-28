@@ -5,6 +5,7 @@ import Select from 'react-select'
 import Button from "./components/Button/Button"
 import Container from "./components/Container"
 import Link from "next/link"
+import Image from "next/image"
 export default function Home() {
   const place = [
     { value: 'จังหวัด', label: 'จังหวัด' },
@@ -43,6 +44,7 @@ export default function Home() {
         <div className={styles.text}>
           <h1 className={styles.heroText}>WP What Plan.</h1>
         </div>
+          <Image alt="hero-section" src={'/hero.jpg'} width={0} height={0} sizes="100%" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         <div className={styles.selectBar}>
           <Select className={styles.selecter} options={place} styles={customStyles} />
           <Select className={styles.selecter} options={types} styles={customStyles} />

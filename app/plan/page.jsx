@@ -1,13 +1,38 @@
-'use client'
+'use client';
 
-import Container from "../components/Container"
+import Container from "../components/Container";
+import Selectbar from "../components/select/Selectbar";
+import Card from "../components/Card";
 
-export default function Plan() {
+export default function Place() {
   return (
-    <section className="py-20">
+    <div className="pt-20 pb-4">
       <Container>
-        <h1>Plans</h1>
+        <div className="w-full h-auto flex flex-col gap-4">
+          <h1 className="font-semibold text-xl">ค้นหาแผนการท่องเที่ยวทั้งหมด</h1>
+          <Selectbar title1="จังหวัด" title2="ประเภทการท่องเที่ยว" title3="จำนวนวันในแผน" />
+          <div 
+            className="
+              w-full 
+              h-auto 
+              border 
+              rounded-lg 
+              shadow-sm 
+              p-4 
+              grid 
+              grid-cols-1
+              sm:grid-cols-2
+              md:grid-cols-3
+              lg:grid-cols-4
+              gap-4"
+            >
+              <Card />
+              <Card />
+              <Card />
+              <Card />
+          </div>
+        </div>  
       </Container>
-    </section>
+    </div>
   )
 }

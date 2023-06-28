@@ -89,6 +89,7 @@ export default function RegisterModal() {
         />
         <Button 
           label="สมัครสมาชิก"
+          onClick={() => {}}
         />
       </form>
     </div>
