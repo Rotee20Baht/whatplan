@@ -1,0 +1,187 @@
+.container{
+    width: 100;
+    height: 92vh;
+    background: #fff;
+    display: flex;
+    padding: 20px;
+    gap: 10px;
+}
+/* ---------------Search------------------------ */
+.searchContainer{
+    flex: 1;
+    background: #dfdfdf;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.search{
+    display: flex;
+    padding: 10px;
+    width:100% ;
+    height: max-content;
+    background: #fff;
+    border-radius: 10px;
+    gap: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.input{
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color:#333;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    background: #d4d4d4be;
+}
+.categories{
+    width: 100%;
+    height: max-content;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+}
+.category{
+    text-align: center;
+    width: max-content;
+    padding: 5px 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    color: #333;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transition: all 1s ease;
+    cursor: pointer;
+}
+.category:hover{
+    text-align: center;
+    width: max-content;
+    padding: 5px 5px;
+    background-color: #333;
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transition: all 1s ease;
+    cursor: pointer;
+}
+
+.itemsContainer{
+    border-radius: 10px;
+    height:800px;
+    overflow-y: scroll;
+}
+.item{
+    width:90%;
+    height: 100px;
+    background:#fff;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+/* ---------------Map---------------------- */
+.mapContainer{
+    flex: 2;
+    background: url("https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80");
+    background-size: cover;
+    height: 100%;
+    border-radius: 10px;
+}
+/* ---------------User list-------------------------- */
+.listContainer{
+    flex: 1;
+    background: #dfdfdf;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.tripName{
+    display: flex;
+    padding: 10px;
+    width:100% ;
+    height: max-content;
+    background: #fff;
+    border-radius: 10px;
+    gap: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.days{
+    width: 100%;
+    height: max-content;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+}
+.date{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.day{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 5px;
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.daySelect{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.day:hover{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.addDay{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.button{
+    display: flex;
+    justify-content:center;
+    width: 100%;
+    padding: 20px;
+    background: rgb(16, 185, 129);
+    border-radius: 10px;
+    color: #333;
+    font-size: 20px;
+}

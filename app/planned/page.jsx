@@ -37,7 +37,7 @@ export default function Planned() {
                 gap-4"
               >
                 {items.map(item => (
-                  <Link href={`/planned/${item.id}`} key={item.title}>
+                  <Link href={`/plan/${item.id}`} key={item.title}>
                     <Card title={item.title} img={item.img} />
                   </Link>
                 ))}

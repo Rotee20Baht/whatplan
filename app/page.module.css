@@ -12,6 +12,8 @@
     max-height: 600px;
     overflow-y: hidden;
     background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: #fff;
     display: flex;
     flex-direction: column;
