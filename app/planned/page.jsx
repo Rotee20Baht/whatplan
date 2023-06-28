@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Card from "../components/Card";
 import Container from "../components/Container";
 export default function Planned() {
@@ -35,7 +36,11 @@ export default function Planned() {
                 lg:grid-cols-4
                 gap-4"
               >
-                <Card />
+                {items.map(item => (
+                  <Link href={`/planned/${item.id}`} key={item.title}>
+                    <Card title={item.title} img={item.img} />
+                  </Link>
+                ))}
             </div>
           </div>
         </div>  

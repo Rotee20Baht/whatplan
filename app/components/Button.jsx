@@ -9,7 +9,6 @@ export default function Button({
   outline,
   small,
   icon: Icon,
-  iColor
 }) {
   const handleClick = useCallback(() => onClick(), [onClick])
 
@@ -43,7 +42,6 @@ export default function Button({
             absolute
             left-4
             top-2.5
-            ${iColor ? iColor : ''}
           `}
         />
       )}

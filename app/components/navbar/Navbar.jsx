@@ -21,7 +21,7 @@ export default function Navbar({ currentUser }) {
   const pathname = usePathname();
 
   return (
-    <div className="w-full fixed shadow-sm border-b z-10 bg-white">
+    <div className="w-full fixed shadow-sm border-b z-50 bg-white">
       <Container>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-2 sm:gap-5 md:gap-6 lg:gap-10 py-4 md:py-0">

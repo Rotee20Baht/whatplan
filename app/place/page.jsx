@@ -1,10 +1,36 @@
-'use client';
-
 import Container from "../components/Container";
 import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
 
 export default function Place() {
+
+  const places = [
+    {
+      title: "วัดพระมหาธาตุวรมหาวิหาร",
+      provice: "นครศรีธรรมราช",
+      img: "https://youimg1.tripcdn.com/target/0ww5o12000acgzwvi54CC_C_880_350_R5.jpg",
+      rating: "5"
+    },
+    {
+      title: "หาดขนอม",
+      provice: "นครศรีธรรมราช",
+      img: "https://youimg1.tripcdn.com/target/10090s000000hlt6kB60F_C_880_350_R5.jpg?proc=source%2ftrip",
+      rating: "4.9"
+    },
+    {
+      title: "หอนาฬิกาตรัง",
+      provice: "ตรัง",
+      img: "https://youimg1.tripcdn.com/target/0ww6z120008zanvdt0EA9_C_760_506_R5.jpg?proc=source/trip",
+      rating: "5"
+    },
+    {
+      title: "ชินตาการ์เด้น",
+      provice: "ตรัง",
+      img: "https://youimg1.tripcdn.com/target/0ww5e120006oej226D8DB_C_760_506_R5.jpg?proc=source/trip",
+      rating: "4.9"
+    },
+  ]
+
   return (
     <div className="pt-20 pb-4">
       <Container>
@@ -26,10 +52,15 @@ export default function Place() {
               lg:grid-cols-4
               gap-4"
             >
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+              {places.map((item) => (
+                <Card
+                  key={item.title}
+                  title={item.title}
+                  province={item.provice}
+                  img={item.img}
+                  rating={item.rating}
+                />
+              ))}
           </div>
         </div>  
       </Container>
