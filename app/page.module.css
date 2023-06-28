@@ -10,6 +10,8 @@
     height: 600px;
     background:url("/hero.jpg");
     background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: #fff;
     display: flex;
     flex-direction: column;

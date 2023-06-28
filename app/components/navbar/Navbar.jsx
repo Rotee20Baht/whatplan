@@ -15,6 +15,10 @@ const links = [
     title: "สถานที่ท่องเที่ยว",
     href: "/place"
   },
+  {
+    title: "วางแผนการท่องเที่ยว",
+    href: "/create"
+  },
 ];
 
 export default function Navbar({ currentUser }) {
