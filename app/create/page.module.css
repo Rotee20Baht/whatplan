@@ -79,12 +79,65 @@
     height:800px;
     overflow-y: scroll;
 }
+
 .item{
-    width:90%;
-    height: 100px;
-    background:#fff;
-    border-radius: 10px;
+    width:95%;
+    height: 150px;
+    background: #fff;
+    border-radius: 5px;
     margin-top: 10px;
+    display: flex;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.imgContainer{
+    width: 200px;
+    border-radius:5px ;
+    font-size: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.img{
+    object-fit: cover;
+}
+
+.textContainer{
+    width: 200px;
+    margin: 0 10px 0 10px ;
+    display: flex;
+    justify-content: space-between;
+}
+.text{
+    flex: 3;
+}
+.btnContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.addButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #fff;
+    margin-right: -10px;
+
+}
+.infoButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #fff;
+    margin-right: -10px;
+}
+.deleteButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #fff;
+    margin-right: -10px;
 }
 /* ---------------Map---------------------- */
 .mapContainer{
