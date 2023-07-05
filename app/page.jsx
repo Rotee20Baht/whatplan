@@ -6,6 +6,7 @@ import Button from "./components/Button/Button"
 import Container from "./components/Container"
 import Link from "next/link"
 import Image from "next/image"
+import Selectbar from "./components/select/Selectbar"
 export default function Home() {
   const place = [
     { value: 'จังหวัด', label: 'จังหวัด' },
@@ -42,54 +43,52 @@ export default function Home() {
     <div className={styles.container}>
       <div className={styles.heroSection}>
         <div className={styles.text}>
-          <h1 className={styles.heroText}>WP What Plan.</h1>
+          <h1>What A Plan</h1>
         </div>
-          <Image alt="hero-section" src={'/hero.jpg'} width={0} height={0} sizes="100%" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        <div className={styles.selectBar}>
-          <Select className={styles.selecter} options={place} styles={customStyles} />
-          <Select className={styles.selecter} options={types} styles={customStyles} />
-          <Select className={styles.selecter} options={days} styles={customStyles} />
-          <Button text="ค้านหาแผนการท่องเที่ยว" url="#" />
-        </div>
-      </div>
-      <div className="mt-5">
         <Container>
-          <div className="flex flex-col gap-6">
+          <div className={styles.selectBar}>
+            <Selectbar title1="จังหวัด" title2="รูปแบบการท่องเที่ยว" title3="จำนวนวัน" />
+          </div>
+        </Container>
+      </div>
+      <div className="mt-2 py-4">
+        <Container>
+          <div className="flex flex-col gap-6 px-0 lg:px-10">
             {/* ----ท่องเที่ยวแนะนำ----- */}
             <div className={styles.cardContainer}>
-              <div className={styles.title}>แผนการท่องเที่ยวแนะนำ</div>
-              <div className={styles.cardLists}>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.viewMore}>
-                  <h1 className={styles.vText}>--View More--</h1>
-                </Link>
-              </div>
+              <div className={styles.title}>แผนการท่องเที่ยวสำหรับคุณ</div>
+                <div className="flex flex-row gap-5 mt-1">
+                  <Link href="#" className="flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="hidden lg:block flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="hidden md:block flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                </div>
             </div>
             {/* ----ท่องเที่ยวยอดนิยม----- */}
             <div className={styles.cardContainer}>
               <div className={styles.title}>แผนการท่องเที่ยวยอดนิยม</div>
-              <div className={styles.cardLists}>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.card}>
-                  <div className={styles.cardImg}></div>
-                </Link>
-                <Link href="#" className={styles.viewMore}>
-                  <h1 className={styles.vText}>--View More--</h1>
-                </Link>
-              </div>
+                <div className="flex flex-row gap-5 mt-1">
+                  <Link href="#" className="flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="hidden lg:block flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                  <Link href="#" className="hidden md:block flex-1 h-full rounded-xl overflow-hidden shadow-lg">
+                    <div className="h-[284px] w-full bg-zinc-300"></div>
+                  </Link>
+                </div>
             </div>
           </div>
         </Container>

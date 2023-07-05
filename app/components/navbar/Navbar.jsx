@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Container from "../Container"
 import UserMenu from "./UserMenu";
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 const links = [
   {
@@ -21,18 +22,19 @@ const links = [
   },
 ];
 
-export default function Navbar({ currentUser }) {
+export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = useSession()
 
   return (
     <div className="w-full fixed shadow-sm border-b z-50 bg-white">
       <Container>
         <div className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center gap-2 sm:gap-5 md:gap-6 lg:gap-10 py-4 md:py-0">
+          <div className="flex flex-row items-center gap-2 sm:gap-5 md:gap-6 lg:gap-10 py-4 lg:py-0">
             <Link href={'/'} className="text-2xl font-semibold text-emerald-500 tracking-tighter cursor-pointer">
               Whatplan
             </Link>
-            <div className="hidden md:flex flex-row gap-1 md:gap-6 lg:gap-10 items-center justify-between">
+            <div className="hidden lg:flex flex-row gap-1 md:gap-6 lg:gap-10 items-center justify-between">
               {links.map((link, index) => (
                 <Link
                   key={index}
@@ -47,7 +49,7 @@ export default function Navbar({ currentUser }) {
               ))}
             </div>
           </div>
-          <UserMenu links={links} currentUser={currentUser}/>
+          <UserMenu links={links} currentUser={session?.user}/>
         </div>
       </Container>
     </div>

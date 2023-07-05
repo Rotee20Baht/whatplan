@@ -1,5 +1,3 @@
-'use client';
-
 import Container from "../components/Container";
 import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";

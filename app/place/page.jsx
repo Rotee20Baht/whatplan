@@ -2,6 +2,9 @@ import Container from "../components/Container";
 import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
 
+import { placttype } from "@/app/providers/SelectDataProvider";
+
+
 export default function Place() {
 
   const places = [
@@ -36,7 +39,7 @@ export default function Place() {
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
           <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
-          <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" />
+          <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" options2={placttype}/>
           <div 
             className="
               w-full 

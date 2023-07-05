@@ -4,7 +4,7 @@ import Navbar from '@/app/components/navbar/Navbar';
 import LoginModal from '@/app/components/modals/LoginModal';
 import ToasterProvider from '@/app/providers/ToasterProvider';
 import RegisterModal from './components/modals/RegisterModal';
-import getCurrentUser from './actions/getCurrentUser';
+import UserProvider from './providers/UserProvider';
 
 const prompt = Prompt({
   subsets: ['latin'],
@@ -17,16 +17,16 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const currentUser = await getCurrentUser();
-
   return (
     <html lang="en">
       <body className={prompt.className}>
-        <ToasterProvider />
-        <LoginModal />
-        <RegisterModal />
-        <Navbar currentUser={currentUser} />
-        {children}
+        <UserProvider>
+          <ToasterProvider />
+          <LoginModal />
+          <RegisterModal />
+          <Navbar />
+          {children}
+        </UserProvider>
       </body>
     </html>
   )

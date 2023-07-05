@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Card from "../components/Card";
 import Container from "../components/Container";

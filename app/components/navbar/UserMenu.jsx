@@ -57,7 +57,7 @@ export default function UserMenu({ links, currentUser }) {
                   className="py-3 px-4 hover:bg-neutral-100 cursor-pointer border-b"
                   href={'/planned'} 
                 >
-                  แผนการเดินทางของฉัน
+                  แผนการท่องเที่ยวของฉัน
                 </Link>
               </>
             ) : (

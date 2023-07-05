@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { signIn } from 'next-auth/react';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams  } from "next/navigation";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
@@ -16,6 +16,10 @@ import Heading from "../Heading";
 import Button from "../Button";
 
 export default function LoginModal() {
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+
   const [ isLoading, setIsLoading ] = useState(false);
   const router = useRouter()
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -40,6 +44,7 @@ export default function LoginModal() {
     signIn('credentials', { 
       ...data, 
       redirect: false,
+      callbackUrl: callbackUrl
     })
     .then((callback) => {
       setIsLoading(false);
@@ -97,7 +102,7 @@ export default function LoginModal() {
       <Button 
         label="Google"
         onClick={() => {
-          signIn('google')
+          signIn('google', { callbackUrl: callbackUrl })
           .catch(() => toast.error("เข้าสู่ระบบล้มเหลว"))
         }}
         icon={FcGoogle}

@@ -1,20 +1,32 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import prisma from "@/app/libs/prismadb";
+import User from "@/app/models/userModel";
+import connectDB from "@/app/libs/database";
+
+connectDB();
 
 export async function POST(request) {
-  const body = await request.json();
-  const { email, name, password } = body;
+  try{
+    const body = await request.json();
+    let { email, name, password } = body;
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+    const user = await User.findOne({ email: email });
+    if(user) throw new Error('Email already existed!');
 
-  const user = await prisma.user.create({
-    data: {
-      email,
-      name,
-      hashedPassword,
-    },
-  });
+    if(password){
+      password  = await bcrypt.hash(password, 12);
+    }
+    
+    const newUser = new User({
+      name: name,
+      email: email,
+      password: password,
+    })
+  
+    await newUser.save();
 
-  return NextResponse.json(user);
+    return NextResponse.json({ msg: "Successfully created new User: " + newUser}, { status: 200 });
+  }catch(error){
+    return NextResponse.json({ error: "Error on '/api/register': " + error }, {status: 400 });
+  }
 }

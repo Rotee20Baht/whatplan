@@ -34,15 +34,16 @@ export default function RegisterModal() {
 
   const onSubmit = (data) => {
     setIsLoading(true)
-
+    console.log(data)
     axios.post('/api/register', data)
-    .then(() => {
+    .then((res) => {
+      console.log(res);
       toast.success("สมัครสมาชิกสำเร็จ!");
       registerModal.onClose();
       loginModal.onOpen();
     })
     .catch(() => {
-      toast.success("เข้าสู่ระบบล้มเหลว!");
+      toast.error("สมัครสมาชิกล้มเหลว!");
     })
     .finally(() => {
       setIsLoading(false);

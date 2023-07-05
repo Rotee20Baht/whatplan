@@ -5,9 +5,9 @@ export default function Input({
   label,
   type = "text", 
   disabled, 
-  register,
+  register = () => {},
   required,
-  errors,
+  errors = [],
   autoComplete
 }) {
   return (
