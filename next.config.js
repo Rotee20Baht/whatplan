@@ -7,7 +7,12 @@ const nextConfig = {
           "images.pexels.com",
           "lh3.googleusercontent.com",
           "youimg1.tripcdn.com",
-          "res.cloudinary.com"
+          "res.cloudinary.com",
+          "res.cloudinary.com",
+          'www.museumthailand.com',
+          'img.kapook.com',
+          'cbtthailand.dasta.or.th',
+          'nakhonsidee.com'
         ],
     },
 }
