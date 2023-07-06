@@ -101,7 +101,7 @@
 }
 
 .img{
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .textContainer{
@@ -142,7 +142,7 @@
 /* ---------------Map---------------------- */
 .mapContainer{
     flex: 3;
-    background: url("https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80");
+    background: url("https://images.unsplash.com/photo-1516546453174-5e1098a4b4af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80");
     background-size: cover;
     height: 100%;
     border-radius: 10px;

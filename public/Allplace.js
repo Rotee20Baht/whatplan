@@ -1,39 +1,27 @@
 const AllListItems = [
     {
         id: '1',
-        title: "บ้าน",
+        title: "พระบรมธาตุฯ-เมืองคอน",
    
-        img: "https://res.cloudinary.com/dtjoquwko/image/upload/v1688405757/w4tcftkyomhxbvatjd75.jpg?fbclid=IwAR2IlwunBQhw2b8IZlUtSUAVDOMkwR9Omlq2pQNkndM8SMoT4Kr4_dsQ3r0"
+        img: "https://www.museumthailand.com/upload/evidence/1504062067_97113.jpg"
     },
     {
         id: 'กหดหกด',
-        title: "วัด",
+        title: "คีรีวง",
 
-        img: "https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80"
+        img: "https://img.kapook.com/u/2018/Tanapol/travel/march/serevong/v3.jpg"
     },
     {
         id: 'asda',
-        title: "สวนมะนาว",
+        title: "หาดในเพลา",
    
-        img: "https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80"
+        img: "https://cbtthailand.dasta.or.th/upload-file-api/Resources/RelateAttraction/Images/RAT800118/1.jpeg"
     },
     {
         id: '44',
-        title: "สภากาแฟ",
+        title: "ราชาคีรี รีสอร์ท แอนด์สปา ขนอม ",
    
-        img: "https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80"
-    },
-    {
-        id: 'cvcv',
-        title: "ร้านลุงเหลิม",
-   
-        img: "https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80"
-    },
-    {
-        id: '6',
-        title: "โกเอ็กน้ำท่อมคั้น",
-       
-        img: "https://images.unsplash.com/photo-1580715911453-d6d9cffd5771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2007&q=80"
+        img: "https://nakhonsidee.com//pic/cover/s388.jpg"
     }
 
 ]

@@ -94,7 +94,7 @@ export default function Create() {
     };
 
     const handleTimeChange = (event) => {
-        const { value } = event.target;
+        const { value } = event.target.value;
         setSelectedTime((prevState)=>{
             let time = [...prevState]
             time[currentDay] = value
@@ -256,7 +256,7 @@ export default function Create() {
                     <div className={styles.time}>
                         <div className={styles.start}>
                             <h3>เริ่มสถานที่แรก :</h3>
-                            <input type="time" value={selectedTime[currentDay]} onChange={handleTimeChange} />
+                            <input type="time" value={selectedTime} onChange={handleTimeChange} />
                         </div>
                         <div className={styles.end}>
                             <h3>จบวันนี้ :</h3>
