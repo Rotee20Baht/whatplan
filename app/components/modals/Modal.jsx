@@ -34,7 +34,7 @@ export default function Modal({
       className="
         fixed 
         inset-0 
-        z-[9999]
+        z-[60]
         h-full 
         w-full 
         flex

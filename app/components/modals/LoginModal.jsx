@@ -56,7 +56,7 @@ export default function LoginModal() {
       }
       
       if (callback?.error) {
-        toast.error('เข้าสู่ระบบล้มเหลว!');
+        toast.error(callback.error);
       }
     });
   }

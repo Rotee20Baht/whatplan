@@ -11,7 +11,7 @@ export async function POST(request) {
     let { email, name, password } = body;
 
     const user = await User.findOne({ email: email });
-    if(user) throw new Error('Email already existed!');
+    if(user) throw new Error('อีเมลล์นี้ถูกใช้งานแล้ว');
 
     if(password){
       password  = await bcrypt.hash(password, 12);
@@ -25,8 +25,8 @@ export async function POST(request) {
   
     await newUser.save();
 
-    return NextResponse.json({ msg: "Successfully created new User: " + newUser}, { status: 200 });
+    return NextResponse.json({ msg: "สมัครสมาชิกสำเร็จ!"}, { status: 200 });
   }catch(error){
-    return NextResponse.json({ error: "Error on '/api/register': " + error }, {status: 400 });
+    return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
