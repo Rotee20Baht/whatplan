@@ -12,7 +12,8 @@ const nextConfig = {
           'www.museumthailand.com',
           'img.kapook.com',
           'cbtthailand.dasta.or.th',
-          'nakhonsidee.com'
+          'nakhonsidee.com',
+          'thailandtourismdirectory.go.th'
         ],
     },
 }

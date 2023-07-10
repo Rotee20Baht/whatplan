@@ -8,14 +8,17 @@ import { useState } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill } from 'react-icons/bs'
-import { FaWindowClose } from 'react-icons/fa'
+import { FaWindowClose} from 'react-icons/fa'
+import { FaMapLocationDot} from 'react-icons/fa6'
 import AllListItems from "@/public/Allplace"
 import moment from 'moment';
-import { Calligraffitti } from "next/font/google"
+import {BiCurrentLocation} from "react-icons/bi"
+import PlaceData from "@/public/placeData"
 
 
 
-const allListItems = AllListItems
+
+const allListItems = PlaceData
 
 export default function Create() {
 
@@ -34,8 +37,8 @@ export default function Create() {
             const randomIndex = Math.floor(Math.random() * characters.length);
             result += characters.charAt(randomIndex);
         }
-        const newData = { id: result, hours: 0, min: 0, minUnit: 0, title: item.title, img: item.img }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
-
+        const newData = { id: result, hours: 0, min: 0, minUnit: 0, title: item.title, images: item.images}; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
+        console.log(newData);
         updateListItems((prevState) => {
             let updatedArray = [...prevState]
             if (updatedArray[currentDay]?.length > 0) {
@@ -202,7 +205,7 @@ export default function Create() {
                                 <div className={styles.item} key={item.id}>
                                     <div className={styles.imgContainer}>
                                         <Image
-                                            src={item.img}
+                                            src={item.images[0]}
                                             alt=""
                                             fill
                                             className={styles.img}
@@ -217,12 +220,15 @@ export default function Create() {
                                                         id: item.id,
                                                         hours: 0,
                                                         title: item.title,
-                                                        img: item.img
+                                                        images: item.images[0]
                                                     }
                                                 )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
                                             </button>
                                             <button className={styles.infoButton}
                                             ><BsInfoSquareFill size={30} color="#aaaa" />
+                                            </button>
+                                            <button className={styles.infoButton}
+                                            ><FaMapLocationDot size={30} color="#bbb" />
                                             </button>
                                         </div>
                                     </div>
@@ -266,14 +272,14 @@ export default function Create() {
                         <Droppable droppableId="ListItems">
                             {(provided) => (
                                 <div className={styles.userItemsContainer} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {ListItems[currentDay]?.map(({ id, title, hours, min, minUnit, img }, index) => {
+                                    {ListItems[currentDay]?.map(({ id, title, hours, min, minUnit, images }, index) => {
                                         return (
                                             <Draggable key={id} draggableId={id} index={index}>
                                                 {(provided) => (
                                                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={styles.userItem}>
                                                         <div className={styles.userImgContainer}>
                                                             <Image
-                                                                src={img}
+                                                                src={images}
                                                                 alt=""
                                                                 fill
                                                                 className={styles.userimg}
@@ -291,7 +297,7 @@ export default function Create() {
                                                                             id: id,
                                                                             title: title,
                                                                             hours: event.target.value,
-                                                                            img: img
+                                                                            images: images
                                                                         }
                                                                     )}>
                                                                         <option value={0}>0</option>
@@ -307,7 +313,7 @@ export default function Create() {
                                                                             id: id,
                                                                             title: title,
                                                                             min: event.target.value,
-                                                                            img: img
+                                                                            images: images
                                                                         }
                                                                     )}>
                                                                         <option value={0}>0</option>
@@ -322,7 +328,7 @@ export default function Create() {
                                                                             id: id,
                                                                             title: title,
                                                                             minUnit: event.target.value,
-                                                                            img: img
+                                                                            images: images
                                                                         }
                                                                     )}>
                                                                         <option value={0}>0</option>
@@ -347,7 +353,7 @@ export default function Create() {
                                                                         {
                                                                             id: id,
                                                                             title: title,
-                                                                            img: img
+                                                                            images: images
                                                                         }
                                                                     )}><FaWindowClose size={30} color="#d11c1c" />
                                                                 </button>
