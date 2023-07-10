@@ -58,75 +58,7 @@ export default function Create() {
         ); // อัปเดตสถานะข้อมูลใหม่
     }
 
-    const sumHours = () => {
-        let total = 0;
-        ListItems[currentDay]?.forEach(item => {
-            const hours = parseFloat(item.hours);
-            if (!isNaN(hours)) {
-                total += hours;
-            }
-        });
-        return total;
-    };
 
-    const sumMin = () => {
-        let total = 0
-        ListItems[currentDay]?.forEach(item => {
-            const min = parseFloat(item.min);
-            if (!isNaN(min)) {
-                total += min;
-                // console.log(total);
-            }
-        });
-        return total;
-    };
-
-    const sumMinUnit = () => {
-        let total = 0
-        ListItems[currentDay]?.forEach(item => {
-            const minUnit = parseFloat(item.minUnit);
-            if (!isNaN(minUnit)) {
-                total += minUnit;
-                // console.log(total);
-            }
-        });
-        return total;
-    };
-
-    const handleTimeChange = (event) => {
-        const { value } = event.target.value;
-        setSelectedTime((prevState)=>{
-            let time = [...prevState]
-            time[currentDay] = value
-        });
-    };
-
-
-    console.log(ListItems);
-    console.log(selectedTime);
-
-    let totalHours = sumHours();
-    let totalMin = sumMin()
-    let totalMinUnit = sumMinUnit()
-
-    let finalMin = totalMin + totalMinUnit
-    let finalHours = totalHours
-
-    if (finalMin >= 60) {
-        const hourToAdd = Math.floor(finalMin / 60);
-        finalHours += hourToAdd;
-        finalMin -= hourToAdd * 60;
-    }
-
-    const time = moment(selectedTime, 'HH:mm');
-    const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
-
-    console.log(result.format('h:mm A'));
-    console.log(finalHours, "hours", finalMin, "Minutes");
-
-    if (finalHours > 24) {
-        alert("You can't add more than a day to the selected date.");
-    }
 
     function handleOnDragEnd(result) {
         if (!result.destination) return;
@@ -141,29 +73,68 @@ export default function Create() {
         ); // อัปเดตสถานะข้อมูลใหม่
     }
 
+    // --------------------------------------------------------------Time function start 
+    const handleTimeChange = (event) => {
+        const value = event.target.value;
+        const updatedSelectedTime = [...selectedTime];
+
+        updatedSelectedTime[currentDay] = value;
+        setSelectedTime(updatedSelectedTime);
+    };
+    const sumHours = () => {
+        let total = 0;
+        ListItems[currentDay]?.forEach(item => {
+            const hours = parseFloat(item.hours);
+            if (!isNaN(hours)) {
+                total += hours;
+            }
+        });
+        return total;
+    };
+    const sumMin = () => {
+        let total = 0
+        ListItems[currentDay]?.forEach(item => {
+            const min = parseFloat(item.min);
+            if (!isNaN(min)) {
+                total = total + (min * 10);
+            }
+        });
+        return total;
+    };
+    const sumMinUnit = () => {
+        let total = 0
+        ListItems[currentDay]?.forEach(item => {
+            const minUnit = parseFloat(item.minUnit);
+            if (!isNaN(minUnit)) {
+                total += minUnit;
+            }
+        });
+        return total;
+    };
+
+    let totalHours = sumHours();
+    let totalMin = sumMin()
+    let totalMinUnit = sumMinUnit()
+    let finalMin = totalMin + totalMinUnit
+    let finalHours = totalHours
+
+    if (finalMin >= 60) {
+        const hourToAdd = Math.floor(finalMin / 60);
+        finalHours += hourToAdd;
+        finalMin -= hourToAdd * 60;
+    }
+    const time = moment(selectedTime[currentDay], 'HH:mm');
+    const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
+    console.log(result.format('h:mm A'));
+    console.log(finalHours, "hours", finalMin, "Minutes");
+
+    if (finalHours > 24) {
+        alert("You can't add more than a day to the selected date.");
+    }
     const setHours = (item) => {
         const newList = ListItems[currentDay].map((list) => {
             if (list.id === item.id) {
                 const newData = { ...list, hours: (item.hours * 1) };
-                return newData
-            }
-            return list
-        })
-        // updateListItems(newList);
-        updateListItems((prevState) => {
-            let updatedArray = [...prevState]
-            updatedArray[currentDay] = newList
-            return updatedArray
-        }
-        ); // อัปเดต
-    };
-
-    // console.log("listitem : " ,ListItems);
-
-    const setMin = (item) => {
-        const newList = ListItems[currentDay].map((list) => {
-            if (list.id === item.id) {
-                const newData = { ...list, min: (item.min * 10) };
                 return newData
             }
             return list
@@ -175,7 +146,21 @@ export default function Create() {
         }
         );
     };
-
+    const setMin = (item) => {
+        const newList = ListItems[currentDay].map((list) => {
+            if (list.id === item.id) {
+                const newData = { ...list, min: (item.min * 1) };
+                return newData
+            }
+            return list
+        })
+        updateListItems((prevState) => {
+            let updatedArray = [...prevState]
+            updatedArray[currentDay] = newList
+            return updatedArray
+        }
+        );
+    };
     const setMinUnit = (item) => {
         const newList = ListItems[currentDay].map((list) => {
             if (list.id === item.id) {
@@ -191,6 +176,8 @@ export default function Create() {
         }
         );
     };
+
+    // --------------------------------------------------------------Time function End
 
     function create() {
         console.log(ListItems)
@@ -256,7 +243,7 @@ export default function Create() {
                     <div className={styles.time}>
                         <div className={styles.start}>
                             <h3>เริ่มสถานที่แรก :</h3>
-                            <input type="time" value={selectedTime} onChange={handleTimeChange} />
+                            <input type="time" value={selectedTime[currentDay]} onChange={handleTimeChange} />
                         </div>
                         <div className={styles.end}>
                             <h3>จบวันนี้ :</h3>
@@ -265,13 +252,13 @@ export default function Create() {
                     </div>
                     <div className={styles.days}>
                         <div className={styles.date}>วันที่</div>
-                        {Array(alldates).fill(null).map((_,index)=>(
-                            <div key={`date`+index} 
-                            className={`${currentDay == index ?`${styles.daySelect}` : `${styles.day}`}`} onClick={()=>setCurrentDay(index)}>
-                                {index+1}
+                        {Array(alldates).fill(null).map((_, index) => (
+                            <div key={`date` + index}
+                                className={`${currentDay == index ? `${styles.daySelect}` : `${styles.day}`}`} onClick={() => setCurrentDay(index)}>
+                                {index + 1}
                             </div>
                         ))}
-                        <div className={styles.addDay} onClick={()=>setAlldates(()=>alldates+1)}>
+                        <div className={styles.addDay} onClick={() => setAlldates(() => alldates + 1)}>
                             addday
                         </div>
                     </div>
@@ -279,7 +266,7 @@ export default function Create() {
                         <Droppable droppableId="ListItems">
                             {(provided) => (
                                 <div className={styles.userItemsContainer} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {ListItems[currentDay]?.map(({ id, title, img }, index) => {
+                                    {ListItems[currentDay]?.map(({ id, title, hours, min, minUnit, img }, index) => {
                                         return (
                                             <Draggable key={id} draggableId={id} index={index}>
                                                 {(provided) => (
@@ -299,7 +286,7 @@ export default function Create() {
                                                                 </div>
                                                                 <div className={styles.timeContainer}>
                                                                     <h1>เวลา:</h1>
-                                                                    <select className={styles.userInput} onChange={(event) => setHours(
+                                                                    <select className={styles.userInput} value={hours} onChange={(event) => setHours(
                                                                         {
                                                                             id: id,
                                                                             title: title,
@@ -315,7 +302,7 @@ export default function Create() {
                                                                         <option value={5}>5</option>
                                                                     </select>
                                                                     <h1>ชม.</h1>
-                                                                    <select className={styles.userInput} onChange={(event) => setMin(
+                                                                    <select className={styles.userInput} value={min} onChange={(event) => setMin(
                                                                         {
                                                                             id: id,
                                                                             title: title,
@@ -330,7 +317,7 @@ export default function Create() {
                                                                         <option value={4}>4</option>
                                                                         <option value={5}>5</option>
                                                                     </select>
-                                                                    <select className={styles.userInput} onChange={(event) => setMinUnit(
+                                                                    <select className={styles.userInput} value={minUnit} onChange={(event) => setMinUnit(
                                                                         {
                                                                             id: id,
                                                                             title: title,
