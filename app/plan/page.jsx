@@ -2,7 +2,7 @@ import Container from "../components/Container";
 import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
 
-export default function Place() {
+export default function Plan() {
   const plans = [
     {
       title: "ประสบการณ์สนุกในกรุงเทพฯ",

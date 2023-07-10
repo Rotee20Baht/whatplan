@@ -79,7 +79,7 @@ async function getUserByEmail({ email }){
 }
 
 async function signInWithCredentials({email, password}){
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email: email });
   if(!user) throw new Error("ไม่พบข้อมูลอีเมลล์ผู้ใช้งานนี้ในระบบ");
   
   if(!user.password) throw new Error("รหัสผ่านไม่ถูกต้อง")

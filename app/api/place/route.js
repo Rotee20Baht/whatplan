@@ -1,39 +1,24 @@
 import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
+import Place from "@/app/models/placeModel";
+import connectDB from "@/app/libs/database";
+
+connectDB();
 
 export async function POST(request) {
-  const body = await request.json();
-  
   try{
-    const place = await prisma.place.create({
-      data: {
-        name: body.name,
-        types: body.types,
-        province: body.province,
-        amphure: body.amphure,
-        description: body.description,
-        location: {
-          create: {
-            lat: body.location.lat,
-            lng: body.location.lng,
-          },
-        },
-        openingHours: {
-          createMany: {
-            data: body.opening_hours
-          },
-        },
-        images: {
-          createMany: {
-            data: body.images
-          }
-        },
-      },
-    });
-    console.log(place)
-    return NextResponse.json(place);
-  }catch(err){
-    console.log(err)
-    return NextResponse.json(err);
+    const body = await request.json();
+    const { name } = body;
+    
+    const place = await Place.findOne({ name: name });
+    if(place) throw new Error('สถานที่นี้มีอยู่ในระบบแล้ว');
+
+    const newPlace = new Place(body);
+    await newPlace.save();
+
+    return NextResponse.json({ msg: "เพิ่มข้อมูลสถานที่สำเร็จ!"}, { status: 200 });
+  }
+  catch(error){
+    console.log(error)
+    return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }

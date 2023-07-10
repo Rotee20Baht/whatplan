@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import { placttype } from "@/app/providers/SelectDataProvider";
 
 
-export default function Place() {
+export default function Places() {
 
   const places = [
     {
