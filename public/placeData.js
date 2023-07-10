@@ -2,6 +2,7 @@ const PlaceData = [
   {
     id: "1",
     title: "ตลาดน้ำเมืองลิกอร์",
+    types:["","ร้านอาหาร"],
     province: "นครศรีธรรมราช",
     amphure: "เมืองนครศรีธรรมราช",
     location: {
@@ -28,6 +29,7 @@ const PlaceData = [
   {
     id: "2",
     title: "ทะเลหมอกเขาจังโหลน กรุงชิง",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "นบพิตำ",
     location: {
@@ -57,6 +59,7 @@ const PlaceData = [
   {
     id: "3",
     title: "น้ำตกคลองปาว (อุทยานแห่งชาติเขานัน)",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "นบพิตำ",
     location: {
@@ -83,6 +86,7 @@ const PlaceData = [
   {
     id: "4",
     title: "ทะเลหมอกเขาเหลี้ยม",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "นบพิตำ",
     location: {
@@ -109,6 +113,7 @@ const PlaceData = [
   {
     id: "5",
     title: "วังปลาแงะ",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "พรหมคีรี",
     location: {
@@ -134,6 +139,7 @@ const PlaceData = [
   {
     id: "6",
     title: "น้ำตกหนานหินท่าหา",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "ลานสกา",
     location: {
@@ -159,6 +165,7 @@ const PlaceData = [
   {
     id: "7",
     title: "สวนตาสรรค์",
+    types:["","ธรรมชาติ"],
     province: "นครศรีธรรมราช",
     amphure: "ขนอม",
     location: {
@@ -184,6 +191,7 @@ const PlaceData = [
   {
     id: "8",
     title: "หาดในเพลา",
+    types:["","ธรรมชาติ","ทะเล"],
     province: "นครศรีธรรมราช",
     amphure: "ขนอม",
     location: {

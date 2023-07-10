@@ -8,11 +8,11 @@ import { useState } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill } from 'react-icons/bs'
-import { FaWindowClose} from 'react-icons/fa'
-import { FaMapLocationDot} from 'react-icons/fa6'
+import { FaWindowClose } from 'react-icons/fa'
+import { FaMapLocationDot } from 'react-icons/fa6'
 import AllListItems from "@/public/Allplace"
 import moment from 'moment';
-import {BiCurrentLocation} from "react-icons/bi"
+import { BiCurrentLocation } from "react-icons/bi"
 import PlaceData from "@/public/placeData"
 
 
@@ -26,6 +26,9 @@ export default function Create() {
     const [selectedTime, setSelectedTime] = useState([]);
     const [alldates, setAlldates] = useState(1)
     const [currentDay, setCurrentDay] = useState(0)
+    const [filterTitle, setFilterTitle] = useState('');
+    const [filterType, setFilterType] = useState('');
+
     console.log(alldates);
 
     console.log(ListItems);
@@ -37,7 +40,7 @@ export default function Create() {
             const randomIndex = Math.floor(Math.random() * characters.length);
             result += characters.charAt(randomIndex);
         }
-        const newData = { id: result, hours: 0, min: 0, minUnit: 0, title: item.title, images: item.images}; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
+        const newData = { id: result, hours: 0, min: 0, minUnit: 0, title: item.title, images: item.images }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
         console.log(newData);
         updateListItems((prevState) => {
             let updatedArray = [...prevState]
@@ -179,7 +182,7 @@ export default function Create() {
         }
         );
     };
-
+console.log(filterType);
     // --------------------------------------------------------------Time function End
 
     function create() {
@@ -191,16 +194,19 @@ export default function Create() {
             <div className={styles.container}>
                 <div className={styles.searchContainer}>
                     <div className={styles.search}>
-                        <input type="text" placeholder="ค้นหาสถานที่.." className={styles.input} />
+                        <input type="text" placeholder="ค้นหาสถานที่.." className={styles.input} value={filterTitle}
+                            onChange={e => setFilterTitle(e.target.value)}/>
                         <Button text="ค้นหา" url="#" />
                     </div>
                     <div className={styles.categories}>
-                        <div className={styles.category}>ร้านอาหาร</div>
-                        <div className={styles.category}>ที่พัก</div>
-                        <div className={styles.category}>ทะเล</div>
+                        <div className={styles.category} onClick={() => setFilterType("")}>ทั้งหมด</div>
+                        <div className={styles.category} onClick={() => setFilterType("ร้านอาหาร")}>ร้านอาหาร</div>
+                        <div className={styles.category} onClick={() => setFilterType("ที่พัก")}>ที่พัก</div>
+                        <div className={styles.category} onClick={() => setFilterType("ทะเล")}>ทะเล</div>
+                        <div className={styles.category} onClick={() => setFilterType("ธรรมชาติ")}>ธรรมชาติ</div>
                     </div>
                     <div className={styles.itemsContainer}>
-                        {allListItems.map(item => {
+                        {allListItems.filter(item => item.types.includes(filterType)).map(item => {
                             return (
                                 <div className={styles.item} key={item.id}>
                                     <div className={styles.imgContainer}>
