@@ -1,8 +1,11 @@
 "use client";
 
-import axios from "axios";
 import { useState, useMemo, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
+
+import Image from "next/image";
+import { useRouter } from 'next/navigation'
+
 import Container from "../components/Container";
 import SelectItem from "../components/select/SelectItem";
 import { provinces } from "@/app/providers/SelectDataProvider";
@@ -10,7 +13,6 @@ import { placttype } from "@/app/providers/SelectDataProvider";
 import TimeSelect from "../components/inputs/TimeSelect";
 import DaySelect from "../components/inputs/DaySelect";
 import ImageUpload from "../components/inputs/ImageUpload";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
 import "swiper/css";
@@ -23,12 +25,15 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useLoadScript } from "@react-google-maps/api";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import axios from "axios";
 
 const libraries = ["places"];
 
 export default function AddCreate() {
   const [amphures, setAmphures] = useState([]);
   const [marker, setMarker] = useState();
+
+  const router = useRouter();
 
   const {
     register,
@@ -126,10 +131,11 @@ export default function AddCreate() {
       };
       console.log(formatedValues);
       const result = await axios.post('http://localhost:3000/api/place', formatedValues)
-      console.log(result)
       toast.success("เพิ่มสถานที่สำเร็จ!")
+      setTimeout(() => router.push('/place'), 1000)
+      Navigator
     } catch (err) {
-      toast.success("เพิ่มสถานที่ล้มเหลว!");
+      toast.error("เพิ่มสถานที่ล้มเหลว!");
     }
   };
 
