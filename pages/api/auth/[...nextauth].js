@@ -13,39 +13,18 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    // CredentialsProvider({
-    //   name: "credentials",
-    //   credentials: {
-    //     email: { label: "email", type: "text" },
-    //     password: { label: "password", type: "password" },
-    //   },
-    //   async authorize(credentials) {
-    //     if (!credentials?.email || !credentials?.password) {
-    //       throw new Error("Invalid credentials");
-    //     }
-
-    //     const user = await prisma.user.findUnique({
-    //       where: {
-    //         email: credentials.email,
-    //       },
-    //     });
-
-    //     if (!user || !user?.hashedPassword) {
-    //       throw new Error("Invalid credentials");
-    //     }
-
-    //     const isCorrectPassword = await bcrypt.compare(
-    //       credentials.password,
-    //       user.hashedPassword
-    //     );
-
-    //     if (!isCorrectPassword) {
-    //       throw new Error("Invalid credentials");
-    //     }
-
-    //     return user;
-    //   },
-    // }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "email", type: "text", required: true },
+        password: { label: "password", type: "password", required: true },
+      },
+      async authorize(credentials) {
+        const { email, password } =  credentials;
+        const user = await signInWithCredentials({ email, password });
+        return user;
+      },
+    }),
   ],
   pages: {
     signIn: "/",
@@ -94,7 +73,19 @@ async function signInWithOAuth({ account, profile }){
 
 async function getUserByEmail({ email }){
   const user = await User.findOne({email}).select('-password');
-  if(!user) throw new Error('Email does not exist!');
+  if(!user) throw new Error('ไม่พบข้อมูลอีเมลล์ผู้ใช้งานนี้ในระบบ');
+
+  return {...user._doc, _id: user._id.toString()}
+}
+
+async function signInWithCredentials({email, password}){
+  const user = await User.findOne({email});
+  if(!user) throw new Error("ไม่พบข้อมูลอีเมลล์ผู้ใช้งานนี้ในระบบ");
+  
+  if(!user.password) throw new Error("รหัสผ่านไม่ถูกต้อง")
+
+  const compare = await bcrypt.compare(password, user.password);
+  if(!compare) throw new Error("รหัสผ่านไม่ถูกต้อง");
 
   return {...user._doc, _id: user._id.toString()}
 }
