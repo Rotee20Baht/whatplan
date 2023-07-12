@@ -22,3 +22,28 @@ export async function POST(request) {
     return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
+
+export async function GET(request) {
+  try{
+    let filters = {};
+    if(request.nextUrl.searchParams.has('name'))
+      filters.name = request.nextUrl.searchParams.get('name')
+
+    if(request.nextUrl.searchParams.has('province'))
+      filters.province = request.nextUrl.searchParams.get('province')
+
+    if(request.nextUrl.searchParams.has('amphure'))
+      filters.amphure = request.nextUrl.searchParams.get('amphure')
+
+    if(request.nextUrl.searchParams.has('types'))
+      filters.types = request.nextUrl.searchParams.get('types')
+
+    const place = await Place.find(filters);
+    if(!place || place.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
+
+    return NextResponse.json(place);
+  }
+  catch(error){
+    return NextResponse.json({ error: String(error) }, { status: 400 });
+  }
+}
