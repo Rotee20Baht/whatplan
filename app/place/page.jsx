@@ -1,6 +1,7 @@
 import Container from "../components/Container";
 import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
+import Link from "next/link";
 
 import { placttype } from "@/app/providers/SelectDataProvider";
 
@@ -56,6 +57,7 @@ export default function Places() {
               gap-4"
             >
               {places.map((item) => (
+                
                 <Card
                   key={item.title}
                   title={item.title}
@@ -63,6 +65,7 @@ export default function Places() {
                   img={item.img}
                   rating={item.rating}
                 />
+                
               ))}
           </div>
         </div>  

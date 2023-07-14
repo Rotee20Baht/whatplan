@@ -130,7 +130,7 @@ export default function AddCreate() {
         images: formValues.imageSrc
       };
       console.log(formatedValues);
-      const result = await axios.post('http://localhost:3000/api/place', formatedValues)
+      const result = await axios.post('/api/place', formatedValues)
       toast.success("เพิ่มสถานที่สำเร็จ!")
       setTimeout(() => router.push('/place'), 1000)
       Navigator
@@ -157,7 +157,7 @@ export default function AddCreate() {
 
   const getAmphure = async (province) => {
     const amphure_data = await axios.get(
-      `http://localhost:3000/api/amphure?province=${province}`
+      `/api/amphure?province=${province}`
     );
     const data = amphure_data.data[0]?.amphure;
     setAmphures(data);
