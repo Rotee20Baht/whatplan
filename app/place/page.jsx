@@ -9,19 +9,18 @@ import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
 
 import Container from "../components/Container";
-import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
 import Link from "next/link";
 import SelectItem from "../components/select/SelectItem";
-import Button from "../components/Button";
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Places() {
-  const [dataState, setDataState] = useState('กำลังโหลดข้อมูลสถานที่');
+  const [isLoading, setIsLoading] = useState(true);
   const [places, setPlaces] = useState([]);
   const [province, setProvince] = useState();
   const [types, setTypes] = useState();
-  const [amphure ,setAmphure] = useState([]);
+  const [amphure ,setAmphure] = useState();
 
   const [amphures ,setAmphures] = useState([]);
 
@@ -34,17 +33,18 @@ export default function Places() {
     .catch((err) => {
       setDataState('ไม่พบข้อมูลสถานที่')
     })
+    .finally(() => setIsLoading(false))
   }, []);
 
   const onProvinceChange = async (value) => {
     setProvince(value)
+    setAmphure("")
 
     const amphure_data = await axios.get(
       `/api/amphure?province=${value}`
     );
 
     const data = amphure_data.data[0]?.amphure;
-    console.log(data);
     if(data){
       const formattedData = [
         {
@@ -67,15 +67,17 @@ export default function Places() {
     setTypes(value)
   }
 
-  const onSubmit = () => {
+  useEffect(() => {
+    setIsLoading(true)
+    setPlaces([])
     let searhUrl = `http://localhost:3000/api/place?`
 
-    console.log({province, types})
+    console.log({province, amphure, types})
 
     if(province)
       searhUrl+= `&province=${province}` 
     if(amphure)
-      searhUrl+= `&amphure=${amphure}` 
+      searhUrl+= `&amphure=${amphure.value}` 
     if(types)
       searhUrl+= `&types=${types}` 
 
@@ -88,9 +90,9 @@ export default function Places() {
     })
     .catch((err) => {
       setPlaces([]);
-      setDataState('ไม่พบข้อมูลสถานที่')
     })
-  }
+    .finally(() => setIsLoading(false))
+  }, [province, amphure, types])
 
   return (
     <div className="pt-20 pb-4">
@@ -103,14 +105,14 @@ export default function Places() {
                 <SelectItem label="จังหวัด" options={provinces} onChange={(value) => onProvinceChange(value?.value)} />
               </div>
               <div className="w-full flex flex-col flex-1">
-                <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value?.value)}/>
+                <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value)} value={amphure}/>
               </div>
               <div className="w-full flex flex-col flex-1">
-                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)}/>
+                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)} />
               </div>
-              <div className="w-full flex flex-col flex-1">
+              {/* <div className="w-full flex flex-col flex-1">
                 <Button label="ค้นหา" onClick={onSubmit} />
-              </div>
+              </div> */}
             </div>
           </div>
           <div 
@@ -130,10 +132,18 @@ export default function Places() {
               relative
             "
             >
-              {places.length <= 0 && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-1">{dataState}</div>
+              {isLoading && (
+                <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
+                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                </SkeletonTheme>
               )}
-              {places && places.map((item) => (
+              {places.length <= 0 && !isLoading && (
+                <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
+              )}
+              {places.length > 0 && places.map((item) => (
                 <Link href={`/place/${item._id}`}>
                   <Card
                     key={item.name}
