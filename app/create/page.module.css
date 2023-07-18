@@ -3,13 +3,14 @@
     height: 92vh;
     background: #fff;
     display: flex;
+    justify-content: center;
     padding: 20px;
     gap: 10px;
 }
 
 /* ---------------Search------------------------ */
 .searchContainer{
-    flex: 1;
+    width: 450px;
     background: #dfdfdf;
     border-radius: 10px;
     padding: 10px;
@@ -141,7 +142,7 @@
 }
 /* ---------------Map---------------------- */
 .mapContainer{
-    flex: 3;
+    width:800px;
     background: url("https://images.unsplash.com/photo-1516546453174-5e1098a4b4af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80");
     background-size: cover;
     height: 100%;
@@ -149,13 +150,13 @@
 }
 /* ---------------User list-------------------------- */
 .listContainer{
-    flex: 2;
+    width: 450px;
     background: #dfdfdf;
     border-radius: 10px;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px
 }
 .tripName{
     display: flex;
@@ -263,29 +264,35 @@
     cursor: pointer;
 }
 .userItemsContainer{
+
     border-radius: 10px;
     height:800px;
     overflow-y: scroll;
 }
 
 .userItem{
-    width:99%;
-    height: 150px;
+    width:100%;
+    height: max-content;
     /* border: 1px solid red; */
     background: #fff;
     border-radius: 5px;
     margin-top: 10px;
     display: flex;
+    flex-direction: column;
     overflow: hidden;
     padding: 5px;
 }
-
+.con{
+    flex: 3;
+    display: flex;
+}
 .userImgContainer{
-    width: 300px;
+    width: 200px;
+    height: 150px;
     border-radius:5px ;
     font-size: 20px;
     position: relative;
-    overflow: hidden;
+    overflow: hidden
 }
 
 .userimg{
@@ -294,14 +301,13 @@
 }
 
 .userTextContainer{
-    width: 60%;
+    width: 200px;
     margin: 0 10px 0 10px ;
     display: flex;
-    justify-content: space-between;
 }
-
 .textUser{
-    width: 100%;
+    padding: 0 20px 0 0;
+    width: 200px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -311,14 +317,30 @@
     /* border: 1px solid red; */
     height: 70%;
 }
+.cate{
+    width: max-content;
+    margin:5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    font-size: 10px;
+}
 .timeContainer{
+    flex: 1;
     /* border: 1px solid black; */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+    flex-direction: column;
     height: 30%;
     width: 100%;
+}
+.settime{
+    /* border:  1px solid black; */
+    width: max-content;
+    font-size: 13px;
+    padding: 10px;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
 }
 .userInput{
     text-align: center;

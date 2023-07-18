@@ -40,8 +40,8 @@ export default function Places() {
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
           <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
-          <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" options2={placttype}/>
-          <div 
+          <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" options2={placttype} />
+          <div
             className="
               w-full 
               h-auto 
@@ -55,9 +55,9 @@ export default function Places() {
               md:grid-cols-3
               lg:grid-cols-4
               gap-4"
-            >
-              {places.map((item) => (
-                
+          >
+            {places.map((item) => (
+              <Link href={`/place/${item.title}`}>
                 <Card
                   key={item.title}
                   title={item.title}
@@ -65,10 +65,12 @@ export default function Places() {
                   img={item.img}
                   rating={item.rating}
                 />
-                
-              ))}
+              </Link>
+
+
+            ))}
           </div>
-        </div>  
+        </div>
       </Container>
     </div>
   )

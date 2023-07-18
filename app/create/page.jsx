@@ -27,7 +27,7 @@ export default function Create() {
     const [alldates, setAlldates] = useState(1)
     const [currentDay, setCurrentDay] = useState(0)
     const [filterTitle, setFilterTitle] = useState('');
-    const [filterType, setFilterType] = useState('');
+    const [filterType, setFilterType] = useState();
 
     console.log(alldates);
 
@@ -40,7 +40,15 @@ export default function Create() {
             const randomIndex = Math.floor(Math.random() * characters.length);
             result += characters.charAt(randomIndex);
         }
-        const newData = { id: result, hours: 0, min: 0, minUnit: 0, title: item.title, images: item.images }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
+        const newData =
+        {
+            id: result,
+            hours: 0, min: 0, minUnit: 0,
+            title: item.title,
+            types: item.types,
+            images: item.images
+        }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
+
         console.log(newData);
         updateListItems((prevState) => {
             let updatedArray = [...prevState]
@@ -182,7 +190,7 @@ export default function Create() {
         }
         );
     };
-console.log(filterType);
+    console.log(filterType);
     // --------------------------------------------------------------Time function End
 
     function create() {
@@ -195,18 +203,18 @@ console.log(filterType);
                 <div className={styles.searchContainer}>
                     <div className={styles.search}>
                         <input type="text" placeholder="ค้นหาสถานที่.." className={styles.input} value={filterTitle}
-                            onChange={e => setFilterTitle(e.target.value)}/>
+                            onChange={e => setFilterTitle(e.target.value)} />
                         <Button text="ค้นหา" url="#" />
                     </div>
                     <div className={styles.categories}>
-                        <div className={styles.category} onClick={() => setFilterType("")}>ทั้งหมด</div>
+                        <div className={styles.category} onClick={() => setFilterType(null)}>ทั้งหมด</div>
                         <div className={styles.category} onClick={() => setFilterType("ร้านอาหาร")}>ร้านอาหาร</div>
                         <div className={styles.category} onClick={() => setFilterType("ที่พัก")}>ที่พัก</div>
                         <div className={styles.category} onClick={() => setFilterType("ทะเล")}>ทะเล</div>
                         <div className={styles.category} onClick={() => setFilterType("ธรรมชาติ")}>ธรรมชาติ</div>
                     </div>
                     <div className={styles.itemsContainer}>
-                        {allListItems.filter(item => item.types.includes(filterType)).map(item => {
+                        {allListItems.filter( (item => item.title.includes(filterTitle))).map(item => {
                             return (
                                 <div className={styles.item} key={item.id}>
                                     <div className={styles.imgContainer}>
@@ -226,6 +234,7 @@ console.log(filterType);
                                                         id: item.id,
                                                         hours: 0,
                                                         title: item.title,
+                                                        types: item.types,
                                                         images: item.images[0]
                                                     }
                                                 )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
@@ -271,101 +280,115 @@ console.log(filterType);
                             </div>
                         ))}
                         <div className={styles.addDay} onClick={() => setAlldates(() => alldates + 1)}>
-                            addday
+                            +
                         </div>
                     </div>
                     <DragDropContext onDragEnd={handleOnDragEnd}>
                         <Droppable droppableId="ListItems">
                             {(provided) => (
                                 <div className={styles.userItemsContainer} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {ListItems[currentDay]?.map(({ id, title, hours, min, minUnit, images }, index) => {
+                                    {ListItems[currentDay]?.map(({
+                                        id,
+                                        title,
+                                        types,
+                                        hours,
+                                        min,
+                                        minUnit,
+                                        images
+                                    }, index) => {
                                         return (
                                             <Draggable key={id} draggableId={id} index={index}>
                                                 {(provided) => (
                                                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={styles.userItem}>
-                                                        <div className={styles.userImgContainer}>
-                                                            <Image
-                                                                src={images}
-                                                                alt=""
-                                                                fill
-                                                                className={styles.userimg}
-                                                            />
-                                                        </div>
-                                                        <div className={styles.userTextContainer}>
-                                                            <div className={styles.textUser}>
-                                                                <div className={styles.header}>
-                                                                    {title}
-                                                                </div>
-                                                                <div className={styles.timeContainer}>
-                                                                    <h1>เวลา:</h1>
-                                                                    <select className={styles.userInput} value={hours} onChange={(event) => setHours(
-                                                                        {
-                                                                            id: id,
-                                                                            title: title,
-                                                                            hours: event.target.value,
-                                                                            images: images
-                                                                        }
-                                                                    )}>
-                                                                        <option value={0}>0</option>
-                                                                        <option value={1}>1</option>
-                                                                        <option value={2}>2</option>
-                                                                        <option value={3}>3</option>
-                                                                        <option value={4}>4</option>
-                                                                        <option value={5}>5</option>
-                                                                    </select>
-                                                                    <h1>ชม.</h1>
-                                                                    <select className={styles.userInput} value={min} onChange={(event) => setMin(
-                                                                        {
-                                                                            id: id,
-                                                                            title: title,
-                                                                            min: event.target.value,
-                                                                            images: images
-                                                                        }
-                                                                    )}>
-                                                                        <option value={0}>0</option>
-                                                                        <option value={1}>1</option>
-                                                                        <option value={2}>2</option>
-                                                                        <option value={3}>3</option>
-                                                                        <option value={4}>4</option>
-                                                                        <option value={5}>5</option>
-                                                                    </select>
-                                                                    <select className={styles.userInput} value={minUnit} onChange={(event) => setMinUnit(
-                                                                        {
-                                                                            id: id,
-                                                                            title: title,
-                                                                            minUnit: event.target.value,
-                                                                            images: images
-                                                                        }
-                                                                    )}>
-                                                                        <option value={0}>0</option>
-                                                                        <option value={1}>1</option>
-                                                                        <option value={2}>2</option>
-                                                                        <option value={3}>3</option>
-                                                                        <option value={4}>4</option>
-                                                                        <option value={5}>5</option>
-                                                                        <option value={6}>6</option>
-                                                                        <option value={7}>7</option>
-                                                                        <option value={8}>8</option>
-                                                                        <option value={9}>9</option>
-
-                                                                    </select>
-                                                                    <h1>นาที</h1>
-                                                                </div>
-
+                                                        <div className={styles.con}>
+                                                            <div className={styles.userImgContainer}>
+                                                                <Image
+                                                                    src={images}
+                                                                    alt=""
+                                                                    fill
+                                                                    className={styles.userimg}
+                                                                />
                                                             </div>
-                                                            <div className={styles.btnContainer}>
-                                                                <button className={styles.deleteButton}
-                                                                    onClick={() => handleDelete(
-                                                                        {
-                                                                            id: id,
-                                                                            title: title,
-                                                                            images: images
-                                                                        }
-                                                                    )}><FaWindowClose size={30} color="#d11c1c" />
-                                                                </button>
-                                                                <button className={styles.infoButton}
-                                                                ><BsInfoSquareFill size={30} color="#aaaa" />
-                                                                </button>
+                                                            <div className={styles.userTextContainer}>
+                                                                <div className={styles.textUser}>
+                                                                    <div className={styles.header}>
+                                                                        {title}
+                                                                    </div>
+                                                                </div>
+                                                                <div className={styles.btnContainer}>
+                                                                    <button className={styles.deleteButton}
+                                                                        onClick={() => handleDelete(
+                                                                            {
+                                                                                id: id,
+                                                                                title: title,
+                                                                                images: images
+                                                                            }
+                                                                        )}><FaWindowClose size={30} color="#d11c1c" />
+                                                                    </button>
+                                                                    <button className={styles.infoButton}
+                                                                    ><BsInfoSquareFill size={30} color="#aaaa" />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.timeContainer}>
+                                                            <div className={styles.cate}>
+                                                                <h6>{types}</h6>
+                                                            </div>
+                                                            <div className={styles.settime}>
+                                                                <h1>เวลา:</h1>
+                                                                <select className={styles.userInput} value={hours} onChange={(event) => setHours(
+                                                                    {
+                                                                        id: id,
+                                                                        title: title,
+                                                                        hours: event.target.value,
+                                                                        images: images
+                                                                    }
+                                                                )}>
+                                                                    <option value={0}>0</option>
+                                                                    <option value={1}>1</option>
+                                                                    <option value={2}>2</option>
+                                                                    <option value={3}>3</option>
+                                                                    <option value={4}>4</option>
+                                                                    <option value={5}>5</option>
+                                                                </select>
+                                                                <h1>ชม.</h1>
+                                                                <select className={styles.userInput} value={min} onChange={(event) => setMin(
+                                                                    {
+                                                                        id: id,
+                                                                        title: title,
+                                                                        min: event.target.value,
+                                                                        images: images
+                                                                    }
+                                                                )}>
+                                                                    <option value={0}>0</option>
+                                                                    <option value={1}>1</option>
+                                                                    <option value={2}>2</option>
+                                                                    <option value={3}>3</option>
+                                                                    <option value={4}>4</option>
+                                                                    <option value={5}>5</option>
+                                                                </select>
+                                                                <select className={styles.userInput} value={minUnit} onChange={(event) => setMinUnit(
+                                                                    {
+                                                                        id: id,
+                                                                        title: title,
+                                                                        minUnit: event.target.value,
+                                                                        images: images
+                                                                    }
+                                                                )}>
+                                                                    <option value={0}>0</option>
+                                                                    <option value={1}>1</option>
+                                                                    <option value={2}>2</option>
+                                                                    <option value={3}>3</option>
+                                                                    <option value={4}>4</option>
+                                                                    <option value={5}>5</option>
+                                                                    <option value={6}>6</option>
+                                                                    <option value={7}>7</option>
+                                                                    <option value={8}>8</option>
+                                                                    <option value={9}>9</option>
+
+                                                                </select>
+                                                                <h1>นาที</h1>
                                                             </div>
                                                         </div>
                                                     </div>

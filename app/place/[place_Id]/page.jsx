@@ -3,23 +3,15 @@
 import Container from "@/app/components/Container";
 import Selectbar from "@/app/components/select/Selectbar";
 import Card from "@/app/components/Card";
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState} from "react";
 import { placttype } from "@/app/providers/SelectDataProvider";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode } from "swiper";
 import Image from "next/image";
 import { BsChevronCompactLeft,BsChevronCompactRight } from "react-icons/bs";
 import "swiper/css";
 import "swiper/css/free-mode";
-import { toast } from "react-hot-toast";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { useLoadScript } from "@react-google-maps/api";
-import { getGeocode, getLatLng } from "use-places-autocomplete";
-import { GoogleMap, Marker } from "@react-google-maps/api";
-
-export default function Places() {
+export default function Place() {
 
     const libraries = ["places"];
 
