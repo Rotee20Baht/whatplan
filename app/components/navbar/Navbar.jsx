@@ -20,6 +20,10 @@ const links = [
     title: "วางแผนการท่องเที่ยว",
     href: "/create"
   },
+  {
+    title: "เพิ่มสถานที่",
+    href: "/addplace"
+  },
 ];
 
 export default function Navbar() {
