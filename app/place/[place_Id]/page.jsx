@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
 import Image from "next/image";
 import { BsChevronCompactLeft,BsChevronCompactRight } from "react-icons/bs";
+
 import "swiper/css";
 import "swiper/css/free-mode";
 import { toast } from "react-hot-toast";
@@ -111,13 +112,9 @@ export default function Places() {
               gap-4"
             >
             <div className=" w-full p-3">
-                <h1 className="font-semibold text-xl">วัดพระมหาธาตุวรมหาวิหาร</h1>
-                <h1 className="text-neutral-500">นครศรีธรรมราช</h1>
+                <h1 className="font-semibold text-xl">{places[0].title}</h1>
                 <div className="flex flex-row  w-full p-3 space-x-4">
                     <div className="flex flex-col w-1/2  space-y-4">
-                   
-                        
-                          
                         <Image src={imgTest[currentIndex].img} alt={`place_image_${imgTest[currentIndex].img}`} width={0} height={0} sizes="100vw" className="h-[280px] w-full bg-neutral-500  rounded-lg object-cover"/>
                         <div className=" absolute top-[58%] -translate-x-[-5px] -translate-y-[-60%] bg-black/30 text-white text-2xl rounded-full">
                             <BsChevronCompactLeft onClick={prevSlide} size={30}/>
@@ -125,6 +122,7 @@ export default function Places() {
                         <div className=" absolute top-[58%] -translate-x-[-360px] -translate-y-[-60%]  bg-black/30 text-white text-2xl rounded-full mr-10">
                             <BsChevronCompactRight onClick={nextSlide} size={30}/>
                         </div>
+                        
                         <div className="h-[250px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
                             {/* {isLoaded ? (
                             <GoogleMap
@@ -153,8 +151,22 @@ export default function Places() {
                     <div className="w-full  h-full ">
                         <h1 className="font-semibold text-xl">คำอธิบายสถานที่</h1>
                         <div className="w-full h-full border bg-neutral-300 "></div>   
-                        <div className="w-full h-full border bg-neutral-300 my-4 p-3">
-                        <h1 className="text-neutral-500 ">นครศรีธรรมราช</h1>
+                        <div className="w-full h-full border  my-4 p-3 rounded-lg space-y-2">
+                        <h1>จังหวัด : {places[0].provice}</h1>
+                        <h1>ที่อยู่ : </h1>
+                        <div className="flex flex-row">
+                        <h1>เวลา เปิด-ปิด : </h1>
+                        <div className="ml-1 space-y-2">
+                          <h1>วันทร์ 9.00 AM - 18.00 PM.</h1>
+                          <h1>อังคาร 9.00 AM - 18.00 PM.</h1>
+                          <h1>พุธ 9.00 AM - 18.00 PM.</h1>
+                          <h1>พฤหัสบดี 9.00 AM - 18.00 PM.</h1>
+                          <h1>ศุกร์ 9.00 AM - 18.00 PM.</h1>
+                          <h1>เสาร์ 9.00 AM - 18.00 PM.</h1>
+                          <h1>อาทิตย์ 9.00 AM - 18.00 PM.</h1>
+                        </div>
+                        </div>
+                        <h1>เรตติ้ง : {places[0].rating}</h1>
                         </div>
                     </div>        
                 </div>
