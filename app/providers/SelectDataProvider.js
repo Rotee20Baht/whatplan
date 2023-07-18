@@ -78,7 +78,6 @@ export const provinces = [
       { label: "ยะลา", value: "ยะลา" },
       { label: "นราธิวาส", value: "นราธิวาส" },
       { label: "บึงกาฬ", value: "บึงกาฬ" },
-      { label: "ทับเที่ยง", value: "ทับเที่ยง" },
     ],
   },
 ];

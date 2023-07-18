@@ -21,6 +21,9 @@ export default function Places() {
   const [places, setPlaces] = useState([]);
   const [province, setProvince] = useState();
   const [types, setTypes] = useState();
+  const [amphure ,setAmphure] = useState([]);
+
+  const [amphures ,setAmphures] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:3000/api/place`)
@@ -33,8 +36,31 @@ export default function Places() {
     })
   }, []);
 
-  const onProvinceChange = (value) => {
+  const onProvinceChange = async (value) => {
     setProvince(value)
+
+    const amphure_data = await axios.get(
+      `/api/amphure?province=${value}`
+    );
+
+    const data = amphure_data.data[0]?.amphure;
+    console.log(data);
+    if(data){
+      const formattedData = [
+        {
+          options: data?.map((item) => {
+            return { label: item, value: item };
+          }),
+        },
+      ]
+      setAmphures(formattedData);
+      return;
+    }
+    setAmphures([]);
+  }
+
+  const onAmphureChange = (value) => {
+    setAmphure(value)
   }
 
   const onTypesChange = (value) => {
@@ -48,6 +74,8 @@ export default function Places() {
 
     if(province)
       searhUrl+= `&province=${province}` 
+    if(amphure)
+      searhUrl+= `&amphure=${amphure}` 
     if(types)
       searhUrl+= `&types=${types}` 
 
@@ -75,10 +103,10 @@ export default function Places() {
                 <SelectItem label="จังหวัด" options={provinces} onChange={(value) => onProvinceChange(value?.value)} />
               </div>
               <div className="w-full flex flex-col flex-1">
-                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)}/>
+                <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value?.value)}/>
               </div>
               <div className="w-full flex flex-col flex-1">
-                <SelectItem label="วันเวลาเปิด-ปิด" />
+                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)}/>
               </div>
               <div className="w-full flex flex-col flex-1">
                 <Button label="ค้นหา" onClick={onSubmit} />
