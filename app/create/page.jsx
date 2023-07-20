@@ -10,6 +10,7 @@ import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill, BsFillXSquareFill } from 'react-icons/bs'
 import { FaWindowClose } from 'react-icons/fa'
 import { FaMapLocationDot } from 'react-icons/fa6'
+import { MdLocationPin } from 'react-icons/md'
 import moment from 'moment';
 import PlaceData from "@/public/placeData"
 
@@ -18,7 +19,7 @@ const allListItems = PlaceData
 export default function Create() {
 
     const [ListItems, updateListItems] = useState([])
-    const [selectedTime, setSelectedTime] = useState([]);
+    const [selectedTime, setSelectedTime] = useState([0]);
     const [alldates, setAlldates] = useState(1)
     const [currentDay, setCurrentDay] = useState(0)
     const [filterTitle, setFilterTitle] = useState('');
@@ -222,27 +223,42 @@ export default function Create() {
                                         />
                                     </div>
                                     <div className={styles.textContainer}>
-                                        <div className={styles.text}>{item.title}</div>
+                                        <div className={styles.text}>
+                                            {item.title}
+                                            <div className={styles.types}>
+                                                {item.types.map(type => {
+                                                    return (
+                                                        <div className={styles.type}>
+                                                            <div>{type}</div>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+
+                                            <div className={styles.icon}>
+                                                <MdLocationPin size={20} color="rgb(16, 185, 129)" />
+                                                {item.province}
+                                            </div>
+                                        </div>
                                         <div className={styles.btnContainer}>
-                                            <button className={styles.addButton}
-                                                onClick={() => handleAdd(
-                                                    {
-                                                        id: item.id,
-                                                        hours: 0,
-                                                        title: item.title,
-                                                        types: item.types,
-                                                        images: item.images[0]
-                                                    }
-                                                )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
-                                            </button>
-                                            <a href={`/place/${item.title}`} target="_blank">
-                                                <button className={styles.infoButton}
-                                                ><BsInfoSquareFill size={30} color="#aaaa" />
+                                            <div className={styles.info}>
+                                                <a href={`/place/${item.title}`} target="_blank">
+                                                    ดูรายละเอียด
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <button className={styles.addButton}
+                                                    onClick={() => handleAdd(
+                                                        {
+                                                            id: item.id,
+                                                            hours: 0,
+                                                            title: item.title,
+                                                            types: item.types,
+                                                            images: item.images[0]
+                                                        }
+                                                    )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
                                                 </button>
-                                            </a>
-                                            <button className={styles.infoButton}
-                                            ><FaMapLocationDot size={30} color="#bbb" />
-                                            </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

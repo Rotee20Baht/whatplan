@@ -108,40 +108,60 @@
 
 .textContainer{
     width: 200px;
-    margin: 0 10px 0 10px ;
+    margin: 0 0px 0 10px ;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .text{
     width: 200px;
 }
+.icon{
+    display: flex;
+    font-size: 15px;
+    color: rgb(16, 185, 129);
+}
+.types{
+    display: flex;
+    gap: 2px;
+}
+.type{
+    font-size: 10px;
+    width: max-content;
+    padding:5px;
+    margin: 5px 0;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+}
 .btnContainer{
     display: flex;
-    flex-direction: column;
-    margin: 0 5px;
-    margin-right: 5px;
     gap: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.info{
+    font-size: 15px;
+    font-weight: bold;
+    color:#00FFFF;
 }
 .addButton{
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     background-color: #fff;
-    margin-right: -10px;
-
 }
 .infoButton{
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    background-color: #fff;
-    margin-right: -10px;
+    background-color: #ffffff;
 }
 .deleteButton{
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     background-color: #fff;
-    margin-right: -10px;
 }
 /* ---------------Map---------------------- */
 .mapContainer{
@@ -329,7 +349,7 @@
     font-size: 13px;
     padding: 10px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 5px;
 }
 .userInput{
@@ -352,5 +372,5 @@
 
 .userBtnContainer{
     display: flex;
-    gap: 20px;
+    gap: 5px;
 }
