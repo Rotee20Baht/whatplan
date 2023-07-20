@@ -103,6 +103,7 @@
 
 .img{
     object-fit: cover;
+    z-index: 1;
 }
 
 .textContainer{
@@ -116,6 +117,8 @@
 .btnContainer{
     display: flex;
     flex-direction: column;
+    margin: 0 5px;
+    margin-right: 5px;
     gap: 5px;
 }
 .addButton{
@@ -264,16 +267,22 @@
     cursor: pointer;
 }
 .userItemsContainer{
-
     border-radius: 10px;
     height:800px;
     overflow-y: scroll;
 }
-
+.header{
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #333;
+    gap: 10px;
+}
 .userItem{
     width:100%;
     height: max-content;
-    /* border: 1px solid red; */
+
     background: #fff;
     border-radius: 5px;
     margin-top: 10px;
@@ -287,54 +296,35 @@
     display: flex;
 }
 .userImgContainer{
-    width: 200px;
-    height: 150px;
+    width: 100%; 
+    height: 100px;
     border-radius:5px ;
     font-size: 20px;
+    overflow: hidden;
     position: relative;
-    overflow: hidden
 }
 
 .userimg{
     object-fit: cover;
-
 }
 
-.userTextContainer{
-    width: 200px;
-    margin: 0 10px 0 10px ;
-    display: flex;
-}
-.textUser{
-    padding: 0 20px 0 0;
-    width: 200px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.header{
-    /* border: 1px solid red; */
-    height: 70%;
-}
 .cate{
     width: max-content;
-    margin:5px 0;
+    margin:0 5px;
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #999;
     font-size: 10px;
+    background: rgb(16, 185, 129);
+    font-weight: bold;
+    color: #fff;
 }
-.timeContainer{
+.footer{
     flex: 1;
-    /* border: 1px solid black; */
     display: flex;
-    flex-direction: column;
-    height: 30%;
-    width: 100%;
+    justify-content: space-between;
+    margin: 0px 10px;
 }
 .settime{
-    /* border:  1px solid black; */
     width: max-content;
     font-size: 13px;
     padding: 10px;
@@ -348,7 +338,6 @@
     outline: none;
     border: 1px solid #d4d4d4;
     border-radius: 5px;
-    /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
 }
 .button{
     display: flex;
@@ -359,4 +348,9 @@
     border-radius: 10px;
     color: #333;
     font-size: 20px;
+}
+
+.userBtnContainer{
+    display: flex;
+    gap: 20px;
 }

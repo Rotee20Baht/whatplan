@@ -7,16 +7,11 @@ import Image from "next/image"
 import { useState } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
-import { BsInfoSquareFill } from 'react-icons/bs'
+import { BsInfoSquareFill, BsFillXSquareFill } from 'react-icons/bs'
 import { FaWindowClose } from 'react-icons/fa'
 import { FaMapLocationDot } from 'react-icons/fa6'
-import AllListItems from "@/public/Allplace"
 import moment from 'moment';
-import { BiCurrentLocation } from "react-icons/bi"
 import PlaceData from "@/public/placeData"
-
-
-
 
 const allListItems = PlaceData
 
@@ -28,6 +23,7 @@ export default function Create() {
     const [currentDay, setCurrentDay] = useState(0)
     const [filterTitle, setFilterTitle] = useState('');
     const [filterType, setFilterType] = useState();
+
 
     console.log(alldates);
 
@@ -214,7 +210,7 @@ export default function Create() {
                         <div className={styles.category} onClick={() => setFilterType("ธรรมชาติ")}>ธรรมชาติ</div>
                     </div>
                     <div className={styles.itemsContainer}>
-                        {allListItems.filter( (item => item.title.includes(filterTitle))).map(item => {
+                        {allListItems.filter((item => item.title.includes(filterTitle))).map(item => {
                             return (
                                 <div className={styles.item} key={item.id}>
                                     <div className={styles.imgContainer}>
@@ -239,9 +235,11 @@ export default function Create() {
                                                     }
                                                 )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
                                             </button>
-                                            <button className={styles.infoButton}
-                                            ><BsInfoSquareFill size={30} color="#aaaa" />
-                                            </button>
+                                            <a href={`/place/${item.title}`} target="_blank">
+                                                <button className={styles.infoButton}
+                                                ><BsInfoSquareFill size={30} color="#aaaa" />
+                                                </button>
+                                            </a>
                                             <button className={styles.infoButton}
                                             ><FaMapLocationDot size={30} color="#bbb" />
                                             </button>
@@ -263,11 +261,11 @@ export default function Create() {
                     </div>
                     <div className={styles.time}>
                         <div className={styles.start}>
-                            <h3>เริ่มสถานที่แรก :</h3>
+                            <h4>เริ่มต้น</h4>
                             <input type="time" value={selectedTime[currentDay]} onChange={handleTimeChange} />
                         </div>
                         <div className={styles.end}>
-                            <h3>จบวันนี้ :</h3>
+                            <h4>สิ้นสุด</h4>
                             <h1>{result.format('h:mm A')}</h1>
                         </div>
                     </div>
@@ -309,32 +307,14 @@ export default function Create() {
                                                                     className={styles.userimg}
                                                                 />
                                                             </div>
-                                                            <div className={styles.userTextContainer}>
-                                                                <div className={styles.textUser}>
-                                                                    <div className={styles.header}>
-                                                                        {title}
-                                                                    </div>
-                                                                </div>
-                                                                <div className={styles.btnContainer}>
-                                                                    <button className={styles.deleteButton}
-                                                                        onClick={() => handleDelete(
-                                                                            {
-                                                                                id: id,
-                                                                                title: title,
-                                                                                images: images
-                                                                            }
-                                                                        )}><FaWindowClose size={30} color="#d11c1c" />
-                                                                    </button>
-                                                                    <button className={styles.infoButton}
-                                                                    ><BsInfoSquareFill size={30} color="#aaaa" />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <div className={styles.timeContainer}>
-                                                            <div className={styles.cate}>
-                                                                <h6>{types}</h6>
-                                                            </div>
+                                                        <div className={styles.header}>
+                                                            <h6>{title}</h6>
+                                                        </div>
+                                                        <div className={styles.cate}>
+                                                            <h6>{types}</h6>
+                                                        </div>
+                                                        <div className={styles.footer}>
                                                             <div className={styles.settime}>
                                                                 <h1>เวลา:</h1>
                                                                 <select className={styles.userInput} value={hours} onChange={(event) => setHours(
@@ -389,6 +369,22 @@ export default function Create() {
 
                                                                 </select>
                                                                 <h1>นาที</h1>
+                                                            </div>
+                                                            <div className={styles.userBtnContainer}>
+                                                                <a href={`/place/${title}`} target="_blank">
+                                                                    <button className={styles.infoButton}
+                                                                    ><BsInfoSquareFill size={32} color="#aaaa" />
+                                                                    </button>
+                                                                </a>
+
+                                                                <button className={styles.deleteButton}
+                                                                    onClick={() => handleDelete(
+                                                                        {
+                                                                            id: id
+                                                                        }
+                                                                    )}><BsFillXSquareFill size={32} color="#d11c1c" />
+                                                                </button>
+
                                                             </div>
                                                         </div>
                                                     </div>

@@ -1,19 +1,16 @@
 "use client";
-
-
 import { useState } from "react";
 import { useEffect } from "react";
-
 import axios from "axios";
 import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
-
 import Container from "../components/Container";
 import Card from "../components/Card";
 import Link from "next/link";
 import SelectItem from "../components/select/SelectItem";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Selectbar from "../components/select/Selectbar";
 
 export default function Places() {
   const [isLoading, setIsLoading] = useState(true);
@@ -99,28 +96,8 @@ export default function Places() {
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
           <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
-<<<<<<< HEAD
           <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" options2={placttype} />
           <div
-=======
-          <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
-            <div className="w-full flex flex-col lg:flex-row gap-4">
-              <div className="w-full flex flex-col flex-1">
-                <SelectItem label="จังหวัด" options={provinces} onChange={(value) => onProvinceChange(value?.value)} />
-              </div>
-              <div className="w-full flex flex-col flex-1">
-                <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value)} value={amphure}/>
-              </div>
-              <div className="w-full flex flex-col flex-1">
-                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)} />
-              </div>
-              {/* <div className="w-full flex flex-col flex-1">
-                <Button label="ค้นหา" onClick={onSubmit} />
-              </div> */}
-            </div>
-          </div>
-          <div 
->>>>>>> c34662820b28bf56cdcccb4ed694def13ab298dc
             className="
               w-full 
               h-auto 
@@ -133,7 +110,6 @@ export default function Places() {
               sm:grid-cols-2
               md:grid-cols-3
               lg:grid-cols-4
-<<<<<<< HEAD
               gap-4"
           >
             {places.map((item) => (
@@ -149,34 +125,6 @@ export default function Places() {
 
 
             ))}
-=======
-              gap-4
-              relative
-            "
-            >
-              {isLoading && (
-                <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                </SkeletonTheme>
-              )}
-              {places.length <= 0 && !isLoading && (
-                <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
-              )}
-              {places.length > 0 && places.map((item) => (
-                <Link href={`/place/${item._id}`}>
-                  <Card
-                    key={item.name}
-                    title={item.name}
-                    province={item.province}
-                    img={item.images[0]}
-                    rating={item.rating}
-                  />
-                </Link>
-              ))}
->>>>>>> c34662820b28bf56cdcccb4ed694def13ab298dc
           </div>
         </div>
       </Container>
