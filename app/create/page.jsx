@@ -26,6 +26,7 @@ export default function Create() {
   const [filterTitle, setFilterTitle] = useState("");
   const [filterType, setFilterType] = useState();
   const [places, setPlaces] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     axios
@@ -220,6 +221,24 @@ export default function Create() {
 		.catch(err => console.log(err))
 	}
 
+  useEffect(() => {
+    let searchUrl = "http://localhost:3000/api/place?"
+
+		if(filterTitle)
+			searchUrl += `&name=${filterTitle}`
+		if(filterType)	
+			searchUrl += `&types=${filterType}`
+		
+		axios.get(searchUrl)
+		.then(({data}) => {
+			console.log(data)
+			setPlaces(data)
+		})
+		.catch(() => {
+      setPlaces([])
+    })
+  }, [filterType])
+
   return (
     <PageContainer>
       <div className={styles.container}>
@@ -267,6 +286,7 @@ export default function Create() {
             </div>
           </div>
           <div className={styles.itemsContainer}>
+            {}
             {places.map((item) => {
               return (
                 <div className={styles.item} key={item._id}>
