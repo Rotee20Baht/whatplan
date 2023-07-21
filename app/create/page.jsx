@@ -4,7 +4,8 @@ import PageContainer from "../components/PageContainer/Pagecontainer"
 // import Button from "../components/Button"
 import Button from "../components/Button/Button"
 import Image from "next/image"
-import { useState } from "react"
+import { useState , useEffect} from "react"
+import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill, BsFillXSquareFill } from 'react-icons/bs'
@@ -12,23 +13,36 @@ import { FaWindowClose } from 'react-icons/fa'
 import { FaMapLocationDot } from 'react-icons/fa6'
 import { MdLocationPin } from 'react-icons/md'
 import moment from 'moment';
-import PlaceData from "@/public/placeData"
+// import PlaceData from "@/public/placeData"
 
-const allListItems = PlaceData
+// const allListItems = PlaceData
+
 
 export default function Create() {
-
     const [ListItems, updateListItems] = useState([])
-    const [selectedTime, setSelectedTime] = useState([0]);
+    const [selectedTime, setSelectedTime] = useState([]);
+    const [endTime,setEndTime]  = useState()
     const [alldates, setAlldates] = useState(1)
     const [currentDay, setCurrentDay] = useState(0)
     const [filterTitle, setFilterTitle] = useState('');
     const [filterType, setFilterType] = useState();
+    const [places, setPlaces] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-
-    console.log(alldates);
-
-    console.log(ListItems);
+    useEffect(() => {
+        axios.get(`http://localhost:3000/api/place`)
+        .then((data) => {
+          console.log(data.data)
+          setPlaces(data.data);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => setIsLoading(false))
+      }, []);
+    const allListItems = places
+    // console.log(alldates);
+    // console.log(ListItems);
 
     const handleAdd = (item) => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -41,12 +55,12 @@ export default function Create() {
         {
             id: result,
             hours: 0, min: 0, minUnit: 0,
-            title: item.title,
+            name: item.name,
             types: item.types,
             images: item.images
         }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
 
-        console.log(newData);
+        // console.log(newData);
         updateListItems((prevState) => {
             let updatedArray = [...prevState]
             if (updatedArray[currentDay]?.length > 0) {
@@ -88,9 +102,9 @@ export default function Create() {
     const handleTimeChange = (event) => {
         const value = event.target.value;
         const updatedSelectedTime = [...selectedTime];
-
         updatedSelectedTime[currentDay] = value;
         setSelectedTime(updatedSelectedTime);
+       
     };
     const sumHours = () => {
         let total = 0;
@@ -136,8 +150,9 @@ export default function Create() {
     }
     const time = moment(selectedTime[currentDay], 'HH:mm');
     const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
-    console.log(result.format('h:mm A'));
-    console.log(finalHours, "hours", finalMin, "Minutes");
+    // setEndTime(result.format('h:mm A'))
+    // console.log();
+    // console.log(finalHours, "hours", finalMin, "Minutes");
 
     if (finalHours > 24) {
         alert("You can't add more than a day to the selected date.");
@@ -187,11 +202,13 @@ export default function Create() {
         }
         );
     };
-    console.log(filterType);
+    // console.log(filterType);
     // --------------------------------------------------------------Time function End
 
     function create() {
-        console.log(ListItems)
+        // console.log(ListItems)
+        // console.log("time start current",selectedTime);
+        console.log(endTime);
     }
 
     return (
@@ -211,28 +228,29 @@ export default function Create() {
                         <div className={styles.category} onClick={() => setFilterType("ธรรมชาติ")}>ธรรมชาติ</div>
                     </div>
                     <div className={styles.itemsContainer}>
-                        {allListItems.filter((item => item.title.includes(filterTitle))).map(item => {
+                        {allListItems.map(item => {
                             return (
-                                <div className={styles.item} key={item.id}>
+                                <div className={styles.item} key={item._id}>
                                     <div className={styles.imgContainer}>
                                         <Image
                                             src={item.images[0]}
                                             alt=""
                                             fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             className={styles.img}
                                         />
                                     </div>
                                     <div className={styles.textContainer}>
                                         <div className={styles.text}>
-                                            {item.title}
+                                            {item.name}
                                             <div className={styles.types}>
-                                                {item.types.map(type => {
+                                                {/* {item.map(type => {
                                                     return (
                                                         <div className={styles.type}>
                                                             <div>{type}</div>
                                                         </div>
                                                     )
-                                                })}
+                                                })} */}
                                             </div>
 
                                             <div className={styles.icon}>
@@ -242,7 +260,7 @@ export default function Create() {
                                         </div>
                                         <div className={styles.btnContainer}>
                                             <div className={styles.info}>
-                                                <a href={`/place/${item.title}`} target="_blank">
+                                                <a href={`/place/${item.name}`} target="_blank">
                                                     ดูรายละเอียด
                                                 </a>
                                             </div>
@@ -252,7 +270,7 @@ export default function Create() {
                                                         {
                                                             id: item.id,
                                                             hours: 0,
-                                                            title: item.title,
+                                                            name: item.name,
                                                             types: item.types,
                                                             images: item.images[0]
                                                         }
@@ -303,7 +321,7 @@ export default function Create() {
                                 <div className={styles.userItemsContainer} {...provided.droppableProps} ref={provided.innerRef}>
                                     {ListItems[currentDay]?.map(({
                                         id,
-                                        title,
+                                        name,
                                         types,
                                         hours,
                                         min,
@@ -320,12 +338,13 @@ export default function Create() {
                                                                     src={images}
                                                                     alt=""
                                                                     fill
+                                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                                     className={styles.userimg}
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div className={styles.header}>
-                                                            <h6>{title}</h6>
+                                                            <h6>{name}</h6>
                                                         </div>
                                                         <div className={styles.cate}>
                                                             <h6>{types}</h6>
@@ -336,7 +355,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={hours} onChange={(event) => setHours(
                                                                     {
                                                                         id: id,
-                                                                        title: title,
+                                                                        name: name,
                                                                         hours: event.target.value,
                                                                         images: images
                                                                     }
@@ -352,7 +371,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={min} onChange={(event) => setMin(
                                                                     {
                                                                         id: id,
-                                                                        title: title,
+                                                                        name: name,
                                                                         min: event.target.value,
                                                                         images: images
                                                                     }
@@ -367,7 +386,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={minUnit} onChange={(event) => setMinUnit(
                                                                     {
                                                                         id: id,
-                                                                        title: title,
+                                                                        name: name,
                                                                         minUnit: event.target.value,
                                                                         images: images
                                                                     }
@@ -387,7 +406,7 @@ export default function Create() {
                                                                 <h1>นาที</h1>
                                                             </div>
                                                             <div className={styles.userBtnContainer}>
-                                                                <a href={`/place/${title}`} target="_blank">
+                                                                <a href={`/place/${name}`} target="_blank">
                                                                     <button className={styles.infoButton}
                                                                     ><BsInfoSquareFill size={32} color="#aaaa" />
                                                                     </button>
