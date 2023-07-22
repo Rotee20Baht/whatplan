@@ -1,28 +1,26 @@
 "use client";
-
-
 import { useState } from "react";
 import { useEffect } from "react";
-
 import axios from "axios";
+
 import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
 import Link from "next/link";
+
 import SelectItem from "../components/select/SelectItem";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Places() {
   const [isLoading, setIsLoading] = useState(true);
-  const [places, setPlaces] = useState([]);
   const [province, setProvince] = useState();
+  const [amphures ,setAmphures] = useState([]);
+  const [places, setPlaces] = useState([]);
   const [types, setTypes] = useState();
   const [amphure ,setAmphure] = useState();
-
-  const [amphures ,setAmphures] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:3000/api/place`)
@@ -31,7 +29,7 @@ export default function Places() {
       setPlaces(data.data);
     })
     .catch((err) => {
-      
+      console.log(err)
     })
     .finally(() => setIsLoading(false))
   }, []);
@@ -39,12 +37,14 @@ export default function Places() {
   const onProvinceChange = async (value) => {
     setProvince(value)
     setAmphure("")
+    setTypes("")
 
     const amphure_data = await axios.get(
       `/api/amphure?province=${value}`
     );
 
     const data = amphure_data.data[0]?.amphure;
+    console.log(data);
     if(data){
       const formattedData = [
         {
@@ -60,10 +60,12 @@ export default function Places() {
   }
 
   const onAmphureChange = (value) => {
+    console.log(value)
     setAmphure(value)
   }
 
   const onTypesChange = (value) => {
+    console.log(value)
     setTypes(value)
   }
 
@@ -72,23 +74,25 @@ export default function Places() {
     setPlaces([])
     let searhUrl = `http://localhost:3000/api/place?`
 
-    console.log({province, amphure, types})
+    console.log({province,amphure, types})
 
     if(province)
       searhUrl+= `&province=${province}` 
     if(amphure)
-      searhUrl+= `&amphure=${amphure.value}` 
+      searhUrl+= `&amphure=${amphure.value}`
     if(types)
-      searhUrl+= `&types=${types}` 
+      searhUrl+= `&types=${types.value}` 
 
     console.log(searhUrl)
 
     axios.get(searhUrl)
+
     .then((data) => {
       console.log(data.data)
       setPlaces(data.data);
     })
     .catch((err) => {
+      console.log(err)
       setPlaces([]);
     })
     .finally(() => setIsLoading(false))
@@ -108,11 +112,8 @@ export default function Places() {
                 <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value)} value={amphure}/>
               </div>
               <div className="w-full flex flex-col flex-1">
-                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value?.value)} />
+                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value)} value={types}/>
               </div>
-              {/* <div className="w-full flex flex-col flex-1">
-                <Button label="ค้นหา" onClick={onSubmit} />
-              </div> */}
             </div>
           </div>
           <div 
@@ -144,9 +145,8 @@ export default function Places() {
                 <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
               )}
               {places.length > 0 && places.map((item) => (
-                <Link href={`/place/${item._id}`}>
+                <Link href={`/place/${item.name}`} key={item.name} className="relative">
                   <Card
-                    key={item.name}
                     title={item.name}
                     province={item.province}
                     img={item.images[0]}

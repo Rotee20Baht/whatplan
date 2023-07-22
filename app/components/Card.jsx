@@ -9,7 +9,7 @@ export default function Card({ title = "ชื่อสถานที่", prov
     <div className="border h-96 sm:h-80 rounded-md shadow-sm bg-neutral-100 overflow-hidden hover:shadow-lg transition cursor-pointer">
       <div className="w-full h-full flex flex-col">
         <div className="w-full bg-neutral-100 h-3/4 overflow-hidden relative">
-          <div className="flex flex-row gap-2 items-center absolute top-2 right-3 z-10 bg-emerald-500 text-white rounded-md px-2 py-1">
+          <div className="flex flex-row gap-2 items-center absolute top-3 right-3 z-10 bg-emerald-500 text-white rounded-md px-2 py-1">
             <IoStar />
             <h1 className="text-lg">{rating}</h1>
           </div>

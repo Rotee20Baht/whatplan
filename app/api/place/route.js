@@ -37,8 +37,8 @@ export async function GET(request) {
 
     if(request.nextUrl.searchParams.has('types'))
       filters.types = request.nextUrl.searchParams.get('types')
-
-    const place = await Place.find(filters);
+      
+    const place = await Place.find({ ...filters, name: new RegExp(filters.name, 'i') });
     if(!place || place.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
 
     return NextResponse.json(place);
