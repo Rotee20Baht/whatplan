@@ -82,6 +82,14 @@ export default function UserMenu({ links, currentUser }) {
                   {link.title}
                 </Link>
             ))}
+            {currentUser?.role === "admin" && (
+                <Link
+                    className="py-3 px-4 hover:bg-neutral-100 cursor-pointer border-b block md:hidden"
+                    href={"/addplace"} 
+                  >
+                    เพิ่มสถานที่
+                </Link>
+              )}
           </div>
         </div>
       )}

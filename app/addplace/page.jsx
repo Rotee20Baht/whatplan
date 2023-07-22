@@ -35,7 +35,7 @@ export default function AddCreate() {
   const {data: session} = useSession();
 
   if(session?.user?.role !== "admin")
-    return router.back();
+    return router.push('/');
 
   const [amphures, setAmphures] = useState([]);
   const [marker, setMarker] = useState();
@@ -454,6 +454,27 @@ export default function AddCreate() {
                       >
                         { imageSrc.map((img, index) => (
                           <SwiperSlide key={img}>
+                            <div 
+                              className="
+                                px-2 
+                                py-1.5 
+                                bg-red-500 
+                                text-white 
+                                absolute 
+                                top-2 
+                                right-2 
+                                rounded-full 
+                                hover:bg-red-400 
+                                transition 
+                                cursor-pointer
+                              "
+                              onClick={() => {
+                                let newImages = imageSrc?.filter((_, i) => i !== index)
+                                setCustomValue("imageSrc", newImages)
+                              }}
+                            >
+                            ลบ
+                            </div>
                             <Image src={img} alt={`place_image_${index}`} width={0} height={0} sizes="100vw" className="w-full h-52 rounded-lg object-cover"/>
                           </SwiperSlide>
                         ))}
@@ -461,7 +482,7 @@ export default function AddCreate() {
                     </div>
                   )}
                   <ImageUpload
-                    onChange={(value) => setCustomValue("imageSrc", value)}
+                    onChange={(value) => setCustomValue("imageSrc", [...imageSrc, value])}
                     value={imageSrc}
                   />
                   <input type="hidden" value={imageSrc} {...register('imageSrc', { required: true })} />
