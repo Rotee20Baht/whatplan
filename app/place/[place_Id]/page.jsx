@@ -30,12 +30,13 @@ export default function Place() {
 
   useEffect(() => {
     const decodedPathname = decodeURIComponent(pathname).replace('/place/', '');
-    console.log(decodedPathname)
+    
 
     axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
     .then((data) => {
-      console.log(data.data[0])
+      console.log(data.data[0]);
       setPlaces(data.data[0]);
+      
     })
     .catch((err) => {
       console.log(err)
@@ -159,9 +160,9 @@ export default function Place() {
                   <Link href={`/place/edit/${places.name}`} className="bg-neutral-200 px-3 py-2 rounded-md ">แก้ไขข้อมูลสถานที่</Link>
                 </div>
                   <div className="flex flex-row  w-full p-3 space-x-4">
-                      <div className="flex flex-col w-1/2  space-y-4">
+                      <div className="flex flex-col w-full  space-y-4">
                           <div className="relative w-full h-auto">
-                            <Image src={places?.images[currentIndex]} alt={`place_image_${places?.images[currentIndex]}`} width={0} height={0} sizes="100vw" className="h-[280px] w-full bg-neutral-500  rounded-lg object-cover"/>
+                            <Image src={places?.images[currentIndex]} alt={`place_image_${places?.images[currentIndex]}`} width={0} height={0} sizes="100vw" className="h-[400px] w-full bg-neutral-500  rounded-lg object-cover"/>
                             <div className="absolute top-1/2 -translate-x-[-5px] -translate-y-1/2 bg-black/30 text-white text-2xl rounded-full">
                                 <BsChevronCompactLeft onClick={prevSlide} size={30}/>
                             </div>
@@ -170,7 +171,7 @@ export default function Place() {
                             </div>
                           </div>
                           
-                          <div className="h-[250px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
+                          <div className="h-[350px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
                               {/* {isLoaded ? (
                               <GoogleMap
                                   zoom={12}
@@ -200,19 +201,29 @@ export default function Place() {
                           <div className="w-full h-full border bg-neutral-300 "></div>   
                           <div className="w-full h-full border  my-4 p-3 rounded-lg space-y-2">
                           <h1>จังหวัด : {places.province}</h1>
-                          <h1>ที่อยู่ : </h1>
+                          <h1>อำเภอ : {places.amphure}</h1>
+                          <h1>ประเภทสถานที่ : {places.types}</h1>
                           <div className="flex flex-row">
                           <h1>เวลา เปิด-ปิด : </h1>
                           <div className="ml-1 space-y-2">
-                            <h1>วันทร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>อังคาร 9.00 AM - 18.00 PM.</h1>
-                            <h1>พุธ 9.00 AM - 18.00 PM.</h1>
-                            <h1>พฤหัสบดี 9.00 AM - 18.00 PM.</h1>
-                            <h1>ศุกร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>เสาร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>อาทิตย์ 9.00 AM - 18.00 PM.</h1>
+                              {places.opening_hours.length > 0 && places.opening_hours.map((item) => (
+                                item.isOpen === false ?(
+                                  <h1>{item.day} ปิด</h1>
+                                ) : (
+                                  <h1>{item.day} {item.open} น. - {item.close} น.</h1>
+                                )
+                              ))}
                           </div>
                           </div>
+                          <div className="flex flex-row">
+                            <div className="w-1/6 mt-2">
+                              <h1>รายละเอียด : </h1>
+                            </div>
+                            <div className="w-5/6 mt-2 space-y-2">
+                              <h1>{places.description}</h1>
+                            </div>
+                          </div>
+                          
                           {/* <h1>เรตติ้ง : {places.rating}</h1> */}
                           </div>
                       </div>        
@@ -256,8 +267,7 @@ export default function Place() {
                 h-auto 
                 border 
                 rounded-lg 
-                shadow-sm 
-                
+                shadow-sm
                 p-4 
                 grid 
                 grid-cols-1
