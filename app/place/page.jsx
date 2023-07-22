@@ -31,7 +31,7 @@ export default function Places() {
       setPlaces(data.data);
     })
     .catch((err) => {
-      setDataState('ไม่พบข้อมูลสถานที่')
+      
     })
     .finally(() => setIsLoading(false))
   }, []);
@@ -99,10 +99,6 @@ export default function Places() {
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
           <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
-<<<<<<< HEAD
-          <Selectbar title1="จังหวัด" title2="ประเภทสถานที่" title3="วันเปิดทำการ" options2={placttype} />
-          <div
-=======
           <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
             <div className="w-full flex flex-col lg:flex-row gap-4">
               <div className="w-full flex flex-col flex-1">
@@ -120,7 +116,6 @@ export default function Places() {
             </div>
           </div>
           <div 
->>>>>>> c34662820b28bf56cdcccb4ed694def13ab298dc
             className="
               w-full 
               h-auto 
@@ -133,23 +128,6 @@ export default function Places() {
               sm:grid-cols-2
               md:grid-cols-3
               lg:grid-cols-4
-<<<<<<< HEAD
-              gap-4"
-          >
-            {places.map((item) => (
-              <Link href={`/place/${item.title}`}>
-                <Card
-                  key={item.title}
-                  title={item.title}
-                  province={item.provice}
-                  img={item.img}
-                  rating={item.rating}
-                />
-              </Link>
-
-
-            ))}
-=======
               gap-4
               relative
             "
@@ -176,7 +154,6 @@ export default function Places() {
                   />
                 </Link>
               ))}
->>>>>>> c34662820b28bf56cdcccb4ed694def13ab298dc
           </div>
         </div>
       </Container>
