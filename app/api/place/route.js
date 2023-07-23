@@ -18,7 +18,6 @@ export async function POST(request) {
     return NextResponse.json({ msg: "เพิ่มข้อมูลสถานที่สำเร็จ!"}, { status: 200 });
   }
   catch(error){
-    console.log(error)
     return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
@@ -28,7 +27,7 @@ export async function GET(request) {
     let filters = {};
     if(request.nextUrl.searchParams.has('name'))
       filters.name = request.nextUrl.searchParams.get('name')
-    
+      
     if(request.nextUrl.searchParams.has('province'))
       filters.province = request.nextUrl.searchParams.get('province')
 
@@ -67,3 +66,5 @@ export async function PUT(request){
     return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
+
+
