@@ -169,7 +169,7 @@ const PlaceData = [
     title: "สวนตาสรรค์",
     types:["ธรรมชาติ"],
     province: "นครศรีธรรมราช",
-    amphure: "ขนอม",
+    amphure: "นครศรีธรรมราช",
     location: {
       lat: "9.2643713",
       long: "99.7581864",

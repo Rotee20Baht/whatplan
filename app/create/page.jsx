@@ -27,7 +27,7 @@ export default function Create() {
   const [filterTitle, setFilterTitle] = useState("");
   const [filterType, setFilterType] = useState();
   const [places, setPlaces] = useState([]);
-  const [isLoaded, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/place`)
@@ -38,7 +38,7 @@ export default function Create() {
         .catch((err) => {
           console.log(err)
         })
-        .finally(() => setIsLoading(false))
+        .finally(() => setIsLoaded(false))
       }, []);
     const allListItems = places
     // console.log(alldates);

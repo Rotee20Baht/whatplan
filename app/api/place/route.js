@@ -38,7 +38,7 @@ export async function GET(request) {
     if(request.nextUrl.searchParams.has('types'))
       filters.types = request.nextUrl.searchParams.get('types')
 
-    const limits = request.nextUrl.searchParams.get('limit') || 10;
+    const limits = request.nextUrl.searchParams.get('limit') || 12;
       
     const place = await Place.find({ ...filters, name: new RegExp(filters.name, 'i') }).limit(limits);
     if(!place || place.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
