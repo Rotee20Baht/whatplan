@@ -13,6 +13,7 @@ import Link from "next/link";
 import SelectItem from "../components/select/SelectItem";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Loader from "../components/Loader/Loader";
 
 export default function Places() {
   const [isLoading, setIsLoading] = useState(true);
@@ -69,6 +70,33 @@ export default function Places() {
     setTypes(value)
   }
 
+  const loadMorePlace = () => {
+    setIsLoading(true)
+    let searhUrl = `http://localhost:3000/api/place?start=${places.length}`
+
+    console.log({province,amphure, types})
+
+    if(province)
+      searhUrl+= `&province=${province}` 
+    if(amphure)
+      searhUrl+= `&amphure=${amphure.value}`
+    if(types)
+      searhUrl+= `&types=${types.value}` 
+
+    console.log(searhUrl)
+
+    axios.get(searhUrl)
+
+    .then((data) => {
+      console.log(data.data)
+      setPlaces(prev => [...prev, ...data.data]);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => setIsLoading(false))
+  }
+
   useEffect(() => {
     setIsLoading(true)
     setPlaces([])
@@ -117,9 +145,8 @@ export default function Places() {
             </div>
           </div>
           <div 
-            className="
+            className={`
               w-full 
-              h-auto 
               border 
               rounded-lg 
               shadow-sm 
@@ -131,15 +158,19 @@ export default function Places() {
               lg:grid-cols-4
               gap-4
               relative
-            "
+              ${isLoading ? "md:h-[70vh]" : "h-auto"}
+            `}
             >
               {isLoading && (
-                <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                  <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                </SkeletonTheme>
+                <div className="text-center col-span-full flex flex-row justify-center items-center">
+                  <Loader />
+                </div>
+                // <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                // </SkeletonTheme>
               )}
               {places.length <= 0 && !isLoading && (
                 <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
@@ -154,6 +185,14 @@ export default function Places() {
                   />
                 </Link>
               ))}
+              {places.length >= 12 && !isLoading && (
+                <div 
+                  className="col-span-full text-end text-neutral-500 hover:text-neutral-800 transition cursor-pointer"
+                  onClick={loadMorePlace}
+                >
+                  ดูสถานที่เพิ่มเติม
+                </div>
+              )}
           </div>
         </div>
       </Container>

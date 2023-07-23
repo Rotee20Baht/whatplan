@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Card({ title = "ชื่อสถานที่", province = "จังหวัด", img, rating = "5"}) {
   return (
-    <div className="border h-96 sm:h-80 rounded-md shadow-sm bg-neutral-100 overflow-hidden hover:shadow-lg transition cursor-pointer">
+    <div className="group border h-96 sm:h-80 rounded-md shadow-sm bg-neutral-100 overflow-hidden hover:shadow-lg transition cursor-pointer">
       <div className="w-full h-full flex flex-col">
         <div className="w-full bg-neutral-100 h-3/4 overflow-hidden relative">
           <div className="flex flex-row gap-2 items-center absolute top-3 right-3 z-10 bg-emerald-500 text-white rounded-md px-2 py-1">
@@ -20,7 +20,7 @@ export default function Card({ title = "ชื่อสถานที่", prov
               height={0}
               sizes="100vw"
               alt={title}
-              className="w-full h-full object-cover hover:scale-105 transition"
+              className="w-full h-full object-cover group-hover:scale-105 transition"
             />
           ) : (<BsFillFileEarmarkImageFill 
                 size={50} 

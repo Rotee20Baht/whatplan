@@ -20,10 +20,6 @@ const links = [
     title: "วางแผนการท่องเที่ยว",
     href: "/create"
   },
-  {
-    title: "เพิ่มสถานที่",
-    href: "/addplace"
-  },
 ];
 
 export default function Navbar() {
@@ -38,7 +34,7 @@ export default function Navbar() {
             <Link href={'/'} className="text-2xl font-semibold text-emerald-500 tracking-tighter cursor-pointer">
               Whatplan
             </Link>
-            <div className="hidden lg:flex flex-row gap-1 md:gap-6 lg:gap-10 items-center justify-between">
+            <div className="hidden lg:flex flex-row md:gap-6 lg:gap-10 items-center justify-between">
               {links.map((link, index) => (
                 <Link
                   key={index}
@@ -51,6 +47,17 @@ export default function Navbar() {
                   {link.title}
                 </Link>
               ))}
+              {session?.user?.role === "admin" && (
+                <Link
+                    className={`
+                      py-4 border-b-2 cursor-pointer border-transparent hover:border-emerald-500 transition
+                      ${pathname === "/addplace" ? 'text-black' : 'text-neutral-400'}              
+                    `}
+                    href={"/addplace"} 
+                  >
+                    เพิ่มสถานที่
+                </Link>
+              )}
             </div>
           </div>
           <UserMenu links={links} currentUser={session?.user}/>

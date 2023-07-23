@@ -13,7 +13,7 @@ export default function ImageUpload({ onChange }) {
   const handleUpload = useCallback((result) => {
     const img = result.info.secure_url;
     setImages([...images, img]);
-    onChange([...images, img]);
+    onChange(img);
   }, [images, onChange]);
 
   const handleUploadWidgetOpen = (open) => {
