@@ -211,7 +211,24 @@ export default function AddCreate() {
                 onClick={(e) => handleMapClick(e)}
               >
                 {marker && (
-                  <div className="bg-red-500 text-white shadow-md py-1.5 px-3 rounded-full z-40 absolute left-1/2 top-3 -translate-x-1/2">
+                  <div
+                    onClick={() => mapRef.current?.panTo(marker)}
+                    className="
+                      bg-red-500 
+                      text-white 
+                      shadow-md 
+                      py-1.5 
+                      px-3 
+                      rounded-full 
+                      z-40 
+                      absolute 
+                      left-1/2 
+                      top-3 
+                      -translate-x-1/2 
+                      whitespace-nowrap 
+                      cursor-pointer
+                    "
+                  >
                     ไปยังตำแหน่งที่ปักหมุด
                   </div>
                 )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect, useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -26,6 +26,7 @@ import { useLoadScript } from "@react-google-maps/api";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import axios from "axios";
+import Loader from "@/app/components/Loader/Loader";
 
 const libraries = ["places"];
 
@@ -37,27 +38,6 @@ export default function AddCreate() {
     // router.push('/place')
   }
 
-  const pathname = usePathname();
-  const [isLoadedData, setIsLoadedData] = useState(false);
-  const [initValue, setInitValue] = useState([]);
-
-  useEffect(() => {
-    const decodedPathname = decodeURIComponent(pathname).replace('/place/edit/', '');
-    console.log(decodedPathname)
-
-    axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
-    .then(data => {
-      console.log(data.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    .finally(() => setTimeout(() => setIsLoadedData(true), 300))
-  }, [])
-
-  const [amphures, setAmphures] = useState([]);
-  const [marker, setMarker] = useState();
-
   const {
     register,
     handleSubmit,
@@ -65,11 +45,68 @@ export default function AddCreate() {
     setValue,
     control,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: 'ไกกกก่',
-    }
-  });
+  } = useForm();
+
+  const pathname = usePathname();
+  const [isLoadedData, setIsLoadedData] = useState(false);
+  const [initData, setInitData] = useState([]);
+  const [amphures, setAmphures] = useState([]);
+  const [marker, setMarker] = useState();
+
+  useEffect(() => {
+    const decodedPathname = decodeURIComponent(pathname).replace('/place/edit/', '');
+    console.log(decodedPathname)
+
+    axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
+    .then(data => {
+      console.log(data.data[0])
+      setInitData(data.data[0])
+      getAmphure(data.data[0]?.province)
+
+      setMarker({ lat: Number(data.data[0]?.location?.lat), lng: Number(data.data[0]?.location?.lng) })
+
+      setValue("name", data.data[0]?.name)
+      setValue("province", {label: data.data[0]?.province, value: data.data[0]?.province})
+      setValue("amphure", {label: data.data[0]?.amphure, value: data.data[0]?.amphure})
+      setValue("types", {label: data.data[0]?.types, value: data.data[0]?.types})
+      setValue("description", data.data[0]?.description)
+      setValue("lat", data.data[0]?.location?.lat)
+      setValue("lng", data.data[0]?.location?.lng)
+      setValue("imageSrc", data.data[0]?.images)
+
+      setValue("monday", data.data[0]?.opening_hours[0]?.isOpen)
+      setValue("monday_open", data.data[0]?.opening_hours[0]?.open)
+      setValue("monday_close", data.data[0]?.opening_hours[0]?.close)
+
+      setValue("tuesday", data.data[0]?.opening_hours[1]?.isOpen)
+      setValue("tuesday_open", data.data[0]?.opening_hours[1]?.open)
+      setValue("tuesday_close", data.data[0]?.opening_hours[1]?.close)
+
+      setValue("wednesday", data.data[0]?.opening_hours[2]?.isOpen)
+      setValue("wednesday_open", data.data[0]?.opening_hours[2]?.open)
+      setValue("wednesday_close", data.data[0]?.opening_hours[2]?.close)
+
+      setValue("thursday", data.data[0]?.opening_hours[3]?.isOpen)
+      setValue("thursday_open", data.data[0]?.opening_hours[3]?.open)
+      setValue("thursday_close", data.data[0]?.opening_hours[3]?.close)
+
+      setValue("friday", data.data[0]?.opening_hours[4]?.isOpen)
+      setValue("friday_open", data.data[0]?.opening_hours[4]?.open)
+      setValue("friday_close", data.data[0]?.opening_hours[4]?.close)
+
+      setValue("saturday", data.data[0]?.opening_hours[5]?.isOpen)
+      setValue("saturday_open", data.data[0]?.opening_hours[5]?.open)
+      setValue("saturday_close", data.data[0]?.opening_hours[5]?.close)
+
+      setValue("sunday", data.data[0]?.opening_hours[6]?.isOpen)
+      setValue("sunday_open", data.data[0]?.opening_hours[6]?.open)
+      setValue("sunday_close", data.data[0]?.opening_hours[6]?.close)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    .finally(() => setTimeout(() => setIsLoadedData(true), 300))
+  }, [])
 
   const mondayField = watch("monday");
   const tuesdayField = watch("tuesday");
@@ -155,13 +192,14 @@ export default function AddCreate() {
             close: formValues.sunday_close,
           },
         ],
-        images: formValues.imageSrc
+        images: formValues.imageSrc,
+        _id: initData._id
       };
       console.log(formatedValues);
-      const result = await axios.post('/api/place', formatedValues)
+      const result = await axios.put('/api/place', formatedValues)
+      // console.log(result)
       toast.success("เพิ่มสถานที่สำเร็จ!")
-      setTimeout(() => router.push('/place'), 1000)
-      Navigator
+      setTimeout(() => router.push(`/place/${result.data.name}`), 1000)
     } catch (err) {
       toast.error("เพิ่มสถานที่ล้มเหลว!");
     }
@@ -173,7 +211,7 @@ export default function AddCreate() {
   });
   // 13.7563309 100.5017651
   const mapRef = useRef();
-  const center = useMemo(() => ({ lat: 13.7563309, lng: 100.5017651 }), []);
+  const center = useMemo(() => ({lat: Number(initData?.location?.lat), lng: Number(initData?.location?.lng) }), [initData]);
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -210,14 +248,8 @@ export default function AddCreate() {
     return(
       <div className="pb-4 pt-20 lg:pt-24">
         <Container>
-          <div className="text-center">
-            <div role="status">
-                <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                </svg>
-                <span className="sr-only">Loading...</span>
-            </div>
+          <div className="grid place-items-center w-full h-[80vh]">
+            <Loader />
           </div>
         </Container>
       </div>
@@ -252,7 +284,24 @@ export default function AddCreate() {
                 onClick={(e) => handleMapClick(e)}
               >
                 {marker && (
-                  <div className="bg-red-500 text-white shadow-md py-1.5 px-3 rounded-full z-40 absolute left-1/2 top-3 -translate-x-1/2">
+                  <div
+                    onClick={() => mapRef.current?.panTo(marker)}
+                    className="
+                      bg-red-500 
+                      text-white 
+                      shadow-md 
+                      py-1.5 
+                      px-3 
+                      rounded-full 
+                      z-40 
+                      absolute 
+                      left-1/2 
+                      top-3 
+                      -translate-x-1/2 
+                      whitespace-nowrap 
+                      cursor-pointer
+                    "
+                  >
                     ไปยังตำแหน่งที่ปักหมุด
                   </div>
                 )}
@@ -495,6 +544,27 @@ export default function AddCreate() {
                       >
                         { imageSrc.map((img, index) => (
                           <SwiperSlide key={img}>
+                            <div 
+                              className="
+                                px-2 
+                                py-1.5 
+                                bg-red-500 
+                                text-white 
+                                absolute 
+                                top-2 
+                                right-2 
+                                rounded-full 
+                                hover:bg-red-400 
+                                transition 
+                                cursor-pointer
+                              "
+                              onClick={() => {
+                                let newImages = imageSrc?.filter((_, i) => i !== index)
+                                setCustomValue("imageSrc", newImages)
+                              }}
+                            >
+                            ลบ
+                            </div>
                             <Image src={img} alt={`place_image_${index}`} width={0} height={0} sizes="100vw" className="w-full h-52 rounded-lg object-cover"/>
                           </SwiperSlide>
                         ))}
@@ -502,7 +572,7 @@ export default function AddCreate() {
                     </div>
                   )}
                   <ImageUpload
-                    onChange={(value) => setCustomValue("imageSrc", value)}
+                    onChange={(value) => setCustomValue("imageSrc", [...imageSrc, value])}
                     value={imageSrc}
                   />
                   <input type="hidden" value={imageSrc} {...register('imageSrc', { required: true })} />
@@ -636,7 +706,7 @@ export default function AddCreate() {
                   type="submit"
                   className="w-full p-3 bg-emerald-500 text-white rounded-lg transition hover:opacity-70"
                 >
-                  เพิ่มสถานที่
+                  แก้ไขข้อมูลสถานที่
                 </button>
               </div>
             </form>

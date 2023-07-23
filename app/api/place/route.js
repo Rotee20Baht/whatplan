@@ -28,7 +28,7 @@ export async function GET(request) {
     let filters = {};
     if(request.nextUrl.searchParams.has('name'))
       filters.name = request.nextUrl.searchParams.get('name')
-
+    
     if(request.nextUrl.searchParams.has('province'))
       filters.province = request.nextUrl.searchParams.get('province')
 
@@ -48,6 +48,22 @@ export async function GET(request) {
     return NextResponse.json(place);
   }
   catch(error){
+    return NextResponse.json({ error: String(error) }, { status: 400 });
+  }
+}
+
+export async function PUT(request){
+  try{
+    const body = await request.json();
+    const { _id } = body;
+    const place = await Place.findByIdAndUpdate(_id, body, {new: true});
+
+    console.log({body, place})
+
+    return NextResponse.json({ msg: "เพิ่มข้อมูลสถานที่สำเร็จ!", name: place.name}, { status: 200 });
+  }
+  catch(error){
+    console.log(error)
     return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
