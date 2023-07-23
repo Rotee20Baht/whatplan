@@ -70,6 +70,33 @@ export default function Places() {
     setTypes(value)
   }
 
+  const loadMorePlace = () => {
+    setIsLoading(true)
+    let searhUrl = `http://localhost:3000/api/place?start=${places.length}`
+
+    console.log({province,amphure, types})
+
+    if(province)
+      searhUrl+= `&province=${province}` 
+    if(amphure)
+      searhUrl+= `&amphure=${amphure.value}`
+    if(types)
+      searhUrl+= `&types=${types.value}` 
+
+    console.log(searhUrl)
+
+    axios.get(searhUrl)
+
+    .then((data) => {
+      console.log(data.data)
+      setPlaces(prev => [...prev, ...data.data]);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => setIsLoading(false))
+  }
+
   useEffect(() => {
     setIsLoading(true)
     setPlaces([])
@@ -158,6 +185,14 @@ export default function Places() {
                   />
                 </Link>
               ))}
+              {places.length >= 12 && !isLoading && (
+                <div 
+                  className="col-span-full text-end text-neutral-500 hover:text-neutral-800 transition cursor-pointer"
+                  onClick={loadMorePlace}
+                >
+                  ดูสถานที่เพิ่มเติม
+                </div>
+              )}
           </div>
         </div>
       </Container>

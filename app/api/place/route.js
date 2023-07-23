@@ -38,9 +38,11 @@ export async function GET(request) {
     if(request.nextUrl.searchParams.has('types'))
       filters.types = request.nextUrl.searchParams.get('types')
 
-    const limits = request.nextUrl.searchParams.get('limit') || 10;
+    const limits = request.nextUrl.searchParams.get('limit') || 12;
+
+    const start = request.nextUrl.searchParams.get('start') || 0;
       
-    const place = await Place.find({ ...filters, name: new RegExp(filters.name, 'i') }).limit(limits);
+    const place = await Place.find({ ...filters, name: new RegExp(filters.name, 'i') }).limit(limits).skip(start);
     if(!place || place.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
 
     return NextResponse.json(place);
