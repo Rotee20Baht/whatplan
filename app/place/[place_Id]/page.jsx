@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
 
-import Card from "@/app/components/Card";
 import Container from "@/app/components/Container";
 import { BsChevronCompactLeft,BsChevronCompactRight } from "react-icons/bs";
 
@@ -31,12 +30,13 @@ export default function Place() {
 
   useEffect(() => {
     const decodedPathname = decodeURIComponent(pathname).replace('/place/', '');
-    console.log(decodedPathname)
+    
 
     axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
     .then((data) => {
-      console.log(data.data[0])
+      console.log(data.data[0]);
       setPlaces(data.data[0]);
+      
     })
     .catch((err) => {
       console.log(err)
@@ -130,7 +130,19 @@ export default function Place() {
                 <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value)} value={types}/>
               </div>
             </div>
-          {isLoaded && (
+          {!isLoaded && (
+            <div role="status">
+                <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                </svg>
+                <span className="sr-only">Loading...</span>
+            </div>
+          )}
+          {isLoaded && !places.name && (
+            <div>ไม่พบข้อมูลสถานที่</div>
+          )}
+          {isLoaded && places.name && (
             <div 
               className="
                 w-full 
@@ -148,9 +160,9 @@ export default function Place() {
                   <Link href={`/place/edit/${places.name}`} className="bg-neutral-200 px-3 py-2 rounded-md ">แก้ไขข้อมูลสถานที่</Link>
                 </div>
                   <div className="flex flex-row  w-full p-3 space-x-4">
-                      <div className="flex flex-col w-1/2  space-y-4">
+                      <div className="flex flex-col w-full  space-y-4">
                           <div className="relative w-full h-auto">
-                            <Image src={places?.images[currentIndex]} alt={`place_image_${places?.images[currentIndex]}`} width={0} height={0} sizes="100vw" className="h-[280px] w-full bg-neutral-500  rounded-lg object-cover"/>
+                            <Image src={places?.images[currentIndex]} alt={`place_image_${places?.images[currentIndex]}`} width={0} height={0} sizes="100vw" className="h-[400px] w-full bg-neutral-500  rounded-lg object-cover"/>
                             <div className="absolute top-1/2 -translate-x-[-5px] -translate-y-1/2 bg-black/30 text-white text-2xl rounded-full">
                                 <BsChevronCompactLeft onClick={prevSlide} size={30}/>
                             </div>
@@ -159,7 +171,7 @@ export default function Place() {
                             </div>
                           </div>
                           
-                          <div className="h-[250px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
+                          <div className="h-[350px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
                               {/* {isLoaded ? (
                               <GoogleMap
                                   zoom={12}
@@ -189,19 +201,29 @@ export default function Place() {
                           <div className="w-full h-full border bg-neutral-300 "></div>   
                           <div className="w-full h-full border  my-4 p-3 rounded-lg space-y-2">
                           <h1>จังหวัด : {places.province}</h1>
-                          <h1>ที่อยู่ : </h1>
+                          <h1>อำเภอ : {places.amphure}</h1>
+                          <h1>ประเภทสถานที่ : {places.types}</h1>
                           <div className="flex flex-row">
                           <h1>เวลา เปิด-ปิด : </h1>
                           <div className="ml-1 space-y-2">
-                            <h1>วันทร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>อังคาร 9.00 AM - 18.00 PM.</h1>
-                            <h1>พุธ 9.00 AM - 18.00 PM.</h1>
-                            <h1>พฤหัสบดี 9.00 AM - 18.00 PM.</h1>
-                            <h1>ศุกร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>เสาร์ 9.00 AM - 18.00 PM.</h1>
-                            <h1>อาทิตย์ 9.00 AM - 18.00 PM.</h1>
+                              {places.opening_hours.length > 0 && places.opening_hours.map((item) => (
+                                item.isOpen === false ?(
+                                  <h1>{item.day} ปิด</h1>
+                                ) : (
+                                  <h1>{item.day} {item.open} น. - {item.close} น.</h1>
+                                )
+                              ))}
                           </div>
                           </div>
+                          <div className="flex flex-row">
+                            <div className="w-1/6 mt-2">
+                              <h1>รายละเอียด : </h1>
+                            </div>
+                            <div className="w-5/6 mt-2 space-y-2">
+                              <h1>{places.description}</h1>
+                            </div>
+                          </div>
+                          
                           {/* <h1>เรตติ้ง : {places.rating}</h1> */}
                           </div>
                       </div>        
@@ -245,8 +267,7 @@ export default function Place() {
                 h-auto 
                 border 
                 rounded-lg 
-                shadow-sm 
-                
+                shadow-sm
                 p-4 
                 grid 
                 grid-cols-1

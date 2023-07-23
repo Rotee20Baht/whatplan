@@ -47,13 +47,12 @@ export default function AddCreate() {
 
     axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
     .then(data => {
-      console.log(data)
-      setTimeout(() => setIsLoadedData(true), 300)
+      console.log(data.data)
     })
     .catch(err => {
       console.log(err)
-      router.replace('/404/')
     })
+    .finally(() => setTimeout(() => setIsLoadedData(true), 300))
   }, [])
 
   const [amphures, setAmphures] = useState([]);
