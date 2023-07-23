@@ -19,15 +19,15 @@ import moment from 'moment';
 
 
 export default function Create() {
-    const [ListItems, updateListItems] = useState([])
-    const [selectedTime, setSelectedTime] = useState([]);
-    const [endTime,setEndTime]  = useState()
-    const [alldates, setAlldates] = useState(1)
-    const [currentDay, setCurrentDay] = useState(0)
-    const [filterTitle, setFilterTitle] = useState('');
-    const [filterType, setFilterType] = useState();
-    const [places, setPlaces] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [ListItems, updateListItems] = useState([]);
+  const [selectedTime, setSelectedTime] = useState([]);
+  const [endTime, setEndTime] = useState();
+  const [alldates, setAlldates] = useState(1);
+  const [currentDay, setCurrentDay] = useState(0);
+  const [filterTitle, setFilterTitle] = useState("");
+  const [filterType, setFilterType] = useState();
+  const [places, setPlaces] = useState([]);
+  const [isLoaded, setIsLoading] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/place`)
@@ -211,40 +211,105 @@ export default function Create() {
         console.log(endTime);
     }
 
-    return (
-        <PageContainer >
-            <div className={styles.container}>
-                <div className={styles.searchContainer}>
-                    <div className={styles.search}>
-                        <input type="text" placeholder="ค้นหาสถานที่.." className={styles.input} value={filterTitle}
-                            onChange={e => setFilterTitle(e.target.value)} />
-                        <Button text="ค้นหา" url="#" />
-                    </div>
-                    <div className={styles.categories}>
-                        <div className={styles.category} onClick={() => setFilterType(null)}>ทั้งหมด</div>
-                        <div className={styles.category} onClick={() => setFilterType("ร้านอาหาร")}>ร้านอาหาร</div>
-                        <div className={styles.category} onClick={() => setFilterType("ที่พัก")}>ที่พัก</div>
-                        <div className={styles.category} onClick={() => setFilterType("ทะเล")}>ทะเล</div>
-                        <div className={styles.category} onClick={() => setFilterType("ธรรมชาติ")}>ธรรมชาติ</div>
-                    </div>
-                    <div className={styles.itemsContainer}>
-                        {allListItems.map(item => {
-                            return (
-                                <div className={styles.item} key={item._id}>
-                                    <div className={styles.imgContainer}>
-                                        <Image
-                                            src={item.images[0]}
-                                            alt=""
-                                            fill
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                            className={styles.img}
-                                        />
-                                    </div>
-                                    <div className={styles.textContainer}>
-                                        <div className={styles.text}>
-                                            {item.name}
-                                            <div className={styles.types}>
-                                                {/* {item.map(type => {
+	function handleSearch(){
+		let searchUrl = "http://localhost:3000/api/place?"
+
+		if(filterTitle)
+			searchUrl += `&name=${filterTitle}`
+		if(filterType)	
+			searchUrl += `&types=${filterType}`
+		
+		axios.get(searchUrl)
+		.then(({data}) => {
+			console.log(data)
+			setPlaces(data)
+		})
+		.catch(err => console.log(err))
+	}
+
+  useEffect(() => {
+    let searchUrl = "http://localhost:3000/api/place?"
+
+		if(filterTitle)
+			searchUrl += `&name=${filterTitle}`
+		if(filterType)	
+			searchUrl += `&types=${filterType}`
+		
+		axios.get(searchUrl)
+		.then(({data}) => {
+			console.log(data)
+			setPlaces(data)
+		})
+		.catch(() => {
+      setPlaces([])
+    })
+  }, [filterType])
+
+  return (
+    <PageContainer>
+      <div className={styles.container}>
+        <div className={styles.searchContainer}>
+          <div className={styles.search}>
+            <input
+              type="text"
+              placeholder="ค้นหาสถานที่.."
+              className={styles.input}
+              value={filterTitle}
+              onChange={(e) => setFilterTitle(e.target.value)}
+            />
+            <button onClick={handleSearch} className="bg-emerald-500 hover:bg-emerald-400 transition text-white px-4 rounded-xl">ค้นหา</button>
+          </div>
+          <div className={styles.categories}>
+            <div
+              className={filterType == null ? styles.category_checked : styles.category }
+              onClick={() => setFilterType(null)}
+            >
+              ทั้งหมด
+            </div>
+            <div
+              className={filterType == "ร้านอาหาร" ? styles.category_checked : styles.category }
+              onClick={() => setFilterType("ร้านอาหาร")}
+            >
+              ร้านอาหาร
+            </div>
+            <div
+              className={filterType == "ที่พัก" ? styles.category_checked : styles.category }
+              onClick={() => setFilterType("ที่พัก")}
+            >
+              ที่พัก
+            </div>
+            <div
+              className={filterType == "ทะเล" ? styles.category_checked : styles.category }
+              onClick={() => setFilterType("ทะเล")}
+            >
+              ทะเล
+            </div>
+            <div
+              className={filterType == "ธรรมชาติ" ? styles.category_checked : styles.category }
+              onClick={() => setFilterType("ธรรมชาติ")}
+            >
+              ธรรมชาติ
+            </div>
+          </div>
+          <div className={styles.itemsContainer}>
+            {}
+            {places.map((item) => {
+              return (
+                <div className={styles.item} key={item._id}>
+                  <div className={styles.imgContainer}>
+                    <Image
+                      src={item.images[0]}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className={styles.img}
+                    />
+                  </div>
+                  <div className={styles.textContainer}>
+                    <div className={styles.text}>
+                      {item.name}
+                      <div className={styles.types}>
+                        {/* {item.map(type => {
                                                     return (
                                                         <div className={styles.type}>
                                                             <div>{type}</div>

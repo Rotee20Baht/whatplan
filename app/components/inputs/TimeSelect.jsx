@@ -26,7 +26,6 @@ export default function TimeSelect({ label, open, close, register = () => {} , e
       <input
         id={close}
         type="time"
-        min="07:00:00"
         className={`
           border
           w-full 
