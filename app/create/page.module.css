@@ -1,67 +1,72 @@
+
 .container{
-    width: 100;
+    width: 100vw;
     height: 92vh;
     background: #fff;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 0;
     gap: 10px;
 }
 
 /* ---------------Search------------------------ */
 .searchContainer{
-    width: 450px;
-    background: #dfdfdf;
+    width: 430px;
+    background: #fff;
     border-radius: 10px;
+    border: 1px solid #d4d4d4;
     padding: 10px;
     display: flex;
+    align-items: center;
     flex-direction: column;
-    gap: 10px;
-    
+    gap: 10px;   
 }
 
 .search{
     display: flex;
+    align-items: center;
     padding: 10px;
-    width:100% ;
-    height: max-content;
+    width:400px;
+    height: 50px;
     background: #fff;
-    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
     gap: 10px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .input{
     flex: 1;
     padding: 10px;
     background-color: transparent;
-    border: none;
     outline: none;
     color:#333;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight:normal;
     border-radius: 10px;
-    background: #d4d4d4be;
+    background: #fff;
 }
 .categories{
-    width: 100%;
+    width:400px;
     height: max-content;
     background: #fff;
-    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 10px;
+    padding: 5px;
 }
 .category{
     text-align: center;
     width: max-content;
+    height: max-content;
     padding: 5px 5px;
     background-color: #fff;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
+    font-size: 15px;
     color: #333;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     transition: all 1s ease;
     cursor: pointer;
 }
@@ -69,11 +74,13 @@
 .category:hover{
     text-align: center;
     width: max-content;
+    height: max-content;
+    font-size: 15px;
     padding: 5px 5px;
-    background-color: #333;
+    background-color: #ffff;
     border-radius: 5px;
-    color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 1px solid #d4d4d4;
+    color: #d4d4d4;
     transition: all 1s ease;
     cursor: pointer;
 }
@@ -81,12 +88,14 @@
 .category_checked{
     text-align: center;
     width: max-content;
+    height: max-content;
+    border: 1px solid #d4d4d4;
     padding: 5px 5px;
-    background-color: #333;
+    background-color: rgb(16, 185, 129);
     border-radius: 5px;
+    font-size: 15px;
     color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transition: all 1s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
@@ -95,11 +104,15 @@
     height:800px;
     overflow-y: scroll;
 }
+.itemsContainer::-webkit-scrollbar {
+    display: none;
+}
 
 .item{
-    width:95%;
+    width:100%;
     height: 150px;
     background: #fff;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
     margin-top: 10px;
     display: flex;
@@ -187,35 +200,37 @@
 }
 /* ---------------User list-------------------------- */
 .listContainer{
-    width: 450px;
-    background: #dfdfdf;
+    width: 430px;
+    background: #fff;
     border-radius: 10px;
+    border: 1px solid #d4d4d4;
     padding: 10px;
     display: flex;
+    align-items: center;
     flex-direction: column;
-    gap: 10px
+    gap: 10px; 
 }
 .tripName{
     display: flex;
+    align-items: center;
     padding: 10px;
-    width:100% ;
-    height: max-content;
+    width:400px;
+    height: 50px;
     background: #fff;
-    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
     gap: 10px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .inputTripname{
     flex: 1;
-    padding: 5px;
+    padding: 10px;
     background-color: transparent;
-    border: none;
     outline: none;
     color:#333;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight:normal;
     border-radius: 10px;
-    background: #d4d4d4be;
+    background: #fff;
 }
 
 .time{
@@ -223,43 +238,46 @@
     justify-content: space-around;
     gap: 20px;
     padding: 5px;
-    width: 100%;
-    height:100px;
+    width:400px;
+    height: 50px;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
     
 }
 .start {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+    font-size: 15px;
+    color:#666;
 }
 .end {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+    font-size: 15px;
+    color: #666;
 }
 .days{
-    width: 100%;
+    padding: 5px;
+    width:400px;
     height: max-content;
     background: #fff;
-    border-radius: 10px;
+    border: 1px solid  #d4d4d4;
+    border-radius: 5px;
     display: flex;
-    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 10px;
+    font-size: 15px;
 }
 .date{
-    text-align: center;
-    width: max-content;
     padding: 5px 10px;
     background-color: #333;
     border-radius: 5px;
-    color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #d4d4d4;
     cursor: pointer;
+    font-size: 15px;
 }
 .day{
     text-align: center;
@@ -268,8 +286,9 @@
     background-color: white;
     border-radius: 5px;
     color: #666;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 1px solid  #d4d4d4;
     cursor: pointer;
+    font-size: 15px;
 }
 .daySelect{
     text-align: center;
@@ -278,8 +297,8 @@
     background-color: rgb(16, 185, 129);
     border-radius: 5px;
     color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
+    font-size: 15px;
 }
 .day:hover{
     text-align: center;
@@ -288,23 +307,26 @@
     background-color: rgb(16, 185, 129);
     border-radius: 5px;
     color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
+    font-size: 15px;
 }
 .addDay{
     text-align: center;
     width: max-content;
     padding: 5px 10px;
     background-color: #333;
-    border-radius: 10px;
+    border-radius: 5px;
     color: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
+    font-size: 15px;
 }
 .userItemsContainer{
     border-radius: 10px;
     height:800px;
     overflow-y: scroll;
+}
+.userItemsContainer::-webkit-scrollbar {
+    display: none;
 }
 .header{
     margin: 10px;
@@ -315,9 +337,9 @@
     gap: 10px;
 }
 .userItem{
-    width:100%;
+    width:400px;
     height: max-content;
-
+    border: 1px solid #d4d4d4;
     background: #fff;
     border-radius: 5px;
     margin-top: 10px;
@@ -368,7 +390,6 @@
     gap: 5px;
 }
 .userInput{
-    text-align: center;
     width: 50px;
     outline: none;
     border: 1px solid #d4d4d4;
@@ -377,15 +398,18 @@
 .button{
     display: flex;
     justify-content:center;
-    width: 100%;
-    padding: 20px;
+    align-items: center;
+    width:100%;
+    padding: 10px;
     background: rgb(16, 185, 129);
     border-radius: 10px;
     color: #333;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .userBtnContainer{
     display: flex;
+    justify-content:center;
+    align-items: center;
     gap: 5px;
 }

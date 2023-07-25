@@ -4,11 +4,11 @@ import PageContainer from "../components/PageContainer/Pagecontainer"
 // import Button from "../components/Button"
 import Button from "../components/Button/Button"
 import Image from "next/image"
-import { useState , useEffect} from "react"
+import { useState, useEffect } from "react"
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
-import { BsInfoSquareFill, BsFillXSquareFill } from 'react-icons/bs'
+import { BsInfoSquareFill, BsFillXSquareFill, BsSearch } from 'react-icons/bs'
 import { FaWindowClose } from 'react-icons/fa'
 import { FaMapLocationDot } from 'react-icons/fa6'
 import { MdLocationPin } from 'react-icons/md'
@@ -19,27 +19,27 @@ import moment from 'moment';
 
 
 export default function Create() {
-  const [ListItems, updateListItems] = useState([]);
-  const [selectedTime, setSelectedTime] = useState([]);
-  const [endTime, setEndTime] = useState();
-  const [alldates, setAlldates] = useState(1);
-  const [currentDay, setCurrentDay] = useState(0);
-  const [filterTitle, setFilterTitle] = useState("");
-  const [filterType, setFilterType] = useState();
-  const [places, setPlaces] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+    const [ListItems, updateListItems] = useState([]);
+    const [selectedTime, setSelectedTime] = useState([]);
+    const [endTime, setEndTime] = useState();
+    const [alldates, setAlldates] = useState(1);
+    const [currentDay, setCurrentDay] = useState(0);
+    const [filterTitle, setFilterTitle] = useState("");
+    const [filterType, setFilterType] = useState();
+    const [places, setPlaces] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/place`)
-        .then((data) => {
-          console.log(data.data)
-          setPlaces(data.data);
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally(() => setIsLoaded(false))
-      }, []);
+            .then((data) => {
+                console.log(data.data)
+                setPlaces(data.data);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => setIsLoaded(false))
+    }, []);
     const allListItems = places
     // console.log(alldates);
     // console.log(ListItems);
@@ -104,7 +104,7 @@ export default function Create() {
         const updatedSelectedTime = [...selectedTime];
         updatedSelectedTime[currentDay] = value;
         setSelectedTime(updatedSelectedTime);
-       
+
     };
     const sumHours = () => {
         let total = 0;
@@ -211,140 +211,29 @@ export default function Create() {
         console.log(endTime);
     }
 
-  useEffect(() => {
-    setIsLoaded(false);
-    let searchUrl = "http://localhost:3000/api/place?"
+    useEffect(() => {
+        setIsLoaded(false);
+        let searchUrl = "http://localhost:3000/api/place?"
 
-		if(filterTitle)
-			searchUrl += `&name=${filterTitle}`
-		if(filterType)	
-			searchUrl += `&types=${filterType}`
-		
-		axios.get(searchUrl)
-		.then(({data}) => {
-			console.log(data)
-			setPlaces(data)
-		})
-		.catch(() => {
-      setPlaces([])
-    })
-    .finally(() => setIsLoaded(true))
-  }, [filterType, filterTitle])
+        if (filterTitle)
+            searchUrl += `&name=${filterTitle}`
+        if (filterType)
+            searchUrl += `&types=${filterType}`
 
-  return (
-    <PageContainer>
-      <div className={styles.container}>
-        <div className={styles.searchContainer}>
-          <div className={styles.search}>
-            <input
-              type="text"
-              placeholder="ค้นหาสถานที่.."
-              className={styles.input}
-              value={filterTitle}
-              onChange={(e) => setFilterTitle(e.target.value)}
-            />
-            {/* <button onClick={handleSearch} className="bg-emerald-500 hover:bg-emerald-400 transition text-white px-4 rounded-xl">ค้นหา</button> */}
-          </div>
-          <div className={styles.categories}>
-            <div
-              className={filterType == null ? styles.category_checked : styles.category }
-              onClick={() => setFilterType(null)}
-            >
-              ทั้งหมด
-            </div>
-            <div
-              className={filterType == "สถานที่ท่องเที่ยว" ? styles.category_checked : styles.category }
-              onClick={() => setFilterType("สถานที่ท่องเที่ยว")}
-            >
-              สถานที่ท่องเที่ยว
-            </div>
-            <div
-              className={filterType == "ร้านอาหาร" ? styles.category_checked : styles.category }
-              onClick={() => setFilterType("ร้านอาหาร")}
-            >
-              ร้านอาหาร
-            </div>
-            <div
-              className={filterType == "ที่พัก" ? styles.category_checked : styles.category }
-              onClick={() => setFilterType("ที่พัก")}
-            >
-              ที่พัก
-            </div>
-          </div>
-          <div className={styles.itemsContainer}>
-            {!isLoaded && (
-              <div role="status">
-                  <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                  </svg>
-                  <span className="sr-only">Loading...</span>
-              </div>
-            )}
-            {isLoaded && places.length <= 0 && (
-              <div className="bg-white w-[95%] text-center py-3 rounded-lg">ไม่พบข้อมูลสถานที่</div>
-            )}
-            {isLoaded && places.map((item) => {
-              return (
-                <div className={styles.item} key={item._id}>
-                  <div className={styles.imgContainer}>
-                    <Image
-                      src={item.images[0]}
-                      alt=""
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className={styles.img}
-                    />
-                  </div>
-                  <div className={styles.textContainer}>
-                    <div className={styles.text}>
-                      {item.name}
-                      <div className={styles.types}>
-                        {/* {item.map(type => {
-                                                    return (
-                                                        <div className={styles.type}>
-                                                            <div>{type}</div>
-                                                        </div>
-                                                    )
-                                                })} */}
-                                            </div>
+        axios.get(searchUrl)
+            .then(({ data }) => {
+                console.log(data)
+                setPlaces(data)
+            })
+            .catch(() => {
+                setPlaces([])
+            })
+            .finally(() => setIsLoaded(true))
+    }, [filterType, filterTitle])
 
-                                            <div className={styles.icon}>
-                                                <MdLocationPin size={20} color="rgb(16, 185, 129)" />
-                                                {item.province}
-                                            </div>
-                                        </div>
-                                        <div className={styles.btnContainer}>
-                                            <div className={styles.info}>
-                                                <a href={`/place/${item.name}`} target="_blank">
-                                                    ดูรายละเอียด
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <button className={styles.addButton}
-                                                    onClick={() => handleAdd(
-                                                        {
-                                                            id: item.id,
-                                                            hours: 0,
-                                                            name: item.name,
-                                                            types: item.types,
-                                                            images: item.images[0]
-                                                        }
-                                                    )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-                <div className={styles.mapContainer}>
-                </div>
-
-
-                {/* -------------  user list ------------------ */}
+    return (
+        <PageContainer>
+            <div className={styles.container}>
                 <div className={styles.listContainer}>
                     <div className={styles.tripName}>
                         <input type="text" placeholder="ชื่อแผนการท่องเที่ยว" className={styles.inputTripname} />
@@ -389,7 +278,7 @@ export default function Create() {
                                                 {(provided) => (
                                                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={styles.userItem}>
                                                         <div className={styles.con}>
-                                                            <div className={styles.userImgContainer}>
+                                                            {/* <div className={styles.userImgContainer}>
                                                                 <Image
                                                                     src={images}
                                                                     alt=""
@@ -397,7 +286,7 @@ export default function Create() {
                                                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                                     className={styles.userimg}
                                                                 />
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                         <div className={styles.header}>
                                                             <h6>{name}</h6>
@@ -464,7 +353,7 @@ export default function Create() {
                                                             <div className={styles.userBtnContainer}>
                                                                 <a href={`/place/${name}`} target="_blank">
                                                                     <button className={styles.infoButton}
-                                                                    ><BsInfoSquareFill size={32} color="#aaaa" />
+                                                                    ><BsInfoSquareFill size={25} color="#aaaa" />
                                                                     </button>
                                                                 </a>
 
@@ -473,7 +362,7 @@ export default function Create() {
                                                                         {
                                                                             id: id
                                                                         }
-                                                                    )}><BsFillXSquareFill size={32} color="#d11c1c" />
+                                                                    )}><BsFillXSquareFill size={25} color="#d11c1c" />
                                                                 </button>
 
                                                             </div>
@@ -490,6 +379,120 @@ export default function Create() {
                     </DragDropContext>
                     <button className={styles.button} onClick={create}>สร้างแผนการเดินทาง</button>
                 </div>
+                <div className={styles.mapContainer}>
+                </div>
+                <div className={styles.searchContainer}>
+                    <div className={styles.search}>
+                        <input
+                            type="text"
+                            placeholder="ค้นหาสถานที่.."
+                            className={styles.input}
+                            value={filterTitle}
+                            onChange={(e) => setFilterTitle(e.target.value)}
+                        />
+                        <BsSearch size={20} color="#d4d4d4" />
+                        {/* <button onClick={handleSearch} className="bg-emerald-500 hover:bg-emerald-400 transition text-white px-4 rounded-xl">ค้นหา</button> */}
+                    </div>
+                    <div className={styles.categories}>
+                        <div
+                            className={filterType == null ? styles.category_checked : styles.category}
+                            onClick={() => setFilterType(null)}
+                        >
+                            ทั้งหมด
+                        </div>
+                        <div
+                            className={filterType == "สถานที่ท่องเที่ยว" ? styles.category_checked : styles.category}
+                            onClick={() => setFilterType("สถานที่ท่องเที่ยว")}
+                        >
+                            สถานที่ท่องเที่ยว
+                        </div>
+                        <div
+                            className={filterType == "ร้านอาหาร" ? styles.category_checked : styles.category}
+                            onClick={() => setFilterType("ร้านอาหาร")}
+                        >
+                            ร้านอาหาร
+                        </div>
+                        <div
+                            className={filterType == "ที่พัก" ? styles.category_checked : styles.category}
+                            onClick={() => setFilterType("ที่พัก")}
+                        >
+                            ที่พัก
+                        </div>
+                    </div>
+                    <div className={styles.itemsContainer}>
+                        {!isLoaded && (
+                            <div role="status">
+                                <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                                </svg>
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        )}
+                        {isLoaded && places.length <= 0 && (
+                            <div className="bg-white w-[95%] text-center py-3 rounded-lg">ไม่พบข้อมูลสถานที่</div>
+                        )}
+                        {isLoaded && places.map((item) => {
+                            return (
+                                <div className={styles.item} key={item._id}>
+                                    <div className={styles.imgContainer}>
+                                        <Image
+                                            src={item.images[0]}
+                                            alt=""
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            className={styles.img}
+                                        />
+                                    </div>
+                                    <div className={styles.textContainer}>
+                                        <div className={styles.text}>
+                                            {item.name}
+                                            <div className={styles.types}>
+                                                {/* {item.map(type => {
+                                                    return (
+                                                        <div className={styles.type}>
+                                                            <div>{type}</div>
+                                                        </div>
+                                                    )
+                                                })} */}
+                                            </div>
+
+                                            <div className={styles.icon}>
+                                                <MdLocationPin size={20} color="rgb(16, 185, 129)" />
+                                                {item.province}
+                                            </div>
+                                        </div>
+                                        <div className={styles.btnContainer}>
+                                            <div className={styles.info}>
+                                                <a href={`/place/${item.name}`} target="_blank">
+                                                    ดูรายละเอียด
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <button className={styles.addButton}
+                                                    onClick={() => handleAdd(
+                                                        {
+                                                            id: item.id,
+                                                            hours: 0,
+                                                            name: item.name,
+                                                            types: item.types,
+                                                            images: item.images[0]
+                                                        }
+                                                    )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                
+
+
+                {/* -------------  user list ------------------ */}
+
             </div>
         </PageContainer>
     )
