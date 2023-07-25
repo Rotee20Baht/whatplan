@@ -9,10 +9,10 @@ import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill, BsFillXSquareFill, BsSearch } from 'react-icons/bs'
-import { FaWindowClose } from 'react-icons/fa'
-import { FaMapLocationDot } from 'react-icons/fa6'
 import { MdLocationPin } from 'react-icons/md'
 import moment from 'moment';
+import GoogleMapComponent from "../components/GoogleMap/GoogleMapComponent"
+import { useLoadScript } from "@react-google-maps/api";
 // import PlaceData from "@/public/placeData"
 
 // const allListItems = PlaceData
@@ -57,7 +57,8 @@ export default function Create() {
             hours: 0, min: 0, minUnit: 0,
             name: item.name,
             types: item.types,
-            images: item.images
+            images: item.images,
+            location:item.location
         }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
 
         // console.log(newData);
@@ -206,9 +207,7 @@ export default function Create() {
     // --------------------------------------------------------------Time function End
 
     function create() {
-        // console.log(ListItems)
-        // console.log("time start current",selectedTime);
-        console.log(endTime);
+        console.log(ListItems[currentDay]);
     }
 
     useEffect(() => {
@@ -230,6 +229,10 @@ export default function Create() {
             })
             .finally(() => setIsLoaded(true))
     }, [filterType, filterTitle])
+
+    const { isLoad } = useLoadScript({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // Add your API key
+      });
 
     return (
         <PageContainer>
@@ -271,7 +274,8 @@ export default function Create() {
                                         hours,
                                         min,
                                         minUnit,
-                                        images
+                                        images,
+                                        location
                                     }, index) => {
                                         return (
                                             <Draggable key={id} draggableId={id} index={index}>
@@ -379,8 +383,11 @@ export default function Create() {
                     </DragDropContext>
                     <button className={styles.button} onClick={create}>สร้างแผนการเดินทาง</button>
                 </div>
+ {/* map ---------------------------------------------------------------------------------------------- */}
                 <div className={styles.mapContainer}>
+                {isLoaded ? <GoogleMapComponent data={ListItems[currentDay]}/> : null}
                 </div>
+
                 <div className={styles.searchContainer}>
                     <div className={styles.search}>
                         <input
@@ -476,7 +483,8 @@ export default function Create() {
                                                             hours: 0,
                                                             name: item.name,
                                                             types: item.types,
-                                                            images: item.images[0]
+                                                            images: item.images[0],
+                                                            location:item.location
                                                         }
                                                     )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
                                                 </button>

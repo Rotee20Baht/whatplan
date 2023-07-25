@@ -193,16 +193,15 @@
 /* ---------------Map---------------------- */
 .mapContainer{
     width:800px;
-    background: url("https://images.unsplash.com/photo-1516546453174-5e1098a4b4af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80");
-    background-size: cover;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
+    overflow: hidden;
 }
 /* ---------------User list-------------------------- */
 .listContainer{
     width: 430px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #d4d4d4;
     padding: 10px;
     display: flex;
