@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
-
+import { MdLocationPin } from 'react-icons/md';
 import Container from "@/app/components/Container";
 import { BsChevronCompactLeft,BsChevronCompactRight } from "react-icons/bs";
 
@@ -153,7 +153,7 @@ export default function Place() {
               >
               <div className=" w-full p-3">
                 <div className="flex flex-row justify-between">
-                  <h1 className="font-semibold text-xl">{places.name}</h1>
+                  <h1 className="font-semibold text-xl"></h1>
                   <Link href={`/place/edit/${places.name}`} className="bg-neutral-200 px-3 py-2 rounded-md ">แก้ไขข้อมูลสถานที่</Link>
                 </div>
                   <div className="flex flex-row  w-full p-3 space-x-4">
@@ -194,33 +194,87 @@ export default function Place() {
                           
                       </div>
                       <div className="w-full  h-full ">
-                          <h1 className="font-semibold text-xl">คำอธิบายสถานที่</h1>
+                          <h1 className="font-semibold text-2xl">{places.name}</h1>
                           <div className="w-full h-full border bg-neutral-300 "></div>   
-                          <div className="w-full h-full border  my-4 p-3 rounded-lg space-y-2">
-                          <h1>จังหวัด : {places.province}</h1>
-                          <h1>อำเภอ : {places.amphure}</h1>
-                          <h1>ประเภทสถานที่ : {places.types}</h1>
-                          <div className="flex flex-row">
+                          <div className="w-full h-full border  my-4 p-4 rounded-lg space-y-4">
+                            <div className="flex flex-row space-x-2">
+                            <div className="flex text-xl">
+                                                <MdLocationPin size={30} color="rgb(16, 185, 129)" />
+                                                {places.province}
+                                            </div>
+                            <h1 className="text-xl text-neutral-500">{places.amphure}</h1>
+                            <div className="w-max p-1 rounded-lg bg-emerald-500 text-white text-sm">{places.types}</div>
+                            </div>
+                            
+              
+                <div className="relative mt-4">
+                  <label
+                    className={`absolute bg-white -top-3 left-3 px-[3px] "text-rose-500"`}
+                  >
+                    อธิบายสถานที่
+                  </label>
+                    <div
+                      className={`
+                        border 
+                        w-full 
+                        rounded-md
+                        pt-3 
+                        pb-2 
+                        px-4 
+                        shadow-sm 
+                        outline-none`} 
+                    >
+                      <div className="w-5/6 mt-2 space-y-2 my-4 ml-5">
+                        <h1>{places.description}</h1>
+                      </div>
+                  </div>
+                  
+                </div>
+                          {/* <div className="flex flex-row">
+                            <div className="w-1/6 mt-2">
+                              <h1>รายละเอียด : </h1>
+                            </div>
+                            <div className="w-5/6 mt-2 space-y-2 my-4">
+                              <h1>{places.description}</h1>
+                            </div>
+                          </div> */}
+                          <div className=" flex flex-row ">
                           <h1>เวลา เปิด-ปิด : </h1>
                           <div className="ml-1 space-y-2">
                               {places.opening_hours.length > 0 && places.opening_hours.map((item) => (
                                 item.isOpen === false ?(
-                                  <h1>{item.day} ปิด</h1>
+                                  <div className="flex flex-row space-x-2">
+                                    <div className="border 
+                                                    w-[20px] 
+                                                    rounded-md
+                                                    bg-neutral-300
+                                                    pl-2
+                                                    pt-3 
+                                                    pb-2 
+                                                    px-4 
+                                                    shadow-sm 
+                                                    outline-none "></div>
+                                    <h1>{item.day} ปิด</h1>
+                                  </div>
+                                  
                                 ) : (
-                                  <h1>{item.day} {item.open} น. - {item.close} น.</h1>
+                                  <div className="flex flex-row space-x-2">
+                                    <div className="border 
+                                                    w-[20px] 
+                                                    rounded-md
+                                                    bg-emerald-500
+                                                    pl-2
+                                                    pt-3 
+                                                    pb-2 
+                                                    px-4 
+                                                    shadow-sm 
+                                                    outline-none"></div>
+                                      <h1>{item.day} {item.open} น. - {item.close} น.</h1>
+                                  </div>
                                 )
                               ))}
                           </div>
                           </div>
-                          <div className="flex flex-row">
-                            <div className="w-1/6 mt-2">
-                              <h1>รายละเอียด : </h1>
-                            </div>
-                            <div className="w-5/6 mt-2 space-y-2">
-                              <h1>{places.description}</h1>
-                            </div>
-                          </div>
-                          
                           {/* <h1>เรตติ้ง : {places.rating}</h1> */}
                           </div>
                       </div>        
