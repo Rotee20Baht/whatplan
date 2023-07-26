@@ -239,7 +239,7 @@ export default function Place() {
                             </div>
                           </div> */}
                           <div className=" flex flex-row ">
-                          <h1>เวลา เปิด-ปิด : </h1>
+                          
                           <div className="ml-1 space-y-2">
                               {places.opening_hours.length > 0 && places.opening_hours.map((item) => (
                                 item.isOpen === false ?(
