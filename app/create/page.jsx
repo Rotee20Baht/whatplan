@@ -13,6 +13,8 @@ import { MdLocationPin } from 'react-icons/md'
 import moment from 'moment';
 import GoogleMapComponent from "../components/GoogleMap/GoogleMapComponent"
 import { useLoadScript } from "@react-google-maps/api";
+import Loader from "../components/Loader/Loader"
+import { useMemo } from "react"
 // import PlaceData from "@/public/placeData"
 
 // const allListItems = PlaceData
@@ -27,7 +29,7 @@ export default function Create() {
     const [filterTitle, setFilterTitle] = useState("");
     const [filterType, setFilterType] = useState();
     const [places, setPlaces] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoadedData, setIsLoadedData] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/place`)
@@ -38,11 +40,22 @@ export default function Create() {
             .catch((err) => {
                 console.log(err)
             })
-            .finally(() => setIsLoaded(false))
+            .finally(() => setIsLoadedData(true))
     }, []);
-    const allListItems = places
-    // console.log(alldates);
-    // console.log(ListItems);
+
+    const mapDirectionData = useMemo(
+      () => (
+        ListItems[currentDay]?.map((item) => ({
+          id: item.id,
+          location: {
+            lat: parseFloat(item.location.lat),
+            lng: parseFloat(item.location.lng),
+          },
+          name: item.name,
+        }))),
+      [ListItems, currentDay]
+    );
+
 
     const handleAdd = (item) => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -105,8 +118,15 @@ export default function Create() {
         const updatedSelectedTime = [...selectedTime];
         updatedSelectedTime[currentDay] = value;
         setSelectedTime(updatedSelectedTime);
-
     };
+
+    const handleEndTimeChange = (event) => {
+        const value = event.target.value;
+        const updatedEndTime = [...endTime];
+        updatedEndTime[currentDay] = value;
+        setEndTime(updatedEndTime);
+    };
+
     const sumHours = () => {
         let total = 0;
         ListItems[currentDay]?.forEach(item => {
@@ -117,6 +137,7 @@ export default function Create() {
         });
         return total;
     };
+
     const sumMin = () => {
         let total = 0
         ListItems[currentDay]?.forEach(item => {
@@ -127,6 +148,7 @@ export default function Create() {
         });
         return total;
     };
+
     const sumMinUnit = () => {
         let total = 0
         ListItems[currentDay]?.forEach(item => {
@@ -207,11 +229,11 @@ export default function Create() {
     // --------------------------------------------------------------Time function End
 
     function create() {
-        console.log(ListItems[currentDay]);
+        console.log(ListItems[currentDay].map(item => ({id: item.id,})))
     }
 
     useEffect(() => {
-        setIsLoaded(false);
+        setIsLoadedData(false);
         let searchUrl = "http://localhost:3000/api/place?"
 
         if (filterTitle)
@@ -227,12 +249,12 @@ export default function Create() {
             .catch(() => {
                 setPlaces([])
             })
-            .finally(() => setIsLoaded(true))
+            .finally(() => setIsLoadedData(true))
     }, [filterType, filterTitle])
 
-    const { isLoad } = useLoadScript({
+    const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // Add your API key
-      });
+    });
 
     return (
         <PageContainer>
@@ -249,6 +271,7 @@ export default function Create() {
                         <div className={styles.end}>
                             <h4>สิ้นสุด</h4>
                             <h1>{result.format('h:mm A')}</h1>
+                            {/* <input type="time" value={endTime[currentDay]} onChange={handleTimeChange} /> */}
                         </div>
                     </div>
                     <div className={styles.days}>
@@ -385,7 +408,7 @@ export default function Create() {
                 </div>
  {/* map ---------------------------------------------------------------------------------------------- */}
                 <div className={styles.mapContainer}>
-                {isLoaded ? <GoogleMapComponent data={ListItems[currentDay]}/> : null}
+                    {isLoaded ? <GoogleMapComponent data={mapDirectionData}/> : (<Loader />)}
                 </div>
 
                 <div className={styles.searchContainer}>
@@ -427,7 +450,7 @@ export default function Create() {
                         </div>
                     </div>
                     <div className={styles.itemsContainer}>
-                        {!isLoaded && (
+                        {!isLoadedData && (
                             <div role="status">
                                 <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -436,10 +459,10 @@ export default function Create() {
                                 <span className="sr-only">Loading...</span>
                             </div>
                         )}
-                        {isLoaded && places.length <= 0 && (
+                        {isLoadedData && places.length <= 0 && (
                             <div className="bg-white w-[95%] text-center py-3 rounded-lg">ไม่พบข้อมูลสถานที่</div>
                         )}
-                        {isLoaded && places.map((item) => {
+                        {isLoadedData && places.map((item) => {
                             return (
                                 <div className={styles.item} key={item._id}>
                                     <div className={styles.imgContainer}>
