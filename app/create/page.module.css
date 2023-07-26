@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    width:400px;
+    width: 100%;
     height: 50px;
     background: #fff;
     border: 1px solid #d4d4d4;
@@ -46,7 +46,7 @@
     background: #fff;
 }
 .categories{
-    width:400px;
+    width: 100%;
     height: max-content;
     background: #fff;
     border: 1px solid #d4d4d4;
@@ -100,7 +100,7 @@
 }
 
 .itemsContainer{
-    border-radius: 10px;
+    /* border-radius: 0 0 8px 8px; */
     height:800px;
     overflow-y: scroll;
 }
@@ -121,7 +121,7 @@
 }
 
 .imgContainer{
-    width: 200px;
+    width: 185px;
     border-radius:5px ;
     font-size: 20px;
     position: relative;
@@ -213,7 +213,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    width:400px;
+    width: 100%;
     height: 50px;
     background: #fff;
     border: 1px solid #d4d4d4;
@@ -237,7 +237,7 @@
     justify-content: space-around;
     gap: 20px;
     padding: 5px;
-    width:400px;
+    width: 100%;
     height: 50px;
     background: #fff;
     border-radius: 5px;
@@ -260,21 +260,21 @@
 }
 .days{
     padding: 5px;
-    width:400px;
+    width: 100%;
     height: max-content;
     background: #fff;
     border: 1px solid  #d4d4d4;
     border-radius: 5px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    /* justify-content: spa; */
+    gap: 5px;
     font-size: 15px;
 }
 .date{
     padding: 5px 10px;
-    background-color: #333;
+    background-color: #e5e5e5;
     border-radius: 5px;
-    color: #d4d4d4;
+    /* color: #d4d4d4; */
     cursor: pointer;
     font-size: 15px;
 }
@@ -294,6 +294,7 @@
     width: max-content;
     padding: 5px 10px;
     background-color: rgb(16, 185, 129);
+    border: 1px solid rgb(16, 185, 129);
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
@@ -309,16 +310,27 @@
     cursor: pointer;
     font-size: 15px;
 }
+
 .addDay{
     text-align: center;
-    width: max-content;
     padding: 5px 10px;
-    background-color: #333;
+    background-color: #a7f3d0;
     border-radius: 5px;
-    color: #fff;
+    /* color: #fff; */
     cursor: pointer;
-    font-size: 15px;
+    font-size: 18px;
 }
+
+.decDay{
+    text-align: center;
+    padding: 5px 10px;
+    background-color: #fecdd3;
+    border-radius: 5px;
+    /* color: #fff; */
+    cursor: pointer;
+    font-size: 18px;
+}
+
 .userItemsContainer{
     border-radius: 10px;
     height:800px;
@@ -402,8 +414,9 @@
     padding: 10px;
     background: rgb(16, 185, 129);
     border-radius: 10px;
-    color: #333;
-    font-size: 15px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .userBtnContainer{

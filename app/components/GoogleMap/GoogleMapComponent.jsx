@@ -32,7 +32,7 @@ function GoogleMapComponent(props) {
   //   [markers]
   // );
 
-  console.log(markers)
+  // console.log(markers)
   // console.log(convertedLocation)
 
   useEffect(() => {
@@ -52,6 +52,7 @@ function GoogleMapComponent(props) {
         },
         (result, status) => {
           if (status === window.google.maps.DirectionsStatus.OK) {
+            // console.log(result)
             setDirections(result);
           } else {
             console.error("Error calculating directions:", status);

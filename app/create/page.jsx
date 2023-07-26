@@ -15,6 +15,7 @@ import GoogleMapComponent from "../components/GoogleMap/GoogleMapComponent"
 import { useLoadScript } from "@react-google-maps/api";
 import Loader from "../components/Loader/Loader"
 import { useMemo } from "react"
+import { useCallback } from "react"
 // import PlaceData from "@/public/placeData"
 
 // const allListItems = PlaceData
@@ -23,7 +24,7 @@ import { useMemo } from "react"
 export default function Create() {
     const [ListItems, updateListItems] = useState([]);
     const [selectedTime, setSelectedTime] = useState([]);
-    const [endTime, setEndTime] = useState();
+    const [endTime, setEndTime] = useState([0]);
     const [alldates, setAlldates] = useState(1);
     const [currentDay, setCurrentDay] = useState(0);
     const [filterTitle, setFilterTitle] = useState("");
@@ -120,13 +121,6 @@ export default function Create() {
         setSelectedTime(updatedSelectedTime);
     };
 
-    const handleEndTimeChange = (event) => {
-        const value = event.target.value;
-        const updatedEndTime = [...endTime];
-        updatedEndTime[currentDay] = value;
-        setEndTime(updatedEndTime);
-    };
-
     const sumHours = () => {
         let total = 0;
         ListItems[currentDay]?.forEach(item => {
@@ -160,26 +154,46 @@ export default function Create() {
         return total;
     };
 
-    let totalHours = sumHours();
-    let totalMin = sumMin()
-    let totalMinUnit = sumMinUnit()
-    let finalMin = totalMin + totalMinUnit
-    let finalHours = totalHours
+    // useEffect(() => {
+    //     let totalHours = sumHours();
+    //     let totalMin = sumMin()
+    //     let totalMinUnit = sumMinUnit()
+    //     let finalMin = totalMin + totalMinUnit
+    //     let finalHours = totalHours
+    
+    //     if (finalMin >= 60) {
+    //         const hourToAdd = Math.floor(finalMin / 60);
+    //         finalHours += hourToAdd;
+    //         finalMin -= hourToAdd * 60;
+    //     }
 
-    if (finalMin >= 60) {
-        const hourToAdd = Math.floor(finalMin / 60);
-        finalHours += hourToAdd;
-        finalMin -= hourToAdd * 60;
-    }
-    const time = moment(selectedTime[currentDay], 'HH:mm');
-    const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
+    //     if (finalHours > 24) {
+    //         alert("You can't add more than a day to the selected date.");
+    //     }
+
+    //     const time = moment(selectedTime[currentDay], 'HH:mm');
+    //     let result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
+    //     result.format('h:mm A')
+    //     handleEndTimeChange(result)
+    // }, [ListItems])
+    // let totalHours = sumHours();
+    // let totalMin = sumMin()
+    // let totalMinUnit = sumMinUnit()
+    // let finalMin = totalMin + totalMinUnit
+    // let finalHours = totalHours
+
+    // if (finalMin >= 60) {
+    //     const hourToAdd = Math.floor(finalMin / 60);
+    //     finalHours += hourToAdd;
+    //     finalMin -= hourToAdd * 60;
+    // }
+    // const time = moment(selectedTime[currentDay], 'HH:mm');
+    // const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
+    // handleEndTimeChange(result)
     // setEndTime(result.format('h:mm A'))
     // console.log();
     // console.log(finalHours, "hours", finalMin, "Minutes");
 
-    if (finalHours > 24) {
-        alert("You can't add more than a day to the selected date.");
-    }
     const setHours = (item) => {
         const newList = ListItems[currentDay].map((list) => {
             if (list.id === item.id) {
@@ -225,11 +239,52 @@ export default function Create() {
         }
         );
     };
+
+    function handleEndTimeChange(){
+        let totalHours = sumHours();
+        let totalMin = sumMin()
+        let totalMinUnit = sumMinUnit()
+        let finalMin = totalMin + totalMinUnit
+        let finalHours = totalHours
+        
+        console.log(finalHours, "hours", finalMin, "Minutes");
+
+        if (finalMin >= 60) {
+            const hourToAdd = Math.floor(finalMin / 60);
+            finalHours += hourToAdd;
+            finalMin -= hourToAdd * 60;
+        }
+
+        if (finalHours > 24) {
+            alert("You can't add more than a day to the selected date.");
+        }
+
+        const time = moment(selectedTime[currentDay], 'HH:mm');
+        let result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
+
+        console.log(result.format('h:mm A'))
+
+        const updatedEndTime = [...endTime];
+        updatedEndTime[currentDay] = result.format('h:mm A');
+        setEndTime(updatedEndTime);
+    };
+
+    useEffect(() => {
+        handleEndTimeChange()
+    }, [ListItems, selectedTime])
+
     // console.log(filterType);
     // --------------------------------------------------------------Time function End
 
+    function handleDeleteDay(){
+        updateListItems(ListItems.slice(0, alldates-1))
+        setSelectedTime(selectedTime.slice(0, alldates-1))
+        setAlldates(alldates - 1)
+    }
+
     function create() {
-        console.log(ListItems[currentDay].map(item => ({id: item.id,})))
+        console.log(ListItems)
+        console.log(selectedTime)
     }
 
     useEffect(() => {
@@ -270,19 +325,28 @@ export default function Create() {
                         </div>
                         <div className={styles.end}>
                             <h4>สิ้นสุด</h4>
-                            <h1>{result.format('h:mm A')}</h1>
-                            {/* <input type="time" value={endTime[currentDay]} onChange={handleTimeChange} /> */}
+                            <h1>{endTime[currentDay]}</h1>
                         </div>
                     </div>
                     <div className={styles.days}>
                         <div className={styles.date}>วันที่</div>
-                        {Array(alldates).fill(null).map((_, index) => (
-                            <div key={`date` + index}
-                                className={`${currentDay == index ? `${styles.daySelect}` : `${styles.day}`}`} onClick={() => setCurrentDay(index)}>
-                                {index + 1}
-                            </div>
-                        ))}
-                        <div className={styles.addDay} onClick={() => setAlldates(() => alldates + 1)}>
+                        {alldates > 1 && (<div className={styles.decDay} onClick={() => handleDeleteDay()}>-</div>)}
+                        <div className={`flex flex-row gap-1.5 flex-grow ${alldates > 6 ? 'justify-evenly' : ''}`}>
+                            {Array(alldates).fill(null).map((_, index) => (
+                                <div key={`date` + index}
+                                    className={`${currentDay == index ? `${styles.daySelect}` : `${styles.day}`}`} onClick={() => setCurrentDay(index)}>
+                                    {index + 1}
+                                </div>
+                            ))}
+                        </div>
+                        <div className={styles.addDay} onClick={() => {
+                            setAlldates(() => alldates + 1)
+                            setSelectedTime(() => {
+                                let updatedArray = [...selectedTime]
+                                updatedArray[alldates] = "--:--"
+                                return updatedArray
+                            })
+                        }}>
                             +
                         </div>
                     </div>
@@ -327,9 +391,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={hours} onChange={(event) => setHours(
                                                                     {
                                                                         id: id,
-                                                                        name: name,
                                                                         hours: event.target.value,
-                                                                        images: images
                                                                     }
                                                                 )}>
                                                                     <option value={0}>0</option>
@@ -343,9 +405,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={min} onChange={(event) => setMin(
                                                                     {
                                                                         id: id,
-                                                                        name: name,
                                                                         min: event.target.value,
-                                                                        images: images
                                                                     }
                                                                 )}>
                                                                     <option value={0}>0</option>
@@ -358,9 +418,7 @@ export default function Create() {
                                                                 <select className={styles.userInput} value={minUnit} onChange={(event) => setMinUnit(
                                                                     {
                                                                         id: id,
-                                                                        name: name,
                                                                         minUnit: event.target.value,
-                                                                        images: images
                                                                     }
                                                                 )}>
                                                                     <option value={0}>0</option>
