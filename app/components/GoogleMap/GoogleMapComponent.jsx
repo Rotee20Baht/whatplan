@@ -41,7 +41,6 @@ function GoogleMapComponent(props) {
       const waypoints = markers.slice(1, -1).map((marker) => ({ location: marker.location }));
       const origin = markers[0].location;
       const destination = markers[markers.length - 1].location;
-
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
         {
