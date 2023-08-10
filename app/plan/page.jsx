@@ -176,7 +176,7 @@ export default function Places() {
                 <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
               )}
               {places.length > 0 && places.map((item) => (
-                <Link href={`/plan/${item.name}`} key={item.name} className="relative">
+                <Link href={`/plan/${item._id}`} key={item._id} className="relative">
                   <Card
                     title={item.name}
                     province={item.lists[0][0].placeId.province}

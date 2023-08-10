@@ -4,13 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-
 import { provinces } from "@/app/providers/SelectDataProvider";
 import { placttype } from "@/app/providers/SelectDataProvider";
 import { MdLocationPin } from 'react-icons/md';
 import Container from "@/app/components/Container";
 import { BsChevronCompactLeft,BsChevronCompactRight } from "react-icons/bs";
-
 import "swiper/css";
 import "swiper/css/free-mode";
 import "react-loading-skeleton/dist/skeleton.css";

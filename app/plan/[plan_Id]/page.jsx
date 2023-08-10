@@ -4,9 +4,12 @@ import styles from "./page.module.css"
 import PageContainer from "@/app/components/PageContainer/Pagecontainer";
 import { BiSolidPlaneAlt, BiSolidTimeFive } from "react-icons/bi"
 import { MdLocationPin } from 'react-icons/md'
+import {BsCloudSunFill} from 'react-icons/bs'
 import Link from "next/link";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Image from "next/image";
+import axios from "axios";
+import { usePathname } from "next/navigation";
 
 const PlanedData = [
     [
@@ -123,25 +126,32 @@ const PlanedData = [
     ]
 ]
 
-
 export default function PlanInfo() {
-    const Data = PlanedData
+    const [plan,setPlan] = useState()
+    const Data = plan
+    const pathname = usePathname();
     const [currentDay, setCurrentDay] = useState(0)
-    // useEffect(() => {
-    //     axios.get(`/api/place`)
-    //         .then((data) => {
-    //             console.log(data.data)
-    //             setPlaces(data.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    //         .finally(() => setIsLoadedData(true))
-    // }, []);
-    // const [selectedDate, setSelectedDate] = useState(null);
-    // const handleDateClick = (date) => {
-    //     setSelectedDate(date);
-    // };
+    const [isLoaded,setIsLoaded] = useState(false);
+    useEffect(() => {
+        const decodedPathname = decodeURIComponent(pathname).replace('/plan/','');
+        console.log(decodedPathname)
+    
+        axios.get(`/api/plan?name=${decodedPathname}`)
+        .then((data) => {
+          console.log(data.data[0]);
+          setPlan(data.data[0]);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => setIsLoaded(true))
+      }, []);
+
+    const [selectedDate, setSelectedDate] = useState(null);
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+    };
+
     return (
         <Container>
             <PageContainer>
@@ -184,7 +194,7 @@ export default function PlanInfo() {
                         <div className={styles.day}>
                             <h1>วันที่</h1>
                         </div>
-                        {Data.map((item, index) => (
+                        {Data.lists.map((item, index) => (
                             <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
                         ))}
                     </div>
@@ -192,7 +202,7 @@ export default function PlanInfo() {
                         <h1>เริ่มต้นวัน : 09.00 น.</h1>
                     </div>
                     <div className={styles.infoDay}>
-                        {Data[currentDay].map((item, index) => (
+                        {/* {Data.lists[currentDay].map((item, index) => (
                             <div className={styles.dayData} key={item.id}>
                                 <div className={styles.dayImgContainer}>
                                     <Image
@@ -221,14 +231,14 @@ export default function PlanInfo() {
                                         </div>
                                         <div className={styles.viewMore}>
                                             <a href={`/place/${item.title}`}> 
-                                            {/* title to name  */}
+                                        
                                                 รายละเอียดสถานที่เพิ่มเติม...
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </PageContainer>
