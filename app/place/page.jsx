@@ -24,7 +24,7 @@ export default function Places() {
   const [amphure ,setAmphure] = useState();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/place`)
+    axios.get(`/api/place`)
     .then((data) => {
       console.log(data.data)
       setPlaces(data.data);
@@ -72,7 +72,7 @@ export default function Places() {
 
   const loadMorePlace = () => {
     setIsLoading(true)
-    let searhUrl = `http://localhost:3000/api/place?start=${places.length}`
+    let searhUrl = `/api/place?start=${places.length}`
 
     console.log({province,amphure, types})
 
@@ -100,7 +100,7 @@ export default function Places() {
   useEffect(() => {
     setIsLoading(true)
     setPlaces([])
-    let searhUrl = `http://localhost:3000/api/place?`
+    let searhUrl = `/api/place?`
 
     console.log({province,amphure, types})
 

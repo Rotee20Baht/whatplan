@@ -26,18 +26,16 @@ export default function Place() {
   const [amphure ,setAmphure] = useState();
   const [currentIndex,setcurrentIndex] = useState(0);
   const [isLoaded,setIsLoaded] = useState(false);
-
   const pathname = usePathname();
 
   useEffect(() => {
-    const decodedPathname = decodeURIComponent(pathname).replace('/place/', '');
+    const decodedPathname = decodeURIComponent(pathname).replace('/place/','');
     console.log(decodedPathname)
 
-    axios.get(`http://localhost:3000/api/place?name=${decodedPathname}`)
+    axios.get(`/api/place?name=${decodedPathname}`)
     .then((data) => {
       console.log(data.data[0]);
       setPlaces(data.data[0]);
-      
     })
     .catch((err) => {
       console.log(err)

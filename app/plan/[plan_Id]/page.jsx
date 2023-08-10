@@ -12,7 +12,6 @@ import Image from "next/image";
 import axios from "axios";
 import Loader from "@/app/components/Loader/Loader";
 
-
 const PlanedData = [
     [
         {
@@ -127,6 +126,7 @@ const PlanedData = [
         },
     ]
 ]
+
 
 export default function PlanInfo() {
     const Data = PlanedData
@@ -247,7 +247,7 @@ export default function PlanInfo() {
                             <h1>วันที่</h1>
                         </div>
                         {Data.map((item, index) => (
-                            <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)}>{index + 1}</div>
+                            <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
                         ))}
                     </div>
                     <div className={styles.start}>
@@ -282,7 +282,7 @@ export default function PlanInfo() {
                                             ตั้งแต่เวลา 9.00 น. ถึง 11.00 น.
                                         </div>
                                         <div className={styles.viewMore}>
-                                            <a href={`/place/${item.title}`} target="_blank"> 
+                                            <a href={`/place/${item.title}`}> 
                                             {/* title to name  */}
                                                 รายละเอียดสถานที่เพิ่มเติม...
                                             </a>
