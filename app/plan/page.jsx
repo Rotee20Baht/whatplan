@@ -1,50 +1,152 @@
+"use client";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+
+import { provinces } from "@/app/providers/SelectDataProvider";
+import { placttype } from "@/app/providers/SelectDataProvider";
+
 import Container from "../components/Container";
-import Selectbar from "../components/select/Selectbar";
 import Card from "../components/Card";
 import Link from "next/link";
 
-export default function Plan() {
-  const plans = [
-    {
+import SelectItem from "../components/select/SelectItem";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import Loader from "../components/Loader/Loader";
 
-      title: "ประสบการณ์สนุกในกรุงเทพฯ",
-      provice: "กรุงเทพมหานคร",
-      img: "https://youimg1.tripcdn.com/target/fd/tg/g1/M04/5F/2C/CghzfFW4TKGAaaOlAAX9H1cljyU402_C_670_770_R5.jpg_.webp",
-      rating: "5"
-    },
-    {
-  
-      title: "เที่ยว ณ เชียงใหม่",
-      provice: "เชียงใหม่",
-      img: "https://youimg1.tripcdn.com/target/100p0y000000lmg0c3B71_C_670_770_R5.jpg_.webp",
-      rating: "5"
-    },
-    {
-  
-      title: "วนหอนาฬิกาตรัง",
-      provice: "ตรัง",
-      img: "https://youimg1.tripcdn.com/target/0ww6z120008zanvdt0EA9_C_760_506_R5.jpg?proc=source/trip",
-      rating: "5"
-    },
-    {
-      
-      title: "เมืองเก่าภูเก็ต",
-      provice: "ภูเก็ต",
-      img: "https://youimg1.tripcdn.com/target/100v10000000p5dg64786_C_760_506_Q70.jpg?proc=source%2ftrip",
-      rating: "5"
-    },
-  ]
+export default function Places() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [province, setProvince] = useState();
+  const [amphures ,setAmphures] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [types, setTypes] = useState();
+  const [amphure ,setAmphure] = useState();
+
+  useEffect(() => {
+    axios.get(`/api/plan`)
+    .then((data) => {
+      console.log(data.data)
+      setPlaces(data.data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => setIsLoading(false))
+  }, []);
+
+  const onProvinceChange = async (value) => {
+    setProvince(value)
+    setAmphure("")
+    setTypes("")
+
+    const amphure_data = await axios.get(
+      `/api/amphure?province=${value}`
+    );
+
+    const data = amphure_data.data[0]?.amphure;
+    console.log(data);
+    if(data){
+      const formattedData = [
+        {
+          options: data?.map((item) => {
+            return { label: item, value: item };
+          }),
+        },
+      ]
+      setAmphures(formattedData);
+      return;
+    }
+    setAmphures([]);
+  }
+
+  const onAmphureChange = (value) => {
+    console.log(value)
+    setAmphure(value)
+  }
+
+  const onTypesChange = (value) => {
+    console.log(value)
+    setTypes(value)
+  }
+
+  const loadMorePlace = () => {
+    setIsLoading(true)
+    let searhUrl = `/api/plan?start=${places.length}`
+
+    console.log({province,amphure, types})
+
+    if(province)
+      searhUrl+= `&province=${province}` 
+    if(amphure)
+      searhUrl+= `&amphure=${amphure.value}`
+    if(types)
+      searhUrl+= `&types=${types.value}` 
+
+    console.log(searhUrl)
+
+    axios.get(searhUrl)
+
+    .then((data) => {
+      console.log(data.data)
+      setPlaces(prev => [...prev, ...data.data]);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => setIsLoading(false))
+  }
+
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   setPlaces([])
+  //   let searhUrl = `http://localhost:3000/api/place?`
+
+  //   console.log({province,amphure, types})
+
+  //   if(province)
+  //     searhUrl+= `&province=${province}` 
+  //   if(amphure)
+  //     searhUrl+= `&amphure=${amphure.value}`
+  //   if(types)
+  //     searhUrl+= `&types=${types.value}` 
+
+  //   console.log(searhUrl)
+
+  //   axios.get(searhUrl)
+
+  //   .then((data) => {
+  //     console.log(data.data)
+  //     setPlaces(data.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //     setPlaces([]);
+  //   })
+  //   .finally(() => setIsLoading(false))
+  // }, [province, amphure, types])
 
   return (
     <div className="pt-20 pb-4">
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
-          <h1 className="font-semibold text-xl">ค้นหาแผนการท่องเที่ยวทั้งหมด</h1>
-          <Selectbar title1="จังหวัด" title2="ประเภทการท่องเที่ยว" title3="จำนวนวันในแผน" />
-          <div
-            className="
+          <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
+          <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
+            <div className="w-full flex flex-col lg:flex-row gap-4">
+              <div className="w-full flex flex-col flex-1">
+                <SelectItem label="จังหวัด" options={provinces} onChange={(value) => onProvinceChange(value?.value)} />
+              </div>
+              <div className="w-full flex flex-col flex-1">
+                <SelectItem label="อำเภอ" options={amphures} onChange={(value) => onAmphureChange(value)} value={amphure}/>
+              </div>
+              <div className="w-full flex flex-col flex-1">
+                <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value)} value={types}/>
+              </div>
+            </div>
+          </div>
+          <div 
+            className={`
               w-full 
-              h-auto 
               border 
               rounded-lg 
               shadow-sm 
@@ -54,20 +156,42 @@ export default function Plan() {
               sm:grid-cols-2
               md:grid-cols-3
               lg:grid-cols-4
-              gap-4"
-          >
-            {plans.map((item) => (
-              <Link href={`/plan/${item.title}`}>
-                <Card
-                  key={item.title}
-                  title={item.title}
-                  province={item.provice}
-                  img={item.img}
-                  rating={item.rating}
-                />
-              </Link>
-
-            ))}
+              gap-4
+              relative
+              ${isLoading ? "md:h-[70vh]" : "h-auto"}
+            `}
+            >
+              {isLoading && (
+                <div className="text-center col-span-full flex flex-row justify-center items-center">
+                  <Loader />
+                </div>
+                // <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
+                // </SkeletonTheme>
+              )}
+              {places.length <= 0 && !isLoading && (
+                <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
+              )}
+              {places.length > 0 && places.map((item) => (
+                <Link href={`/plan/${item.name}`} key={item.name} className="relative">
+                  <Card
+                    title={item.name}
+                    province={item.lists[0][0].placeId.province}
+                    img={item.lists[0][0].placeId.images[0]}
+                  />
+                </Link>
+              ))}
+              {places.length >= 12 && !isLoading && (
+                <div 
+                  className="col-span-full text-end text-neutral-500 hover:text-neutral-800 transition cursor-pointer"
+                  onClick={loadMorePlace}
+                >
+                  ดูสถานที่เพิ่มเติม
+                </div>
+              )}
           </div>
         </div>
       </Container>

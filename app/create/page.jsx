@@ -15,22 +15,21 @@ import GoogleMapComponent from "../components/GoogleMap/GoogleMapComponent"
 import { useLoadScript } from "@react-google-maps/api";
 import Loader from "../components/Loader/Loader"
 import { useMemo } from "react"
-import { useCallback } from "react"
-// import PlaceData from "@/public/placeData"
-
-// const allListItems = PlaceData
-
+import { useSession } from 'next-auth/react';
 
 export default function Create() {
     const [ListItems, updateListItems] = useState([]);
     const [selectedTime, setSelectedTime] = useState([]);
-    const [endTime, setEndTime] = useState([0]);
+    const [endTime, setEndTime] = useState([]);
     const [alldates, setAlldates] = useState(1);
     const [currentDay, setCurrentDay] = useState(0);
     const [filterTitle, setFilterTitle] = useState("");
     const [filterType, setFilterType] = useState();
     const [places, setPlaces] = useState([]);
     const [isLoadedData, setIsLoadedData] = useState(false);
+    const [planName, setPlanName] = useState('');
+
+    const { data: session } = useSession()
 
     useEffect(() => {
         axios.get(`/api/place`)
@@ -68,10 +67,10 @@ export default function Create() {
         const newData =
         {
             id: result,
+            _id: item._id,
             hours: 0, min: 0, minUnit: 0,
             name: item.name,
             types: item.types,
-            images: item.images,
             location:item.location
         }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
 
@@ -262,10 +261,10 @@ export default function Create() {
         const time = moment(selectedTime[currentDay], 'HH:mm');
         let result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
 
-        console.log(result.format('h:mm A'))
+        // console.log(result.format('H:mm A'))
 
         const updatedEndTime = [...endTime];
-        updatedEndTime[currentDay] = result.format('h:mm A');
+        updatedEndTime[currentDay] = result.format("h:mm A");
         setEndTime(updatedEndTime);
     };
 
@@ -279,17 +278,75 @@ export default function Create() {
     function handleDeleteDay(){
         updateListItems(ListItems.slice(0, alldates-1))
         setSelectedTime(selectedTime.slice(0, alldates-1))
+        setEndTime(endTime.slice(0, alldates-1))
         setAlldates(alldates - 1)
     }
+    
+    function isValidTime(timeArr){
+        if(timeArr.length <= 0) 
+            return false
+
+        for(let i of timeArr){
+            if(i === '--:--' || i === 'Invalid date'){
+                return false;
+            }
+          }
+        return true;
+    }
+
+    const isValidInput = useMemo(() => {
+        if(!planName)
+            return false;
+
+        if(!isValidTime(selectedTime))
+            return false;
+
+        for(let i = 0; i < alldates; i++){
+            if(ListItems[i]?.length <= 0)
+                return false;
+            
+            for(let place of ListItems[i]){
+                if(!place.hours && !place.min && !place.minUnit)
+                    return false;
+            }
+        }
+
+        return true;
+    }, [selectedTime, ListItems, planName])
 
     function create() {
-        console.log(ListItems)
-        console.log(selectedTime)
+        const formatedData = {
+            name: planName,
+            author: session?.user._id,
+            starts: JSON.stringify(selectedTime),
+            lists: ListItems.map(lists => {
+                return lists.map(list => {
+                    return {
+                        id: list.id,
+                        placeId: list._id,
+                        hours: list.hours,
+                        min: list.min,
+                        minUnit: list.minUnit,
+                    }
+                })
+            })
+        }
+        
+        console.log(formatedData)
+
+        axios.post("/api/plan", formatedData)
+        .then(({ data }) => {
+            console.log(data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+
     }
 
     useEffect(() => {
         setIsLoadedData(false);
-        let searchUrl = "http://localhost:3000/api/place?"
+        let searchUrl = "/api/place?"
 
         if (filterTitle)
             searchUrl += `&name=${filterTitle}`
@@ -316,7 +373,9 @@ export default function Create() {
             <div className={styles.container}>
                 <div className={styles.listContainer}>
                     <div className={styles.tripName}>
-                        <input type="text" placeholder="ชื่อแผนการท่องเที่ยว" className={styles.inputTripname} />
+                        <input type="text" placeholder="ชื่อแผนการท่องเที่ยว" className={styles.inputTripname} value={planName}
+                            onChange={e => setPlanName(e.target.value)}
+                        />
                     </div>
                     <div className={styles.time}>
                         <div className={styles.start}>
@@ -462,7 +521,7 @@ export default function Create() {
                             )}
                         </Droppable>
                     </DragDropContext>
-                    <button className={styles.button} onClick={create}>สร้างแผนการเดินทาง</button>
+                    <button className={styles.button} onClick={create} disabled={!isValidInput}>สร้างแผนการเดินทาง</button>
                 </div>
  {/* map ---------------------------------------------------------------------------------------------- */}
                 <div className={styles.mapContainer}>
@@ -561,10 +620,10 @@ export default function Create() {
                                                     onClick={() => handleAdd(
                                                         {
                                                             id: item.id,
+                                                            _id: item._id,
                                                             hours: 0,
                                                             name: item.name,
                                                             types: item.types,
-                                                            images: item.images[0],
                                                             location:item.location
                                                         }
                                                     )}><SiAddthis size={30} color="rgb(16, 185, 129)" />
@@ -578,8 +637,6 @@ export default function Create() {
                     </div>
                 </div>
                 
-
-
                 {/* -------------  user list ------------------ */}
 
             </div>
