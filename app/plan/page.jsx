@@ -130,7 +130,7 @@ export default function Places() {
     <div className="pt-20 pb-4">
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
-          <h1 className="font-semibold text-xl">ค้นหาสถานที่ทั้งหมด</h1>
+          <h1 className="font-semibold text-xl">ค้นหาแผนการท่องเที่ยว</h1>
           <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
             <div className="w-full flex flex-col lg:flex-row gap-4">
               <div className="w-full flex flex-col flex-1">
@@ -165,18 +165,12 @@ export default function Places() {
                 <div className="text-center col-span-full flex flex-row justify-center items-center">
                   <Loader />
                 </div>
-                // <SkeletonTheme baseColor="#f5f5f5" highlightColor="#d4d4d4">
-                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                //   <Skeleton className="w-full h-96 sm:h-80 rounded-md" />
-                // </SkeletonTheme>
               )}
               {places.length <= 0 && !isLoading && (
                 <div className="text-center col-span-full">ไม่พบข้อมูลสถานที่</div>
               )}
               {places.length > 0 && places.map((item) => (
-                <Link href={`/plan/${item.name}`} key={item.name} className="relative">
+                <Link href={`/plan/${item._id}`} key={item._id} className="relative">
                   <Card
                     title={item.name}
                     province={item.lists[0][0].placeId.province}

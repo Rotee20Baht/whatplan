@@ -318,7 +318,7 @@ export default function Create() {
         const formatedData = {
             name: planName,
             author: session?.user._id,
-            starts: JSON.stringify(selectedTime),
+            starts: selectedTime,
             lists: ListItems.map(lists => {
                 return lists.map(list => {
                     return {

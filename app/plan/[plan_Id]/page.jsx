@@ -3,10 +3,14 @@ import Container from "@/app/components/Container";
 import styles from "./page.module.css"
 import PageContainer from "@/app/components/PageContainer/Pagecontainer";
 import { BiSolidPlaneAlt, BiSolidTimeFive } from "react-icons/bi"
-import { MdLocationPin } from 'react-icons/md'
+import { MdLocationPin, MdDeleteOutline } from 'react-icons/md'
+import { LuEdit3 } from 'react-icons/lu'
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
+import Loader from "@/app/components/Loader/Loader";
 
 
 const PlanedData = [
@@ -126,18 +130,87 @@ const PlanedData = [
 
 export default function PlanInfo() {
     const Data = PlanedData
-    const [currentDay, setCurrentDay] = useState(0)
-    // const [selectedDate, setSelectedDate] = useState(null);
-    // const handleDateClick = (date) => {
-    //     setSelectedDate(date);
-    // };
+    const [currentDay, setCurrentDay] = useState(0);
+    const [plan, setPlan] = useState();
+    const [isLoaded, setIsLoaded] = useState(false);
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const planId = pathname.replace('/plan/', '');
+        console.log(planId)
+
+        axios.get(`/api/plan?id=${planId}`)
+        .then(data => {
+            console.log(data.data);
+            setPlan(data.data);
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsLoaded(true))
+    }, [])
+
+    if(!isLoaded){
+        return (
+            <div className="pt-20 pb-4">
+                <Container>
+                    <div className="flex flex-row justify-center">
+                        <Loader />
+                    </div>
+                </Container>
+            </div>
+        )
+    }
+
     return (
         <Container>
             <PageContainer>
                 <div className={styles.Container}>
                     <div className={styles.title}>
                         <h1>ชื่อแผนการท่องเที่ยว : เที่ยวนครศรีธรรมราช</h1>
-
+                        
+                        <div className="flex flex-row items-center gap-1.5">
+                            <div 
+                                className="
+                                    px-3 
+                                    py-1.5 
+                                    flex 
+                                    flex-row 
+                                    items-center 
+                                    gap-1.5 
+                                    text-sm 
+                                    text-white 
+                                    bg-blue-500 
+                                    rounded-lg 
+                                    cursor-pointer
+                                    transition
+                                    hover:bg-blue-600
+                                    hover:shadow-md
+                                "
+                             >
+                                    <LuEdit3 />
+                                    แก้ไข
+                            </div>
+                            <div 
+                                className="
+                                    px-3 
+                                    py-1.5 
+                                    flex 
+                                    flex-row 
+                                    items-center 
+                                    gap-1.5 
+                                    text-sm 
+                                    text-white 
+                                    bg-red-500 
+                                    rounded-lg 
+                                    cursor-pointer
+                                    transition
+                                    hover:bg-red-600
+                                    hover:shadow-md
+                                "
+                             >
+                                    <MdDeleteOutline />
+                                    ลบ
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.categories}>
                         <div className={styles.category}>ร้านอาหาร</div>
