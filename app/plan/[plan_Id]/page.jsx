@@ -3,13 +3,14 @@ import Container from "@/app/components/Container";
 import styles from "./page.module.css"
 import PageContainer from "@/app/components/PageContainer/Pagecontainer";
 import { BiSolidPlaneAlt, BiSolidTimeFive } from "react-icons/bi"
-import { MdLocationPin } from 'react-icons/md'
-import {BsCloudSunFill} from 'react-icons/bs'
+import { MdLocationPin, MdDeleteOutline } from 'react-icons/md'
+import { LuEdit3 } from 'react-icons/lu'
 import Link from "next/link";
-import { useState ,useEffect} from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
-import { usePathname } from "next/navigation";
+import Loader from "@/app/components/Loader/Loader";
 
 const PlanedData = [
     [
@@ -127,30 +128,35 @@ const PlanedData = [
 ]
 
 export default function PlanInfo() {
-    const [plan,setPlan] = useState()
-    const Data = plan
-    const pathname = usePathname();
-    const [currentDay, setCurrentDay] = useState(0)
-    const [isLoaded,setIsLoaded] = useState(false);
-    useEffect(() => {
-        const decodedPathname = decodeURIComponent(pathname).replace('/plan/','');
-        console.log(decodedPathname)
     
-        axios.get(`/api/plan?name=${decodedPathname}`)
-        .then((data) => {
-          console.log(data.data[0]);
-          setPlan(data.data[0]);
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally(() => setIsLoaded(true))
-      }, []);
+    const [currentDay, setCurrentDay] = useState(0);
+    const [plan, setPlan] = useState();
+    const [isLoaded, setIsLoaded] = useState(false);
+    const pathname = usePathname();
+    useEffect(() => {
+        const planId = pathname.replace('/plan/', '');
+        console.log(planId)
 
-    const [selectedDate, setSelectedDate] = useState(null);
-    const handleDateClick = (date) => {
-        setSelectedDate(date);
-    };
+        axios.get(`/api/plan?id=${planId}`)
+        .then(data => {
+            console.log(data.data);
+            setPlan(data.data);
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsLoaded(true))
+    }, [])
+
+    if(!isLoaded){
+        return (
+            <div className="pt-20 pb-4">
+                <Container>
+                    <div className="flex flex-row justify-center">
+                        <Loader />
+                    </div>
+                </Container>
+            </div>
+        )
+    }
 
     return (
         <Container>
@@ -158,7 +164,51 @@ export default function PlanInfo() {
                 <div className={styles.Container}>
                     <div className={styles.title}>
                         <h1>ชื่อแผนการท่องเที่ยว : เที่ยวนครศรีธรรมราช</h1>
-
+                        
+                        <div className="flex flex-row items-center gap-1.5">
+                            <div 
+                                className="
+                                    px-3 
+                                    py-1.5 
+                                    flex 
+                                    flex-row 
+                                    items-center 
+                                    gap-1.5 
+                                    text-sm 
+                                    text-white 
+                                    bg-blue-500 
+                                    rounded-lg 
+                                    cursor-pointer
+                                    transition
+                                    hover:bg-blue-600
+                                    hover:shadow-md
+                                "
+                             >
+                                    <LuEdit3 />
+                                    แก้ไข
+                            </div>
+                            <div 
+                                className="
+                                    px-3 
+                                    py-1.5 
+                                    flex 
+                                    flex-row 
+                                    items-center 
+                                    gap-1.5 
+                                    text-sm 
+                                    text-white 
+                                    bg-red-500 
+                                    rounded-lg 
+                                    cursor-pointer
+                                    transition
+                                    hover:bg-red-600
+                                    hover:shadow-md
+                                "
+                             >
+                                    <MdDeleteOutline />
+                                    ลบ
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.categories}>
                         <div className={styles.category}>ร้านอาหาร</div>
@@ -194,7 +244,7 @@ export default function PlanInfo() {
                         <div className={styles.day}>
                             <h1>วันที่</h1>
                         </div>
-                        {Data.lists.map((item, index) => (
+                        {plan.lists.map((item, index) => (
                             <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
                         ))}
                     </div>
@@ -202,12 +252,11 @@ export default function PlanInfo() {
                         <h1>เริ่มต้นวัน : 09.00 น.</h1>
                     </div>
                     <div className={styles.infoDay}>
-                        {/* {Data.lists[currentDay].map((item, index) => (
+                        {plan.lists[currentDay].map((item, index) => (
                             <div className={styles.dayData} key={item.id}>
                                 <div className={styles.dayImgContainer}>
                                     <Image
-                                        src={item.images[0]}
-                                        alt=""
+                                        src={item.placeId.images[0]}                                        alt=""
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className={styles.dayImage}
@@ -215,16 +264,16 @@ export default function PlanInfo() {
                                 </div>
                                 <div className={styles.textContainer}>
                                     <div className={styles.placeTitle}>
-                                        {item.title}
+                                        {item.placeId.name}
                                     </div>
                                     <div className={styles.location}>
                                         <MdLocationPin size={20} color="rgb(16, 185, 129)" />
-                                        {item.province},{item.amphure}
+                                        {item.placeId.province},{item.placeId.amphure}
                                     </div>
                                     <div className={styles.desc}>
-                                        {item.desc}
+                                        {item.placeId.description}
                                     </div>
-                                    <div className={styles.typesOfPlace}>{item.types}</div>
+                                    <div className={styles.typesOfPlace}>{item.placeId.types}</div>
                                     <div className={styles.footer}>
                                         <div className={styles.time}>
                                             ตั้งแต่เวลา 9.00 น. ถึง 11.00 น.
@@ -238,7 +287,7 @@ export default function PlanInfo() {
                                     </div>
                                 </div>
                             </div>
-                        ))} */}
+                        ))}
                     </div>
                 </div>
             </PageContainer>

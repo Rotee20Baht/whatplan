@@ -28,17 +28,21 @@ export async function GET(request) {
     const name = request.nextUrl.searchParams.get('name');
     const limits = request.nextUrl.searchParams.get('limit') || 12;
     const start = request.nextUrl.searchParams.get('start') || 0;
-    
-    let planQuery = Plan
-    .find()
-    .populate('author', '_id name email image role')
-    .populate('lists.placeId', '_id name province amphure types description images');
-    
+
+    let planQuery;
+
     if (placeId) {
-      planQuery = planQuery.where('_id').equals(placeId);
+      planQuery = Plan.findById(placeId)
+      .populate('author', '_id name email image role')
+      .populate('lists.placeId', '_id name province amphure types description images');
+    }else{
+      planQuery = Plan
+      .find()
+      .populate('author', '_id name email image role')
+      .populate('lists.placeId', '_id name province amphure types description images');
+      planQuery = planQuery.limit(limits).skip(start);
     }
 
-    planQuery = planQuery.limit(limits).skip(start);
     
     const plans = await planQuery.exec();
     if(!plans || plans.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
