@@ -128,7 +128,7 @@ const PlanedData = [
 ]
 
 export default function PlanInfo() {
-    
+
     const [currentDay, setCurrentDay] = useState(0);
     const [plan, setPlan] = useState();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -138,15 +138,15 @@ export default function PlanInfo() {
         console.log(planId)
 
         axios.get(`/api/plan?id=${planId}`)
-        .then(data => {
-            console.log(data.data);
-            setPlan(data.data);
-        })
-        .catch(err => console.log(err))
-        .finally(() => setIsLoaded(true))
+            .then(data => {
+                console.log(data.data);
+                setPlan(data.data);
+            })
+            .catch(err => console.log(err))
+            .finally(() => setIsLoaded(true))
     }, [])
 
-    if(!isLoaded){
+    if (!isLoaded) {
         return (
             <div className="pt-20 pb-4">
                 <Container>
@@ -163,10 +163,10 @@ export default function PlanInfo() {
             <PageContainer>
                 <div className={styles.Container}>
                     <div className={styles.title}>
-                        <h1>ชื่อแผนการท่องเที่ยว : เที่ยวนครศรีธรรมราช</h1>
-                        
+                        <h1>ชื่อแผนการท่องเที่ยว : {plan.name}</h1>
+
                         <div className="flex flex-row items-center gap-1.5">
-                            <div 
+                            <div
                                 className="
                                     px-3 
                                     py-1.5 
@@ -183,11 +183,11 @@ export default function PlanInfo() {
                                     hover:bg-blue-600
                                     hover:shadow-md
                                 "
-                             >
-                                    <LuEdit3 />
-                                    แก้ไข
+                            >
+                                <LuEdit3 />
+                                แก้ไข
                             </div>
-                            <div 
+                            <div
                                 className="
                                     px-3 
                                     py-1.5 
@@ -204,9 +204,9 @@ export default function PlanInfo() {
                                     hover:bg-red-600
                                     hover:shadow-md
                                 "
-                             >
-                                    <MdDeleteOutline />
-                                    ลบ
+                            >
+                                <MdDeleteOutline />
+                                ลบ
                             </div>
                         </div>
                     </div>
@@ -249,14 +249,15 @@ export default function PlanInfo() {
                         ))}
                     </div>
                     <div className={styles.start}>
-                        <h1>เริ่มต้นวัน : 09.00 น.</h1>
+                        <h1>เริ่มต้นวัน : {plan.starts[currentDay]} น.</h1>
                     </div>
                     <div className={styles.infoDay}>
                         {plan.lists[currentDay].map((item, index) => (
                             <div className={styles.dayData} key={item.id}>
                                 <div className={styles.dayImgContainer}>
                                     <Image
-                                        src={item.placeId.images[0]}                                        alt=""
+                                        src={item.placeId.images[0]}
+                                        alt=""
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className={styles.dayImage}
@@ -279,8 +280,7 @@ export default function PlanInfo() {
                                             ตั้งแต่เวลา 9.00 น. ถึง 11.00 น.
                                         </div>
                                         <div className={styles.viewMore}>
-                                            <a href={`/place/${item.title}`}> 
-                                        
+                                            <a href={`/place/${item.placeId.name}`}>
                                                 รายละเอียดสถานที่เพิ่มเติม...
                                             </a>
                                         </div>
