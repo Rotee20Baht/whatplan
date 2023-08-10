@@ -5,7 +5,7 @@ function GoogleMapComponent(props) {
   const markers = props.data || [];
 
   const [activeMarker, setActiveMarker] = useState([]);
-  const [directions, setDirections] = useState(null);
+  // const [directions, setDirections] = useState(null);
 
   const handleActiveMarker = (marker) => {    
     setActiveMarker([...activeMarker, marker]);
@@ -35,34 +35,34 @@ function GoogleMapComponent(props) {
   // console.log(markers)
   // console.log(convertedLocation)
 
-  useEffect(() => {
-    if (markers?.length >= 2) {
-      console.log("Re-Rendered")
-      const waypoints = markers.slice(1, -1).map((marker) => ({ location: marker.location }));
-      const origin = markers[0].location;
-      const destination = markers[markers.length - 1].location;
+  // useEffect(() => {
+  //   if (markers?.length >= 2) {
+  //     console.log("Re-Rendered")
+  //     const waypoints = markers.slice(1, -1).map((marker) => ({ location: marker.location }));
+  //     const origin = markers[0].location;
+  //     const destination = markers[markers.length - 1].location;
 
-      const directionsService = new window.google.maps.DirectionsService();
-      directionsService.route(
-        {
-          origin: origin,
-          destination: destination,
-          waypoints: waypoints,
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            // console.log(result)
-            setDirections(result);
-          } else {
-            console.error("Error calculating directions:", status);
-          }
-        }
-      );
-    } else {
-      setDirections(null); // Reset directions if there are not enough convertedLocation
-    }
-  }, [markers]);
+  //     const directionsService = new window.google.maps.DirectionsService();
+  //     directionsService.route(
+  //       {
+  //         origin: origin,
+  //         destination: destination,
+  //         waypoints: waypoints,
+  //         travelMode: window.google.maps.TravelMode.DRIVING,
+  //       },
+  //       (result, status) => {
+  //         if (status === window.google.maps.DirectionsStatus.OK) {
+  //           // console.log(result)
+  //           setDirections(result);
+  //         } else {
+  //           console.error("Error calculating directions:", status);
+  //         }
+  //       }
+  //     );
+  //   } else {
+  //     setDirections(null); // Reset directions if there are not enough convertedLocation
+  //   }
+  // }, [markers]);
 
   return (
     <GoogleMap
@@ -82,14 +82,6 @@ function GoogleMapComponent(props) {
               setActiveMarker(prev => [...prev, id])
             }}
           >
-
-            {/* <InfoWindow position={location} onCloseClick={() => setActiveMarker(null)} >
-              <div>
-                <div>{name}</div>
-                <div>{id}</div>
-              </div>
-            </InfoWindow> */}
-
             {activeMarker?.includes(id) && (
               <InfoWindow onCloseClick={() => setActiveMarker(prev => prev.filter(_id => _id !== id))}>
                 <div>{`${index+1}. ${name}`}</div>
@@ -97,7 +89,8 @@ function GoogleMapComponent(props) {
             )}
           </Marker>
         ))}
-      {directions && <DirectionsRenderer directions={directions} />}
+        
+      {/* {directions && <DirectionsRenderer directions={directions} />} */}
     </GoogleMap>
   );
 }
