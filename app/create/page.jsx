@@ -33,7 +33,7 @@ export default function Create() {
     const [isLoadedData, setIsLoadedData] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/place`)
+        axios.get(`/api/place`)
             .then((data) => {
                 console.log(data.data)
                 setPlaces(data.data);

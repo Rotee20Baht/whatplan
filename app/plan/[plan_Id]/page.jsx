@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
-
 const PlanedData = [
     [
         {
@@ -124,9 +123,21 @@ const PlanedData = [
     ]
 ]
 
+
 export default function PlanInfo() {
     const Data = PlanedData
     const [currentDay, setCurrentDay] = useState(0)
+    // useEffect(() => {
+    //     axios.get(`/api/place`)
+    //         .then((data) => {
+    //             console.log(data.data)
+    //             setPlaces(data.data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //         .finally(() => setIsLoadedData(true))
+    // }, []);
     // const [selectedDate, setSelectedDate] = useState(null);
     // const handleDateClick = (date) => {
     //     setSelectedDate(date);
@@ -174,7 +185,7 @@ export default function PlanInfo() {
                             <h1>วันที่</h1>
                         </div>
                         {Data.map((item, index) => (
-                            <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)}>{index + 1}</div>
+                            <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
                         ))}
                     </div>
                     <div className={styles.start}>
@@ -209,7 +220,7 @@ export default function PlanInfo() {
                                             ตั้งแต่เวลา 9.00 น. ถึง 11.00 น.
                                         </div>
                                         <div className={styles.viewMore}>
-                                            <a href={`/place/${item.title}`} target="_blank"> 
+                                            <a href={`/place/${item.title}`}> 
                                             {/* title to name  */}
                                                 รายละเอียดสถานที่เพิ่มเติม...
                                             </a>
