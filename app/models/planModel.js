@@ -42,7 +42,7 @@ const planSchema = new Schema({
     type: [[placeListSchema]],
     required: true,
   },
-});
+}, { timestamps: true });
 
 const Plan = models.plan || model('plan', planSchema);
 

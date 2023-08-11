@@ -56,3 +56,22 @@ export async function GET(request) {
     return NextResponse.json({ error: String(error) }, { status: 400 });
   }
 }
+
+export async function DELETE(request){
+  try{
+    const planId = request.nextUrl.searchParams.get('id');
+    console.log(planId)
+
+    if(!planId)
+      throw new Error('กรุณาระบุไอดีแผนที่ต้องการลบ');
+    
+    const plan = await Plan.findByIdAndDelete(planId);
+
+    if(!plan)
+      throw new Error('ไม่พบแผนที่ตต้องการลบ');
+
+    return NextResponse.json({ msg: "ลบแผนการท่องเที่ยวสำเร็จ!"}, { status: 200 });
+  }catch(error){
+    return NextResponse.json({ error: String(error)}, { status: 400 })
+  }
+}
