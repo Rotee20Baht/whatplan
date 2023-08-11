@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { GoogleMap, InfoWindow, Marker, DirectionsRenderer } from "@react-google-maps/api";
+import React, { useState, useMemo, useRef, useCallback } from "react";
+import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 
 function GoogleMapComponent(props) {
   const markers = props.data || [];
 
   const [activeMarker, setActiveMarker] = useState([]);
-  // const [directions, setDirections] = useState(null);
 
   const handleActiveMarker = (marker) => {    
     setActiveMarker([...activeMarker, marker]);

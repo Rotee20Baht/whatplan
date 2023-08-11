@@ -1,30 +1,34 @@
 "use client"
-import styles from "./page.module.css"
-import PageContainer from "../components/PageContainer/Pagecontainer"
-// import Button from "../components/Button"
-import Button from "../components/Button/Button"
-import Image from "next/image"
-import { useRouter } from 'next/navigation'
-import { useState, useEffect } from "react"
+
+import { useState, useEffect, useMemo } from "react";
+import { useSession } from 'next-auth/react';
+import { useRouter, usePathname } from 'next/navigation';
+import Image from "next/image";
+
+import styles from "./page.module.css";
+
 import axios from "axios";
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+
 import { SiAddthis } from 'react-icons/si'
 import { BsInfoSquareFill, BsFillXSquareFill, BsSearch } from 'react-icons/bs'
 import { MdLocationPin } from 'react-icons/md'
-import moment from 'moment';
-import GoogleMapComponent from "../components/GoogleMap/GoogleMapComponent"
+
+import GoogleMapComponent from "@/app/components/GoogleMap/GoogleMapComponent"
 import { useLoadScript } from "@react-google-maps/api";
-import Loader from "../components/Loader/Loader"
-import { useMemo } from "react"
-import { useSession } from 'next-auth/react';
 
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import Container from "../components/Container"
+import Loader from "@/app/components/Loader/Loader"
+import PageContainer from "@/app/components/PageContainer/Pagecontainer"
+import Container from "@/app/components/Container"
 
-export default function Create() {
+
+export default function EditPlan() {
     
-    const router = useRouter()
+    const router = useRouter();
+    const pathname = usePathname();
 
     const [ListItems, updateListItems] = useState([]);
     const [selectedTime, setSelectedTime] = useState([]);
@@ -35,6 +39,7 @@ export default function Create() {
     const [filterType, setFilterType] = useState();
     const [places, setPlaces] = useState([]);
     const [isLoadedData, setIsLoadedData] = useState(false);
+    const [isLoadedPlan, setIsLoadedPlan] = useState(false);
     const [isPostData, setIsPostData] = useState(false);
     const [planName, setPlanName] = useState('');
 
@@ -42,6 +47,42 @@ export default function Create() {
     const MySwal = withReactContent(Swal);
 
     useEffect(() => {
+        const planId = pathname.replace('/plan/edit/', '')
+
+        axios.get(`/api/plan?id=${planId}`)
+        .then(data => {
+            console.log(data.data)
+
+            let listsData = []
+            for (let i = 0; i < data.data.lists.length; i++) {
+              let tempData = [];
+              for (let j = 0; j < data.data.lists[i].length; j++) {
+                let curData = {
+                  id: data.data.lists[i][j].id,
+                  _id: data.data.lists[i][j].placeId._id,
+                  name: data.data.lists[i][j].placeId.name,
+                  types: data.data.lists[i][j].placeId.types,
+                  hours: data.data.lists[i][j].hours,
+                  min: data.data.lists[i][j].min,
+                  minUnit: data.data.lists[i][j].minUnit,
+                  location: data.data.lists[i][j].placeId.location,
+                };
+                tempData[j] = curData;
+              }
+              listsData[i] = tempData;
+            }
+
+            updateListItems(listsData)
+            setSelectedTime(data.data.starts)
+            setPlanName(data.data.name)
+            setAlldates(data.data.lists.length)
+            handleEndTimeChange();
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => setIsLoadedPlan(true))
+
         axios.get(`/api/place`)
             .then((data) => {
                 console.log(data.data)
@@ -74,17 +115,15 @@ export default function Create() {
             const randomIndex = Math.floor(Math.random() * characters.length);
             result += characters.charAt(randomIndex);
         }
-        const newData =
-        {
+        const newData = {
             id: result,
             _id: item._id,
             hours: 0, min: 0, minUnit: 0,
             name: item.name,
             types: item.types,
             location:item.location
-        }; // สร้างอาร์เรย์ใหม่โดยเพิ่ม 'New Data' ลงในอาร์เรย์
+        };
 
-        // console.log(newData);
         updateListItems((prevState) => {
             let updatedArray = [...prevState]
             if (updatedArray[currentDay]?.length > 0) {
@@ -93,8 +132,7 @@ export default function Create() {
             }
             updatedArray[currentDay] = [newData]
             return updatedArray
-        }
-        ); // อัปเดตสถานะข้อมูลใหม่
+        });
     };
 
     const handleDelete = (deleteData) => {
@@ -103,8 +141,7 @@ export default function Create() {
             let updatedArray = [...prevState]
             updatedArray[currentDay] = newData
             return updatedArray
-        }
-        ); // อัปเดตสถานะข้อมูลใหม่
+        })
     }
 
 
@@ -119,10 +156,9 @@ export default function Create() {
             updatedArray[currentDay] = items
             return updatedArray
         }
-        ); // อัปเดตสถานะข้อมูลใหม่
+        );
     }
 
-    // --------------------------------------------------------------Time function start 
     const handleTimeChange = (event) => {
         const value = event.target.value;
         const updatedSelectedTime = [...selectedTime];
@@ -178,6 +214,7 @@ export default function Create() {
         }
         );
     };
+
     const setMin = (item) => {
         const newList = ListItems[currentDay].map((list) => {
             if (list.id === item.id) {
@@ -193,6 +230,7 @@ export default function Create() {
         }
         );
     };
+
     const setMinUnit = (item) => {
         const newList = ListItems[currentDay].map((list) => {
             if (list.id === item.id) {
@@ -231,8 +269,6 @@ export default function Create() {
         const time = moment(selectedTime[currentDay], 'HH:mm');
         let result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
 
-        // console.log(result.format('H:mm A'))
-
         const updatedEndTime = [...endTime];
         updatedEndTime[currentDay] = result.format("h:mm A");
         setEndTime(updatedEndTime);
@@ -241,9 +277,6 @@ export default function Create() {
     useEffect(() => {
         handleEndTimeChange()
     }, [ListItems, selectedTime])
-
-    // console.log(filterType);
-    // --------------------------------------------------------------Time function End
 
     function handleDeleteDay(){
         updateListItems(ListItems.slice(0, alldates-1))
@@ -257,10 +290,9 @@ export default function Create() {
             return false
 
         for(let i of timeArr){
-            if(i === '--:--' || i === 'Invalid date'){
+            if(i === '--:--' || i === 'Invalid date') 
                 return false;
-            }
-          }
+        }
         return true;
     }
 
@@ -291,6 +323,11 @@ export default function Create() {
     }, [selectedTime, ListItems, planName])
 
     function create() {
+        console.log({ ListItems })
+        console.log({ planName })
+        console.log({ selectedTime })
+        console.log({ alldates })
+
         const formatedData = {
             name: planName,
             author: session?.user._id,
@@ -308,9 +345,9 @@ export default function Create() {
             })
         }
         
-        console.log(formatedData)
+        const planId = pathname.replace('/plan/edit/', '')
 
-        axios.post("/api/plan", formatedData)
+        axios.put(`/api/plan?id=${planId}`, formatedData)
         .then(({ data }) => {
             console.log(data)
             setIsPostData(true)
@@ -323,7 +360,7 @@ export default function Create() {
             })
         })
         .catch((err) => {
-            console.log(err)
+            console.log("asdasdasdas")
             MySwal.fire({
                 icon: 'error',
                 title: 'เพื่มแผนการท่องเที่ยวล้มเหลว',
@@ -355,8 +392,20 @@ export default function Create() {
     }, [filterType, filterTitle])
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // Add your API key
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
+
+    if(!isLoadedPlan){
+        return (
+            <div className="py-20 pb-4">
+              <Container>
+                <div className="w-full flex flex-row justify-center">
+                  <Loader />
+                </div>
+              </Container>
+            </div>
+        )
+    }
 
     if(isPostData){
         return (

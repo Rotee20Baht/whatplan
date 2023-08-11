@@ -37,6 +37,9 @@ export async function GET(request) {
     if(request.nextUrl.searchParams.has('types'))
       filters.types = request.nextUrl.searchParams.get('types')
 
+    if(request.nextUrl.searchParams.has('id'))
+      filters._id = request.nextUrl.searchParams.get('id')
+
     const limits = request.nextUrl.searchParams.get('limit') || 12;
     const start = request.nextUrl.searchParams.get('start') || 0;
       

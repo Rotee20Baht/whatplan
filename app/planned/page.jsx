@@ -108,16 +108,16 @@ export default function Planned() {
                 {plansData?.map(item => (
                   <div className="relative">
                     <div className="flex flex-row items-center justify-end gap-2 absolute top-3 right-3 w-full h-auto z-10">
-                      <button 
+                      <Link 
+                        href={`/plan/edit/${item._id}`}
                         className="
                           bg-white
                           p-2
                           rounded-md
                         " 
-                        onClick={() => handleClick(item._id, item.name, item.lists[0][0].placeId.images[0], item.lists[0][0].placeId.province)}
                       >
                         <BiEditAlt className="text-neutral-600 text-xl"/>
-                      </button>
+                      </Link>
                       <button 
                         className="
                           bg-red-500
