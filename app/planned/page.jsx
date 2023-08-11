@@ -1,19 +1,40 @@
+"use client"
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSession } from 'next-auth/react';
 import Link from "next/link";
+
 import Card from "../components/Card";
 import Container from "../components/Container";
+import axios from "axios";
+import Loader from "../components/Loader/Loader";
+
 export default function Planned() {
-  const items = [
-    {
-      id: 1,
-      title: "Palm tree",
-      img: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1980&q=80",
-    },
-    {
-      id: 2,
-      title: "Palm tree with road",
-      img: "https://images.unsplash.com/photo-1565340076637-825894a74ca6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80",
-    },
-  ];
+
+  const { data: session } = useSession();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [plansData, setPlansData] = useState();
+
+  useEffect(() => {
+    axios.get(`/api/plan?author=${session?.user._id}`)
+    .then(data => {
+      setPlansData(data.data)
+    })
+    .catch(err => console.log(err))
+    .finally(() => setIsLoaded(true))
+  }, [session])
+
+  if(!isLoaded){
+    return (
+      <div className="py-20 pb-4">
+        <Container>
+          <div className="w-full flex flex-row justify-center">
+            <Loader />
+          </div>
+        </Container>
+      </div>
+    )
+  }
 
   return (
     <div className="py-20 pb-4">
@@ -35,9 +56,9 @@ export default function Planned() {
                 lg:grid-cols-4
                 gap-4"
               >
-                {items.map(item => (
-                  <Link href={`/plan/${item.id}`} key={item.title}>
-                    <Card title={item.title} img={item.img} />
+                {plansData?.map(item => (
+                  <Link href={`/plan/${item._id}`} key={item._id}>
+                    <Card title={item.name} img={item.lists[0][0].placeId.images[0]} province={item.lists[0][0].placeId.province}/>
                   </Link>
                 ))}
             </div>

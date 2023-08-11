@@ -32,7 +32,7 @@ export default function Navbar() {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-2 sm:gap-5 md:gap-6 lg:gap-10 py-4 lg:py-0">
             <Link href={'/'} className="text-2xl font-semibold text-emerald-500 tracking-tighter cursor-pointer">
-              Whatplan
+              whatAplan
             </Link>
             <div className="hidden lg:flex flex-row md:gap-6 lg:gap-10 items-center justify-between">
               {links.map((link, index) => (
