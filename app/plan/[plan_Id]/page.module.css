@@ -45,8 +45,18 @@
 
 .mainImg {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    background: #333;
+    background-position: center;
+    background-image:url("https://images.unsplash.com/photo-1690626826510-585558050446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80");
+}
+.textImg{
+    color: #fff;
+    font-size: 100px;
+    padding: 50px;
+
 }
 
 .subContainer {

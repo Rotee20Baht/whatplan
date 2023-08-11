@@ -195,7 +195,7 @@ export default function Create() {
 
     const setHours = (item) => {
         const newList = ListItems[currentDay].map((list) => {
-            if (list.id === item.id) {
+            if (list.id === item.id){
                 const newData = { ...list, hours: (item.hours * 1) };
                 return newData
             }
