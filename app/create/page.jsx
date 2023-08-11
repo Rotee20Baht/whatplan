@@ -4,6 +4,7 @@ import PageContainer from "../components/PageContainer/Pagecontainer"
 // import Button from "../components/Button"
 import Button from "../components/Button/Button"
 import Image from "next/image"
+import { useRouter } from 'next/navigation'
 import { useState, useEffect } from "react"
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
@@ -17,7 +18,14 @@ import Loader from "../components/Loader/Loader"
 import { useMemo } from "react"
 import { useSession } from 'next-auth/react';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import Container from "../components/Container"
+
 export default function Create() {
+    
+    const router = useRouter()
+
     const [ListItems, updateListItems] = useState([]);
     const [selectedTime, setSelectedTime] = useState([]);
     const [endTime, setEndTime] = useState([]);
@@ -27,9 +35,11 @@ export default function Create() {
     const [filterType, setFilterType] = useState();
     const [places, setPlaces] = useState([]);
     const [isLoadedData, setIsLoadedData] = useState(false);
+    const [isPostData, setIsPostData] = useState(false);
     const [planName, setPlanName] = useState('');
 
-    const { data: session } = useSession()
+    const { data: session } = useSession();
+    const MySwal = withReactContent(Swal);
 
     useEffect(() => {
         axios.get(`/api/place`)
@@ -152,46 +162,6 @@ export default function Create() {
         });
         return total;
     };
-
-    // useEffect(() => {
-    //     let totalHours = sumHours();
-    //     let totalMin = sumMin()
-    //     let totalMinUnit = sumMinUnit()
-    //     let finalMin = totalMin + totalMinUnit
-    //     let finalHours = totalHours
-    
-    //     if (finalMin >= 60) {
-    //         const hourToAdd = Math.floor(finalMin / 60);
-    //         finalHours += hourToAdd;
-    //         finalMin -= hourToAdd * 60;
-    //     }
-
-    //     if (finalHours > 24) {
-    //         alert("You can't add more than a day to the selected date.");
-    //     }
-
-    //     const time = moment(selectedTime[currentDay], 'HH:mm');
-    //     let result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
-    //     result.format('h:mm A')
-    //     handleEndTimeChange(result)
-    // }, [ListItems])
-    // let totalHours = sumHours();
-    // let totalMin = sumMin()
-    // let totalMinUnit = sumMinUnit()
-    // let finalMin = totalMin + totalMinUnit
-    // let finalHours = totalHours
-
-    // if (finalMin >= 60) {
-    //     const hourToAdd = Math.floor(finalMin / 60);
-    //     finalHours += hourToAdd;
-    //     finalMin -= hourToAdd * 60;
-    // }
-    // const time = moment(selectedTime[currentDay], 'HH:mm');
-    // const result = time.add(finalHours, 'hour').add(finalMin, 'minutes');
-    // handleEndTimeChange(result)
-    // setEndTime(result.format('h:mm A'))
-    // console.log();
-    // console.log(finalHours, "hours", finalMin, "Minutes");
 
     const setHours = (item) => {
         const newList = ListItems[currentDay].map((list) => {
@@ -337,9 +307,23 @@ export default function Create() {
         axios.post("/api/plan", formatedData)
         .then(({ data }) => {
             console.log(data)
+            setIsPostData(true)
+            MySwal.fire({
+                icon: 'success',
+                title: 'เพื่มแผนการท่องเที่ยวสำเร็จ',
+                showConfirmButton: false,
+                showCloseButton: true,
+                didDestroy: () => router.push('/planned')
+            })
         })
         .catch((err) => {
             console.log(err)
+            MySwal.fire({
+                icon: 'error',
+                title: 'เพื่มแผนการท่องเที่ยวล้มเหลว',
+                showConfirmButton: false,
+                showCloseButton: true,
+            })
         })
 
     }
@@ -367,6 +351,18 @@ export default function Create() {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // Add your API key
     });
+
+    if(isPostData){
+        return (
+            <div className="py-20 pb-4">
+              <Container>
+                <div className="w-full flex flex-row justify-center">
+                  <Loader />
+                </div>
+              </Container>
+            </div>
+        )
+    }
 
     return (
         <PageContainer>

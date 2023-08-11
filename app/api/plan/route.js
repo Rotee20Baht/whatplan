@@ -26,6 +26,7 @@ export async function GET(request) {
 
     const placeId = request.nextUrl.searchParams.get('id');
     const name = request.nextUrl.searchParams.get('name');
+    const author = request.nextUrl.searchParams.get('author');
     const limits = request.nextUrl.searchParams.get('limit') || 12;
     const start = request.nextUrl.searchParams.get('start') || 0;
 
@@ -43,6 +44,8 @@ export async function GET(request) {
       planQuery = planQuery.limit(limits).skip(start);
     }
 
+    if(author)
+      planQuery.where('author', author)
     
     const plans = await planQuery.exec();
     if(!plans || plans.length <= 0) throw new Error('ไม่พบข้อมูลสถานที่ในระบบ');
@@ -51,5 +54,24 @@ export async function GET(request) {
   }
   catch(error){
     return NextResponse.json({ error: String(error) }, { status: 400 });
+  }
+}
+
+export async function DELETE(request){
+  try{
+    const planId = request.nextUrl.searchParams.get('id');
+    console.log(planId)
+
+    if(!planId)
+      throw new Error('กรุณาระบุไอดีแผนที่ต้องการลบ');
+    
+    const plan = await Plan.findByIdAndDelete(planId);
+
+    if(!plan)
+      throw new Error('ไม่พบแผนที่ตต้องการลบ');
+
+    return NextResponse.json({ msg: "ลบแผนการท่องเที่ยวสำเร็จ!"}, { status: 200 });
+  }catch(error){
+    return NextResponse.json({ error: String(error)}, { status: 400 })
   }
 }
