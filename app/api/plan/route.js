@@ -35,12 +35,12 @@ export async function GET(request) {
     if (placeId) {
       planQuery = Plan.findById(placeId)
       .populate('author', '_id name email image role')
-      .populate('lists.placeId', '_id name province amphure types description images');
+      .populate('lists.placeId', '_id name province amphure types description images location');
     }else{
       planQuery = Plan
       .find()
       .populate('author', '_id name email image role')
-      .populate('lists.placeId', '_id name province amphure types description images');
+      .populate('lists.placeId', '_id name province amphure types description images location');
       planQuery = planQuery.limit(limits).skip(start);
     }
 
@@ -71,6 +71,26 @@ export async function DELETE(request){
       throw new Error('ไม่พบแผนที่ตต้องการลบ');
 
     return NextResponse.json({ msg: "ลบแผนการท่องเที่ยวสำเร็จ!"}, { status: 200 });
+  }catch(error){
+    return NextResponse.json({ error: String(error)}, { status: 400 })
+  }
+}
+
+export async function PUT(request){
+  try{
+    const planId = request.nextUrl.searchParams.get('id');
+    
+    const body = await request.json();
+
+    if(!planId)
+      throw new Error('กรุณาระบุไอดีแผนที่ต้องการลบ');
+    
+    const plan = await Plan.findByIdAndUpdate(planId, body, {new: true});
+
+    if(!plan)
+      throw new Error('ไม่พบแผนที่ตต้องการลบ');
+
+    return NextResponse.json({ msg: "แก้ไขแผนการท่องเที่ยวสำเร็จ!"}, { status: 200 });
   }catch(error){
     return NextResponse.json({ error: String(error)}, { status: 400 })
   }

@@ -1,0 +1,432 @@
+
+.container{
+    width: 100vw;
+    height: 92vh;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    gap: 10px;
+}
+
+/* ---------------Search------------------------ */
+.searchContainer{
+    width: 430px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;   
+}
+
+.search{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.input{
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
+    outline: none;
+    color:#333;
+    font-size: 15px;
+    font-weight:normal;
+    border-radius: 10px;
+    background: #fff;
+}
+.categories{
+    width: 100%;
+    height: max-content;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px;
+}
+.category{
+    text-align: center;
+    width: max-content;
+    height: max-content;
+    padding: 5px 5px;
+    background-color: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #333;
+    transition: all 1s ease;
+    cursor: pointer;
+}
+
+.category:hover{
+    text-align: center;
+    width: max-content;
+    height: max-content;
+    font-size: 15px;
+    padding: 5px 5px;
+    background-color: #ffff;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    color: #d4d4d4;
+    transition: all 1s ease;
+    cursor: pointer;
+}
+
+.category_checked{
+    text-align: center;
+    width: max-content;
+    height: max-content;
+    border: 1px solid #d4d4d4;
+    padding: 5px 5px;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    font-size: 15px;
+    color: #fff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.itemsContainer{
+    /* border-radius: 0 0 8px 8px; */
+    height:800px;
+    overflow-y: scroll;
+}
+.itemsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.item{
+    width:100%;
+    height: 150px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: flex;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.imgContainer{
+    width: 185px;
+    border-radius:5px ;
+    font-size: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.img{
+    object-fit: cover;
+    z-index: 1;
+}
+
+.textContainer{
+    width: 200px;
+    margin: 0 0px 0 10px ;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.text{
+    width: 200px;
+}
+.icon{
+    display: flex;
+    font-size: 15px;
+    color: rgb(16, 185, 129);
+}
+.types{
+    display: flex;
+    gap: 2px;
+}
+.type{
+    font-size: 10px;
+    width: max-content;
+    padding:5px;
+    margin: 5px 0;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+}
+.btnContainer{
+    display: flex;
+    gap: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.info{
+    font-size: 15px;
+    font-weight: bold;
+    color:#00FFFF;
+}
+.addButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #fff;
+}
+.infoButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #ffffff;
+}
+.deleteButton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: #fff;
+}
+/* ---------------Map---------------------- */
+.mapContainer{
+    width:800px;
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+/* ---------------User list-------------------------- */
+.listContainer{
+    width: 430px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px; 
+}
+.tripName{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    gap: 10px;
+}
+.inputTripname{
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
+    outline: none;
+    color:#333;
+    font-size: 15px;
+    font-weight:normal;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.time{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 5px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    
+}
+.start {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color:#666;
+}
+.end {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #666;
+}
+.days{
+    padding: 5px;
+    width: 100%;
+    height: max-content;
+    background: #fff;
+    border: 1px solid  #d4d4d4;
+    border-radius: 5px;
+    display: flex;
+    /* justify-content: spa; */
+    gap: 5px;
+    font-size: 15px;
+}
+.date{
+    padding: 5px 10px;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    /* color: #d4d4d4; */
+    cursor: pointer;
+    font-size: 15px;
+}
+.day{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 5px;
+    color: #666;
+    border: 1px solid  #d4d4d4;
+    cursor: pointer;
+    font-size: 15px;
+}
+.daySelect{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: rgb(16, 185, 129);
+    border: 1px solid rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+}
+.day:hover{
+    text-align: center;
+    width: max-content;
+    padding: 5px 10px;
+    background-color: rgb(16, 185, 129);
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.addDay{
+    text-align: center;
+    padding: 5px 10px;
+    background-color: #a7f3d0;
+    border-radius: 5px;
+    /* color: #fff; */
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.decDay{
+    text-align: center;
+    padding: 5px 10px;
+    background-color: #fecdd3;
+    border-radius: 5px;
+    /* color: #fff; */
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.userItemsContainer{
+    width: 100%;
+    border-radius: 10px;
+    height:800px;
+    overflow-y: scroll;
+}
+.userItemsContainer::-webkit-scrollbar {
+    display: none;
+}
+.header{
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #333;
+    gap: 10px;
+}
+.userItem{
+    width: 100%;
+    height: max-content;
+    border: 1px solid #d4d4d4;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 5px;
+}
+.con{
+    flex: 3;
+    display: flex;
+}
+.userImgContainer{
+    width: 100%; 
+    height: 100px;
+    border-radius:5px ;
+    font-size: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.userimg{
+    object-fit: cover;
+}
+
+.cate{
+    width: max-content;
+    margin:0 5px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 10px;
+    background: rgb(16, 185, 129);
+    font-weight: bold;
+    color: #fff;
+}
+.footer{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 10px;
+}
+.settime{
+    width: max-content;
+    font-size: 13px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+.userInput{
+    width: 50px;
+    outline: none;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+}
+.button{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width:100%;
+    padding: 10px;
+    background: rgb(16, 185, 129);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.button:disabled{
+    background: #d4d4d4;
+}
+
+.userBtnContainer{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 5px;
+}
