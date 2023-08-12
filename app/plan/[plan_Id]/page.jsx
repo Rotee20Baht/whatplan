@@ -134,13 +134,19 @@ export default function PlanInfo() {
                             <div className={styles.manual}><BsCloudSunFill size={30}/> สภาพอากาศ</div>
                         </Link>
                     </div> */}
-                    <div className={styles.daylist}>
-                        <div className={styles.day}>
-                            <h1>วันที่</h1>
+                    <div className={styles.daylists}>
+                        <div className={styles.daylist}>
+                            <div className={styles.day}>
+                                <h1>วันที่</h1>
+                            </div>
+                            {plan.lists.map((item, index) => (
+                                <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
+                            ))}
                         </div>
-                        {plan.lists.map((item, index) => (
-                            <div className={`${currentDay == index ? `${styles.daySelect}` : `${styles.dayUnselect}`}`} onClick={() => setCurrentDay(index)} key={index}>{index + 1}</div>
-                        ))}
+
+                        <div className={styles.map}>
+                            ดูแผนการท่องเที่ยวบนแผนที่
+                        </div>
                     </div>
                     <div className={styles.start}>
                         <h1>เริ่มต้นวัน : {plan.starts[currentDay]} น.</h1>
@@ -189,6 +195,7 @@ export default function PlanInfo() {
                     <div className={styles.start}>
                         <h1>จบวัน : {result.format('H:mm ')} น.</h1>
                     </div>
+
                 </div>
             </PageContainer>
         </Container>

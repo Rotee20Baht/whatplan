@@ -163,9 +163,9 @@ export default function Place() {
                                 <BsChevronCompactRight onClick={nextSlide} size={30}/>
                             </div>
                           </div>
-                          
+{/*                           
                           <div className="h-[350px] w-full bg-neutral-500 flex justify-center items-center rounded-lg overflow-hidden">
-                              {/* {isLoaded ? (
+                              {isLoaded ? (
                               <GoogleMap
                                   zoom={12}
                                   center={center}
@@ -185,8 +185,8 @@ export default function Place() {
                               <SkeletonTheme baseColor="#f5f5f5" highlightColor="#a3a3a3">
                                   <Skeleton className="w-full h-full absolute top-0 left-0" />
                               </SkeletonTheme>
-                              )}   */}
-                          </div>
+                              )}  
+                          </div> */}
                           
                       </div>
                       <div className="w-full  h-full ">

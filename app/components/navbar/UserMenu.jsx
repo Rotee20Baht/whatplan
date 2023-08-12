@@ -25,12 +25,12 @@ export default function UserMenu({ links, currentUser }) {
       >
         <FaMapMarkedAlt size={24} />
       </div> 
-      <div
+      {/* <div
         className="py-2 px-4 hidden sm:block bg-emerald-500 hover:bg-emerald-400 transition text-white rounded-full 
               cursor-pointer"
       >
         วางแผนการท่องเที่ยว
-      </div>
+      </div> */}
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="flex flex-row items-center gap-2 py-1.5 px-2 border border-neutral-300 rounded-full cursor-pointer"

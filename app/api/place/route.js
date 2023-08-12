@@ -40,7 +40,7 @@ export async function GET(request) {
     if(request.nextUrl.searchParams.has('id'))
       filters._id = request.nextUrl.searchParams.get('id')
 
-    const limits = request.nextUrl.searchParams.get('limit') || 12;
+    const limits = request.nextUrl.searchParams.get('limit') || 20;
     const start = request.nextUrl.searchParams.get('start') || 0;
       
     const place = await Place.find({ ...filters, name: new RegExp(filters.name, 'i') }).limit(limits).skip(start);

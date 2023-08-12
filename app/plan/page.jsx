@@ -130,8 +130,8 @@ export default function Places() {
     <div className="pt-20 pb-4">
       <Container>
         <div className="w-full h-auto flex flex-col gap-4">
-          <h1 className="font-semibold text-xl">ค้นหาแผนการท่องเที่ยว</h1>
-          <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
+          <h1 className="font-semibold text-xl">แผนการท่องเที่ยวทั้งหมด</h1>
+          {/* <div className="w-full border shadow-sm rounded-xl p-4 bg-white">
             <div className="w-full flex flex-col lg:flex-row gap-4">
               <div className="w-full flex flex-col flex-1">
                 <SelectItem label="จังหวัด" options={provinces} onChange={(value) => onProvinceChange(value?.value)} />
@@ -143,7 +143,7 @@ export default function Places() {
                 <SelectItem label="ประเภทสถานที่" options={placttype} onChange={(value) => onTypesChange(value)} value={types}/>
               </div>
             </div>
-          </div>
+          </div> */}
           <div 
             className={`
               w-full 

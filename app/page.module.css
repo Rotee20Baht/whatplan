@@ -1,5 +1,5 @@
 .container{
-    max-width: 100%;
+    max-width: 100vw;
     min-height:100vh;
     overflow-x: hidden;
     margin: 0 auto;
@@ -9,24 +9,51 @@
 
 .heroSection{
     width: 100%;
-    height: 600px;
-    background: url('/hero.jpg');
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('/hero1.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .text{
-    padding: 140px 0 80px 0;
+    display: flex;
+    margin-top: -200px;
     color: #fff;
     text-align: center;
     z-index: 10;
 }
-
-.text h1{
-    font-size: 40px;
+.textp{
+    font-size: 20px;
+    text-align: center;
+    width: 900px;
+    padding: 20px;
+    color: #fff;
+}
+/* rgb(16, 185, 129) */
+.text h2{
+    font-size: 70px;
     font-weight: bold;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.text span{
+    font-size: 100px;
+    font-weight: bold;
+    color: rgb(16, 185, 129);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.btn{
+    margin-top: 3rem;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 15px;
+    color: #fff;
+    padding: 20px;
+    background: rgb(16, 185, 129);
 }
 
 @media screen and (min-width: 640px) {

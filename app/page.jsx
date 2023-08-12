@@ -43,18 +43,27 @@ export default function Home() {
     <div className={styles.container}>
       <div className={styles.heroSection}>
         <div className={styles.text}>
-          <h1>What A Plan</h1>
+          {/* <h2>What <span>A</span> Plan</h2> */}
         </div>
-        <Container>
+        <div className={styles.textp}>
+          "การจัดแผนการท่องเที่ยวไม่เพียงแค่การวางแผนเพื่อเตรียมตัวสำหรับการเดินทางเท่านั้น แต่เป็นกระบวนการที่เต็มไปด้วยความคิดสร้างสรรค์และการเตรียมความพร้อมให้กับการผจญภัยที่กำลังจะเกิดขึ้น เหมือนกับการเปิดตำนานใหม่ที่ไม่เคยเป็นที่รู้จักมาก่อน"
+        </div>
+        <Link href="/plan">
+          <div className={styles.btn}>
+            
+          </div>
+        </Link>
+
+        {/* <Container>
           <div className={styles.selectBar}>
             <Selectbar title1="จังหวัด" title2="รูปแบบการท่องเที่ยว" title3="จำนวนวัน" />
           </div>
-        </Container>
+        </Container> */}
       </div>
-      <div className="mt-2 py-4">
+      {/* <div className="mt-2 py-4">
         <Container>
           <div className="flex flex-col gap-6 px-0 lg:px-10">
-            {/* ----ท่องเที่ยวแนะนำ----- */}
+            ----ท่องเที่ยวแนะนำ-----
             <div className={styles.cardContainer}>
               <div className={styles.title}>แผนการท่องเที่ยวสำหรับคุณ</div>
                 <div className="flex flex-row gap-5 mt-1">
@@ -72,7 +81,7 @@ export default function Home() {
                   </Link>
                 </div>
             </div>
-            {/* ----ท่องเที่ยวยอดนิยม----- */}
+            ----ท่องเที่ยวยอดนิยม-----
             <div className={styles.cardContainer}>
               <div className={styles.title}>แผนการท่องเที่ยวยอดนิยม</div>
                 <div className="flex flex-row gap-5 mt-1">
@@ -92,7 +101,7 @@ export default function Home() {
             </div>
           </div>
         </Container>
-      </div>
+      </div> */}
     </div>
   )
 }
