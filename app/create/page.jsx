@@ -436,6 +436,7 @@ export default function Create() {
                                                         </div>
                                                         <div className={styles.header}>
                                                             <h6>{name}</h6>
+
                                                         </div>
                                                         <div className={styles.cate}>
                                                             <h6>{types}</h6>
@@ -602,7 +603,12 @@ export default function Create() {
 
                                             <div className={styles.icon}>
                                                 <MdLocationPin size={20} color="rgb(16, 185, 129)" />
-                                                {item.province}
+                                                 <div className={styles.at}>
+                                                    <div>{item.province}</div>
+                                                    <div>{item.amphure}</div>
+                                                    
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div className={styles.btnContainer}>

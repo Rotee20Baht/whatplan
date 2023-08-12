@@ -70,6 +70,10 @@
     transition: all 1s ease;
     cursor: pointer;
 }
+.at{
+    display: flex;
+    flex-direction: column;
+}
 
 .category:hover{
     text-align: center;
