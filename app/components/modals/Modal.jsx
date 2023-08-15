@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from "react";
-import { useForm } from 'react-hook-form';
 import { IoMdClose } from "react-icons/io"
 
 export default function Modal({ 
@@ -10,7 +9,6 @@ export default function Modal({
   footer,
   isOpen,
   onClose,
-  disabled
 }) {
   const [showModal, setShowModal] = useState(isOpen);
 
