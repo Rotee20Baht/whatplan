@@ -89,7 +89,7 @@
 } */
 .daylists {
     margin-top: 1rem;
-    border: 1px solid #666;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
     width: 100%;
     height: auto;
@@ -109,7 +109,7 @@
     width: 100%;
     height: 250px;
     margin-top: 1rem;
-    border: 1px solid #666;
+    border: 1px solid #d4d4d4;
     border-radius: 5px;
     padding: 20px;
     display: flex;
