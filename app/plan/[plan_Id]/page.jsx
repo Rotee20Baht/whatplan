@@ -247,7 +247,7 @@ export default function PlanInfo() {
                                 <BiSolidShare className="font-semibold text-lg text-white"/>
                                 <span className="hidden md:block">คัดลอกลิงก์</span>
                             </div>
-                            <div
+                            {/* <div
                                 className="
                                     p-4
                                     flex 
@@ -268,7 +268,7 @@ export default function PlanInfo() {
                             >
                                 <BsFillFileEarmarkPdfFill className="font-semibold text-lg text-white"/>
                                 <span className="hidden md:block">บันทึกเป็น PDF</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className={styles.start}>
