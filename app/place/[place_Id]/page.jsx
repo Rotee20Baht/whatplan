@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { provinces } from "@/app/providers/SelectDataProvider";
@@ -24,6 +25,8 @@ export default function Place() {
   const [amphure ,setAmphure] = useState();
   const [currentIndex,setcurrentIndex] = useState(0);
   const [isLoaded,setIsLoaded] = useState(false);
+
+  const {data: session} = useSession();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -150,7 +153,9 @@ export default function Place() {
               <div className=" w-full p-3">
                 <div className="flex flex-row justify-between">
                   <h1 className="font-semibold text-xl"></h1>
-                  <Link href={`/place/edit/${places.name}`} className="bg-neutral-200 px-3 py-2 rounded-md ">แก้ไขข้อมูลสถานที่</Link>
+                  {session?.user.role === "admin" && (
+                    <Link href={`/place/edit/${places.name}`} className="bg-neutral-200 px-3 py-2 rounded-md ">แก้ไขข้อมูลสถานที่</Link>
+                  )}
                 </div>
                   <div className="flex flex-row  w-full p-3 space-x-4">
                       <div className="flex flex-col w-full  space-y-4">
